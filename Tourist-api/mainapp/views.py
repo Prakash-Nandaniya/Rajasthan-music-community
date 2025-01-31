@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from mainapp.models import Site, Artist, UserFeedback
 from mainapp.serializers import SiteSerializer, Artist, UserFeedbackSerializer
 
-class SiteMapView(ListAPIView):
+class MapView(ListAPIView):
     serializer_class = SiteSerializer
 
     def get_queryset(self):
