@@ -22,8 +22,6 @@ class Artist(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     profilePicture = models.ImageField(storage=MainImageStorage(), upload_to='artist_profiles/', blank=False, null=False)
     instrument = models.CharField(max_length=255, blank=False, null=False)
-    moreImages = models.ImageField(storage=MoreImagesStorage(), upload_to='artist_more_images/', blank=True, null=True)
-    videos = models.FileField(storage=VideosStorage(), upload_to='videos/', blank=True, null=True)
     detail = models.TextField(blank=True, null=True)
 
     def __str__(self):
