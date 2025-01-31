@@ -5,13 +5,17 @@ env = environ.Env()
 environ.Env.read_env()  
 
 class MainImageStorage(S3Boto3Storage):
-    bucket_name = env('MAIN_IMAGE_BUCKET', default='default_bucket_name')
-    custom_domain = f's3.{env("AWS_S3_REGION_NAME")}.amazonaws.com/{bucket_name}'  # Added region and bucket to the URL
+    bucket_name = env('MAIN_IMAGE_BUCKET')
+    custom_domain = f's3.ap-south-1.amazonaws.com/{bucket_name}'  
 
 class MoreImagesStorage(S3Boto3Storage):
-    bucket_name = env('MORE_IMAGES_BUCKET', default='default_bucket_name')
-    custom_domain = f's3.{env("AWS_S3_REGION_NAME")}.amazonaws.com/{bucket_name}'  # Same here for region
+    bucket_name = env('MORE_IMAGES_BUCKET')
+    custom_domain = f's3.ap-south-1.amazonaws.com/{bucket_name}'  
 
 class VideosStorage(S3Boto3Storage):
-    bucket_name = env('VIDEOS_BUCKET', default='default_bucket_name')
-    custom_domain = f's3.{env("AWS_S3_REGION_NAME")}.amazonaws.com/{bucket_name}'  # Same here for region
+    bucket_name = env('VIDEOS_BUCKET')
+    custom_domain = f's3.ap-south-1.amazonaws.com/{bucket_name}'  
+
+
+
+
