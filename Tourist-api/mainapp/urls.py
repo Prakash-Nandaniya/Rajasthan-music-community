@@ -8,5 +8,5 @@ router.register(r'userfeedback', UserFeedbackViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('map/', MapView.as_view()),
-    path('detail/:id', DetailView.as_view()),
+    path('detail/<int:id>', DetailView.as_view()),
 ]

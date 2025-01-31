@@ -3,10 +3,8 @@ from django.contrib.auth.models import User
 from .storage_backend import MainImageStorage, MoreImagesStorage, VideosStorage
 
 class Site(models.Model):
-    id = models.AutoField(primary_key=True)  
+    id = models.AutoField(primary_key=True)
     mainImage = models.ImageField(storage=MainImageStorage(), upload_to='main_images/', blank=False, null=False)
-    moreImages = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/', blank=True, null=True)
-    videos = models.FileField(storage=VideosStorage(), upload_to='videos/', blank=True, null=True)
     community = models.CharField(max_length=255, blank=False, null=False)
     groupName = models.CharField(max_length=255, blank=False, null=False)
     quickInfo = models.TextField(blank=False, null=False)
@@ -16,11 +14,19 @@ class Site(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     def __str__(self):
-        return f"Site ID: {self.id} - Title: {self.title}"
+        return f"Site ID: {self.id} - Title: {self.groupName}"
+
+class MoreImage(models.Model):
+    image = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/')
+    site = models.ForeignKey(Site, related_name='moreImages', on_delete=models.CASCADE)  
+
+class Video(models.Model):
+    video = models.FileField(storage=VideosStorage(), upload_to='videos/')
+    site = models.ForeignKey(Site, related_name='videos', on_delete=models.CASCADE)  
 
 class Artist(models.Model):
     id = models.AutoField(primary_key=True)
-    site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name="artists")  # One-to-Many relationship
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name="artists")  
     name = models.CharField(max_length=255, blank=False, null=False)
     profilePicture = models.ImageField(storage=MainImageStorage(), upload_to='artist_profiles/', blank=False, null=False)
     instrument = models.CharField(max_length=255, blank=False, null=False)
