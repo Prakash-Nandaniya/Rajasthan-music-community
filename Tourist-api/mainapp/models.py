@@ -1,39 +1,42 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .storage_backend import MainImageStorage, MoreImagesStorage
+from .storage_backend import MainImageStorage, MoreImagesStorage, VideosStorage
 
-class SiteData(models.Model):
+class Site(models.Model):
     id = models.AutoField(primary_key=True)  
-    mainImage = models.ImageField(storage=MainImageStorage(),upload_to='', blank=True, null=True)
-    moreImages = models.ImageField(storage=MoreImagesStorage(),upload_to='', blank=True, null=True)
-    title=models.TextField()
-    type=models.TextField()
-    quickInfo=models.TextField()
-    detail = models.TextField()  
-    leader = models.CharField(max_length=255)  
+    mainImage = models.ImageField(storage=MainImageStorage(), upload_to='main_images/', blank=False, null=False)
+    moreImages = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/', blank=True, null=True)
+    videos = models.FileField(storage=VideosStorage(), upload_to='videos/', blank=True, null=True)
+    community = models.CharField(max_length=255, blank=False, null=False)
+    title = models.CharField(max_length=255, blank=False, null=False)
+    quickInfo = models.TextField(blank=False, null=False)
+    detail = models.TextField(blank=True, null=True)
+    address = models.TextField(blank=False, null=False)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    
+    artists = models.ManyToManyField('Artist', blank=True)
+
     def __str__(self):
-        return f"Site ID: {self.id} - Leader: {self.leader}"
+        return f"Site ID: {self.id} - Title: {self.title}"
 
+class Artist(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, blank=False, null=False)
+    profilePicture = models.ImageField(storage=MainImageStorage(), upload_to='artist_profiles/', blank=False, null=False)
+    instrument = models.CharField(max_length=255, blank=False, null=False)
+    moreImages = models.ImageField(storage=MoreImagesStorage(), upload_to='artist_more_images/', blank=True, null=True)
+    videos = models.FileField(storage=VideosStorage(), upload_to='videos/', blank=True, null=True)
+    detail = models.TextField(blank=True, null=True)
 
-
-
-
+    def __str__(self):
+        return self.name
 
 class UserFeedback(models.Model):
     id = models.AutoField(primary_key=True)  
     rating = models.PositiveIntegerField()  
     comment = models.TextField(blank=True, null=True)  
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
-    site = models.ForeignKey(SiteData, on_delete=models.CASCADE)  
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)  
 
     def __str__(self):
         return f"Feedback by {self.user} for {self.site}"
-    
-    
-    
-    
-    
-    

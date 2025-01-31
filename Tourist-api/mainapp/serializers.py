@@ -1,12 +1,17 @@
 from rest_framework import serializers
-from .models import SiteData, UserFeedback
+from .models import Site,Artist,UserFeedback
 
-class SiteDataSerializer(serializers.ModelSerializer):
+class SiteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SiteData
+        model = Site
         fields = '__all__'
 
 class UserFeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFeedback
+        fields = '__all__'
+        
+class ArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
         fields = '__all__'
