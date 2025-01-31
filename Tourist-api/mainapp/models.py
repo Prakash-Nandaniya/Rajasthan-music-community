@@ -8,7 +8,7 @@ class Site(models.Model):
     moreImages = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/', blank=True, null=True)
     videos = models.FileField(storage=VideosStorage(), upload_to='videos/', blank=True, null=True)
     community = models.CharField(max_length=255, blank=False, null=False)
-    title = models.CharField(max_length=255, blank=False, null=False)
+    groupName = models.CharField(max_length=255, blank=False, null=False)
     quickInfo = models.TextField(blank=False, null=False)
     detail = models.TextField(blank=True, null=True)
     address = models.TextField(blank=False, null=False)

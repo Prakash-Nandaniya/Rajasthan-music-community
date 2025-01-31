@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import Site,Artist,UserFeedback
+from .models import Site, Artist, UserFeedback
 
-class SiteSerializer(serializers.ModelSerializer):
+class MapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Site
+        fields = ['id', 'mainImage', 'community', 'groupName', 'quickInfo', 'latitude', 'longitude']  
+        
+class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Site
         fields = '__all__'
