@@ -16,14 +16,6 @@ class Site(models.Model):
     def __str__(self):
         return f"Site ID: {self.id} - Title: {self.groupName}"
 
-class MoreImage(models.Model):
-    image = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/')
-    site = models.ForeignKey(Site, related_name='moreImages', on_delete=models.CASCADE)  
-
-class Video(models.Model):
-    video = models.FileField(storage=VideosStorage(), upload_to='videos/')
-    site = models.ForeignKey(Site, related_name='videos', on_delete=models.CASCADE)  
-
 class Artist(models.Model):
     id = models.AutoField(primary_key=True)
     site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name="artists")  
@@ -36,6 +28,16 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.name
+
+class MoreImage(models.Model):
+    image = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/')
+    site = models.ForeignKey(Site, related_name='moreImages', on_delete=models.CASCADE, null=True, blank=True)
+    artist = models.ForeignKey(Artist, related_name='artistMoreImages', on_delete=models.CASCADE, null=True, blank=True)
+
+class Video(models.Model):
+    video = models.FileField(storage=VideosStorage(), upload_to='videos/')
+    site = models.ForeignKey(Site, related_name='videos', on_delete=models.CASCADE, null=True, blank=True)
+    artist = models.ForeignKey(Artist, related_name='artistVideos', on_delete=models.CASCADE, null=True, blank=True)  
 
 class UserFeedback(models.Model):
     id = models.AutoField(primary_key=True)  

@@ -18,11 +18,17 @@ class MapSerializer(serializers.ModelSerializer):
         model = Site
         fields = ['id', 'mainImage', 'community', 'groupName', 'quickInfo', 'latitude', 'longitude']  
 
+class ArtistSerializer(serializers.ModelSerializer):
+    moreImages = MoreImageSerializer(many=True, read_only=True)  
+    videos = VideoSerializer(many=True, read_only=True)  
+    class Meta:
+        model = Artist
+        fields = '__all__'
 
 class DetailSerializer(serializers.ModelSerializer):
     moreImages = MoreImageSerializer(many=True, read_only=True)  
     videos = VideoSerializer(many=True, read_only=True)  
-
+    artists = ArtistSerializer(many=True, read_only=True)
     class Meta:
         model = Site
         fields = '__all__'  
@@ -33,7 +39,3 @@ class UserFeedbackSerializer(serializers.ModelSerializer):
         model = UserFeedback
         fields = '__all__'
         
-class ArtistSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Artist
-        fields = '__all__'

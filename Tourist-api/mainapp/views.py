@@ -21,7 +21,7 @@ class MapView(ListAPIView):
         return queryset
 
 class DetailView(RetrieveAPIView):
-    queryset = Site.objects.all()  
+    queryset = Site.objects.prefetch_related('artists', 'moreImages', 'videos')  
     serializer_class = DetailSerializer  
     lookup_field = 'id'
 
