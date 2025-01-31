@@ -14,13 +14,13 @@ class Site(models.Model):
     address = models.TextField(blank=False, null=False)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    artists = models.ManyToManyField('Artist', blank=True)
 
     def __str__(self):
         return f"Site ID: {self.id} - Title: {self.title}"
 
 class Artist(models.Model):
     id = models.AutoField(primary_key=True)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name="artists")  # One-to-Many relationship
     name = models.CharField(max_length=255, blank=False, null=False)
     profilePicture = models.ImageField(storage=MainImageStorage(), upload_to='artist_profiles/', blank=False, null=False)
     instrument = models.CharField(max_length=255, blank=False, null=False)
