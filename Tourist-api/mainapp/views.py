@@ -1,13 +1,13 @@
 from rest_framework.generics import ListAPIView
 from rest_framework import viewsets
-from mainapp.models import SiteData, UserFeedback
-from mainapp.serializers import SiteDataSerializer, UserFeedbackSerializer
+from mainapp.models import Site, Artist, UserFeedback
+from mainapp.serializers import SiteSerializer, Artist, UserFeedbackSerializer
 
 class SiteMapView(ListAPIView):
-    serializer_class = SiteDataSerializer
+    serializer_class = SiteSerializer
 
     def get_queryset(self):
-        queryset = SiteData.objects.all()  
+        queryset = Site.objects.all()  
         
         #filter processing
         # name = self.request.query_params.get('name', None)
