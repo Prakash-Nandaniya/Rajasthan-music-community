@@ -1,12 +1,31 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework import viewsets
-from mainapp.models import Site, Artist, UserFeedback
+from rest_framework import viewsets, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+from mainapp.models import Site, Artist, UserFeedback, MoreImage, Video
 from mainapp.serializers import (
     MapSerializer, 
     DetailSerializer, 
     UserFeedbackSerializer,
     ArtistSerializer,
 )
+
+class SiteCreateView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        # Serialize and validate the data
+        serializer = DetailSerializer(data=request.data, context={'request': request})
+        
+        if serializer.is_valid():
+            # If the serializer is valid, save and create the site
+            site = serializer.save()
+            return Response(DetailSerializer(site).data, status=status.HTTP_201_CREATED)
+        else:
+            # Return validation errors if any
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class MapView(ListAPIView):
     serializer_class = MapSerializer

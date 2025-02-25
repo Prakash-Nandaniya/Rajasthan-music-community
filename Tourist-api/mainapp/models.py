@@ -31,11 +31,15 @@ class MoreImage(models.Model):
     image = models.ImageField(storage=MoreImagesStorage(), upload_to='more_images/')
     site = models.ForeignKey(Site, related_name='moreImages', on_delete=models.CASCADE, null=True, blank=True)
     artist = models.ForeignKey(Artist, related_name='artistMoreImages', on_delete=models.CASCADE, null=True, blank=True)
+    def __str__(self):
+        return self.image.url
 
 class Video(models.Model):
     video = models.FileField(storage=VideosStorage(), upload_to='videos/')
     site = models.ForeignKey(Site, related_name='videos', on_delete=models.CASCADE, null=True, blank=True)
     artist = models.ForeignKey(Artist, related_name='artistVideos', on_delete=models.CASCADE, null=True, blank=True)  
+    def __str__(self):
+        return self.video.url
 
 class UserFeedback(models.Model):
     id = models.AutoField(primary_key=True)  
