@@ -13,17 +13,18 @@ from mainapp.serializers import (
 
 class SiteCreateView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-
     def post(self, request, *args, **kwargs):
-        # Serialize and validate the data
         serializer = DetailSerializer(data=request.data, context={'request': request})
-        
         if serializer.is_valid():
-            # If the serializer is valid, save and create the site
-            site = serializer.save()
-            return Response(DetailSerializer(site).data, status=status.HTTP_201_CREATED)
+            print("1")
+            try:
+                site = serializer.save()
+                return Response(DetailSerializer(site).data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                print("Error during save:", str(e))  # Log the error
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # Return validation errors if any
+            print("2")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
