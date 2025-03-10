@@ -1,0 +1,39 @@
+.community-detail-page {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .community-detail h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .community-detail p {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .media-section h3 {
+    font-size: 1.8em;
+    margin-top: 20px;
+  }
+  
+  .photos img {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    border-radius: 10px;
+  }
+  
+  .videos video {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    border-radius: 10px;
+  }
+  
+  .audio audio {
+    margin: 10px;
+  }
+  

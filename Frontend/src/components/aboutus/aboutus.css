@@ -1,0 +1,34 @@
+.about-us-page {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .about-header {
+    background: url('') no-repeat center center/cover;
+    color: white;
+    padding: 100px 20px;
+  }
+  
+  .about-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .about-header p {
+    font-size: 1.2em;
+  }
+  
+  .our-story, .our-mission {
+    padding: 40px 20px;
+  }
+  
+  .our-story h2, .our-mission h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .our-story p, .our-mission p {
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
+  

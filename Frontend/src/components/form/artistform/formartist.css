@@ -1,0 +1,35 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.dropdown-button {
+    width: 100%; /* Full width for the toggle row */
+    padding: 10px 20px; /* Padding inside the button */
+    background-color: #007bff; /* Blue background for the toggle row */
+    color: white; /* White text for the toggle row */
+    border: none;
+    border-radius: 5px 5px 0 0; /* Rounded corners only at the top */
+    cursor: pointer;
+    text-align: left; /* Align text to the left */
+    font-size: 16px; /* Increase font size */
+    display: flex;
+    justify-content: space-between; /* Space between text and arrow */
+    align-items: center;
+}
+
+.dropdown-content {
+    width: 100%; /* Full width */
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-top: none; /* Remove top border to blend with the toggle row */
+    padding: 20px; /* Padding inside the content */
+    display: none; /* Hide the form by default */
+}
+
+.dropdown.active .dropdown-content {
+    display: block; /* Show the form when active */
+}
+
+.arrow {
+    font-size: 14px; /* Adjust arrow size */
+}

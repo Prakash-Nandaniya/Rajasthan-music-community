@@ -1,0 +1,40 @@
+.community-list-page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  .list-header {
+    background: url('') no-repeat center center/cover;
+    color: white;
+    padding: 100px 20px;
+  }
+  
+  .list-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .list-header p {
+    font-size: 1.2em;
+  }
+  
+  .community-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .community-list li {
+    font-size: 1.5em;
+    margin: 15px 0;
+  }
+  
+  .community-list a {
+    text-decoration: none;
+    color: #0066cc;
+  }
+  
+  .community-list a:hover {
+    text-decoration: underline;
+    color: #0044aa;
+  }
+  

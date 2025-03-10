@@ -1,0 +1,26 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+.add-artist-button {
+    margin: 20px auto; /* Center the button horizontally */
+    padding: 15px 30px; /* Make the button bigger */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block; /* Ensure the button is centered */
+    font-size: 16px; /* Increase font size */
+}
+
+.artist-card {
+    display: block;
+    margin-bottom: 20px;
+    width: 90%; /* Make the form span 80% of the width */
+    margin: 1vw 0; 
+}
+
+* {
+    box-sizing: border-box;
+}
+

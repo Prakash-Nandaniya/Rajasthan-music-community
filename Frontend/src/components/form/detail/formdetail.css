@@ -1,0 +1,220 @@
+.card-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1%;
+    background: rgb(223, 223, 223);
+    border-radius: 2%;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.form-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.image-section {
+    display: flex;
+    gap: 1rem;
+}
+
+.media-label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+}
+
+.media-item {
+    position: relative;
+    width: 10vw;
+    height: 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.media-image-mainimage {
+    width: 10vw;
+    height: 10vw;
+    object-fit: cover;
+}
+
+.media-item .remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    /* Ensure it remains visible */
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+}
+
+.media-item .remove-btn:hover {
+    background: rgb(159, 40, 40);
+}
+
+.media-add-mainimage {
+    padding: 1rem;
+    width: 8vw;
+    height: 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    background-color: rgba(149, 149, 149, 0.733);
+}
+
+.hidden-input {
+    display: none;
+}
+
+.fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.fullscreen-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.input-text,
+.textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+/* Mobile Number Section */
+.mobile-number-section {
+    display: flex;
+    gap: 1vw;
+    height: fit-content;
+}
+
+.mobile-number-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.mobile-number-input {
+    width: 40vw;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.mobile-number-input.error {
+    border-color: red;
+}
+
+.mobile-number-error {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+}
+
+.mobile-number-error-space {
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    margin: 0;
+}
+
+.add-mobile-number-btn {
+    height: fit-content;
+    padding: 8px 12px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-mobile-number-btn:hover {
+    background-color: #107dd6;
+}
+
+.mobile-number-list {
+    margin: 0;
+    margin-left: 8.5vw;
+}
+
+.mobile-number-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mobile-number-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.mobile-number-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-mobile-number-btn {
+    background-color: #2aa547;
+    color: white;
+}
+
+.edit-mobile-number-btn:hover {
+    background-color: #218838;
+}
+
+.delete-mobile-number-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-mobile-number-btn:hover {
+    background-color: #c82333;
+}

@@ -1,0 +1,53 @@
+.home-page {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .hero {
+    background: url('') no-repeat center center/cover;
+    color: white;
+    padding: 100px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+  }
+  
+  .cta-button {
+    background-color: #ff9800;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .cta-button:hover {
+    background-color: #e68900;
+  }
+  
+  .about-section {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .about-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .call-to-action {
+    padding: 40px 20px;
+  }
+  
+  .call-to-action h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
