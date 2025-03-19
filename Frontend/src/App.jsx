@@ -9,6 +9,7 @@ import MapPage from './components/map/mappage';
 import CommunityList from './components/communitylist/communitylist';
 import CommunityDetail from './components/communitydetail/communitydetail';
 import CommunityForm from './pages/communityform/form';
+import MapData from './components/mapdata';
 function App() {
   return (
     <Router>
@@ -22,6 +23,8 @@ function App() {
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityform" element={<CommunityForm />} />
+        <Route path="/checkint" element={<MapData />} />
+
       </Routes>
     </Router>
   );
