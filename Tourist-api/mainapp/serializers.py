@@ -17,7 +17,7 @@ class VideoSerializer(serializers.ModelSerializer):
 class MapSerializer(serializers.ModelSerializer):
     class Meta:
         model = Site
-        fields = ['id', 'mainImage', 'community', 'groupName', 'quickInfo', 'latitude', 'longitude']  
+        fields = ['id', 'mainImage', 'community', 'groupName','instruments', 'latitude', 'longitude']  
 
 class ArtistSerializer(serializers.ModelSerializer):
     artistMoreImages = MoreImageSerializer(many=True)
@@ -61,13 +61,14 @@ class DetailSerializer(serializers.ModelSerializer):
         more_images = [request.FILES[key] for key in request.FILES if 'media.images' in key]
         videos = [request.FILES[key] for key in request.FILES if 'media.videos' in key]
         access_data = ','.join([value for key, value in request.data.items() if key.startswith('access')])
-
+        instruments = ','.join([value for key, value in request.data.items() if key.startswith('instruments')])
         validated_data.pop('mainImage', None)
 
         site = Site.objects.create(
             **validated_data,
             mainImage=main_image,
-            access=access_data
+            access=access_data,
+            instruments=instruments
         )
 
         for image_file in more_images:

@@ -10,6 +10,7 @@ class Site(models.Model):
     quickInfo = models.TextField(blank=False, null=False)
     detail = models.TextField(blank=True, null=True)
     access = models.JSONField(default=list, blank=False, null=False)
+    instruments = models.JSONField(default=list, blank=False, null=False)
     address = models.TextField(blank=False, null=False)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)

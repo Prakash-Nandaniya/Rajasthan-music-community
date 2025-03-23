@@ -48,3 +48,16 @@ class DetailView(RetrieveAPIView):
 class UserFeedbackViewSet(viewsets.ModelViewSet):
     queryset = UserFeedback.objects.all()
     serializer_class = UserFeedbackSerializer
+
+
+class GroupNameCheck(APIView):
+    def get(self, request):
+        groupName = request.query_params.get('groupName', None)
+        community = request.query_params.get('community', None)
+        if groupName:
+            if Site.objects.filter(community=community, groupName=groupName).exists():
+                return Response({"exists": True})
+            else:
+                return Response({"exists": False})
+        else:
+            return Response({"error": "No groupName provided"}, status=status.HTTP_400_BAD_REQUEST)

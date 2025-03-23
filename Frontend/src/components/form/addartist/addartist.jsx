@@ -8,7 +8,7 @@ export default function AddArtist({ formData, setFormData }) {
     const handleAddArtist = () => {
         setFormData((prev) => ({
             ...prev,
-            artists: [...prev.artists, { name: "", profilePicture: null, instrument: "", detail: "", media: { images: [], videos: [] }, isActive: false, index: index }],
+            artists: [...prev.artists, { name: "", profilePicture: null, instrument: "", detail: "", media: { images: [], videos: [] }, isActive: true, index: index }],
         }));
         setIndex((prev) => prev + 1);
     };

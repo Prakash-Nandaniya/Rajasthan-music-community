@@ -23,6 +23,7 @@ export default function SiteDetailsPage({
   formData,
   handleInputChange,
   setFormData,
+  setIsGroupNameChanged,
 }) {
   const [mobileNumberError, setMobileNumberError] = useState("");
   const [mobileNumberInput, setMobileNumberInput] = useState("");
@@ -94,7 +95,7 @@ export default function SiteDetailsPage({
           </div>
         )}
         <input name="community" value={formData["community"]} placeholder="Community (Required)" required className="input-text" onChange={handleInputChange} />
-        <input name="groupName" value={formData["groupName"]} placeholder="Group Name (Required)" required className="input-text" onChange={handleInputChange} />
+        <input name="groupName" value={formData["groupName"]} placeholder="Group Name (Required)" required className="input-text" onChange={(e) => { handleInputChange(e);setIsGroupNameChanged(true);}}  />
         <textarea name="quickInfo" value={formData["quickInfo"]} placeholder="Quick Info (Required)" required className="textarea" onChange={handleInputChange} />
         <textarea name="detail" value={formData["detail"]} placeholder="Detail (Optional)" className="textarea" onChange={handleInputChange} />
         <div>
