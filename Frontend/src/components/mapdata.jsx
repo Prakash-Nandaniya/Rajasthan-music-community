@@ -5,12 +5,12 @@ const MapData = () => {
   const [groupName, setGroupName] = useState("");
 
   useEffect(() => {
-    API.get("/") // Base URL already set in API instance
+    API.get("/detail/4") // Base URL already set in API instance
       .then((response) => {
         // if (response.data.length > 0) {
         //   setGroupName(response.data[0].groupName);
         // }
-        console.log(response);
+        console.log(response.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
