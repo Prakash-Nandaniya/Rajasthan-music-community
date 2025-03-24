@@ -3,11 +3,15 @@ from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth import get_user_model, login
 from mainapp.models import Site, Artist, UserFeedback, MoreImage, Video
 from mainapp.serializers import (
     MapSerializer, 
     DetailSerializer, 
     UserFeedbackSerializer,
+    CustomUserSerializer,
+    LoginSerializer,
     ArtistSerializer,
 )
 
@@ -61,3 +65,50 @@ class GroupNameCheck(APIView):
                 return Response({"exists": False})
         else:
             return Response({"error": "No groupName provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+User = get_user_model()
+
+class UserProfile(viewsets.ModelViewSet):
+    serializer_class = CustomUserSerializer
+    def get_permissions(self):
+        # Allow anyone to create (register), but require authentication for other actions
+        if self.action == 'create':
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    def get_queryset(self):
+        # Only allow users to access their own profile
+        return User.objects.filter(id=self.request.user.id)
+
+    def update(self, request, *args, **kwargs):
+        # Handle profile update
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)  # Allow partial updates
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        # Handle profile deletion
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user)  # Log the user in
+        request.session.set_expiry(86400)  # Set session to 24 hours
+        user_serializer = CustomUserSerializer(user)
+        return Response({
+            'message': 'Login successful',
+            'user': user_serializer.data,
+        }, status=200)

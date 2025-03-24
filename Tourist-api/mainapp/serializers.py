@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .models import Site, Artist, UserFeedback, MoreImage, Video
+from .models import Site, Artist, UserFeedback, MoreImage, Video,CustomUser
 from django.db import transaction
+from django.contrib.auth import get_user_model,authenticate
+from django.contrib.auth.password_validation import validate_password
 
 class MoreImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -140,4 +142,56 @@ class UserFeedbackSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 
+CustomUser = get_user_model()
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+
+    def validate(self, data):
+        email = data.get('email')
+        password = data.get('password')
+
+        if email and password:
+            user = authenticate(request=self.context.get('request'), email=email, password=password)
+            if not user:
+                raise serializers.ValidationError('Invalid email or password')
+        else:
+            raise serializers.ValidationError('Email and password are required')
+
+        data['user'] = user
+        return data
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=False, validators=[validate_password])
+
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'email', 'first_name', 'last_name', 'country', 'password', 'is_staff', 'is_superuser')
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'id': {'read_only': True},
+            'is_staff': {'read_only': True},
+            'is_superuser': {'read_only': True},
+        }
+
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(
+            email=validated_data['email'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', ''),
+            country=validated_data.get('country', ''),
+            password=validated_data['password']
+        )
+        return user
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.country = validated_data.get('country', instance.country)
+        password = validated_data.get('password')
+        if password:
+            instance.set_password(password)
+        instance.save()
+        return instance
