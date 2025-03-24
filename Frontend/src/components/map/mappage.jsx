@@ -70,30 +70,51 @@ import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-leaflet";
+import API from "../../../api"; 
+import { useEffect } from "react";
 
 const MapPage = () => {
   const navigate = useNavigate();
 
   // 🎯 Sample markers with filter categories
-  const markers = [
-    { position: [26.9124, 75.7873], name: "Manganiyar", community: "Manganiyar", location: "Jaisalmer", instrument: "Kamaicha" },
-    { position: [25.9124, 73.7873], name: "See Label", community: "Langa", location: "Barmer", instrument: "Sindhi Sarangi" },
-    { position: [27.0, 74.5], name: "Kalbeliya", community: "Kalbeliya", location: "Bikaner", instrument: "Been" },
-  ];
+
 
   // 🛠️ State for search and filters
+  const [markers, setMarkers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCommunity, setSelectedCommunity] = useState("");
   const [selectedInstrument, setSelectedInstrument] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
 
+  useEffect(() => {
+    const fetchMarkers = async () => {
+      try {
+        const response = await API.get("map");
+        console.log(response.data);
+        const transformedData = response.data.map((item) => ({
+          position: [parseFloat(item.latitude), parseFloat(item.longitude)],
+          name: item.groupName,
+          community: item.community,
+          location: item.address || "Unknown",
+          instrument: item.quickInfo || "Not specified",
+        }));
+        setMarkers(transformedData);
+      } catch (error) {
+        console.error("Error fetching markers:", error);
+      }
+    };
+    fetchMarkers();
+  }, []);
+
   // 🎯 Function to filter markers 
   const filteredMarkers = markers.filter((marker) => {
+    const query = searchQuery.toLowerCase();
     return (
-      (searchQuery ? marker.name.toLowerCase().includes(searchQuery.toLowerCase()) : true) &&
-      (selectedCommunity ? marker.community === selectedCommunity : true) &&
-      (selectedInstrument ? marker.instrument === selectedInstrument : true) &&
-      (selectedLocation ? marker.location === selectedLocation : true)
+      marker.name.toLowerCase().includes(query) ||
+      marker.community.toLowerCase().includes(query) ||
+      marker.location.toLowerCase().includes(query) ||
+      marker.instrument.toLowerCase().includes(query)
     );
   });
 
@@ -114,36 +135,18 @@ const MapPage = () => {
       <p>Explore the map of music communities in Rajasthan.</p>
 
       {/* 🎯 Search and Filter UI */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-        <input
-          type="text"
-          placeholder="Search by name..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ padding: "5px", width: "200px" }}
-        />
+      <input
+        type="text"
+        placeholder="Search by name, community, location, or instrument..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{ padding: "5px", width: "300px", marginBottom: "10px" }}
+      />
 
-        <select onChange={(e) => setSelectedCommunity(e.target.value)}>
-          <option value="">Filter by Community</option>
-          <option value="Manganiyar">Manganiyar</option>
-          <option value="Langa">Langa</option>
-          <option value="Kalbeliya">Kalbeliya</option>
-        </select>
+       
+ 
 
-        <select onChange={(e) => setSelectedInstrument(e.target.value)}>
-          <option value="">Filter by Instrument</option>
-          <option value="Kamaicha">Kamaicha</option>
-          <option value="Sindhi Sarangi">Sindhi Sarangi</option>
-          <option value="Been">Been</option>
-        </select>
 
-        <select onChange={(e) => setSelectedLocation(e.target.value)}>
-          <option value="">Filter by Location</option>
-          <option value="Jaisalmer">Jaisalmer</option>
-          <option value="Barmer">Barmer</option>
-          <option value="Bikaner">Bikaner</option>
-        </select>
-      </div>
 
       {/* 🗺️ Map Container */}
       <MapContainer
@@ -168,16 +171,23 @@ const MapPage = () => {
 
         <MarkerClusterGroup>
           {filteredMarkers.map((marker, index) => (
-            <Marker
-              key={index}
-              position={marker.position}
-              icon={customIcon}
-              eventHandlers={{
-                click: () => handleMarkerClick(marker.name),
-              }}
-            >
-              <Popup>{marker.name}</Popup>
-            </Marker>
+ <Marker
+ key={index}
+ position={marker.position}
+ icon={customIcon}
+ eventHandlers={{
+   click: () => handleMarkerClick(marker.name),
+ }}
+>
+<Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
+    <div>
+      
+      <p><strong>Community:</strong> {marker.community}</p>
+      <p><strong>Location:</strong> {marker.location}</p>
+      <p><strong>Instrument:</strong> {marker.instrument}</p>
+    </div>
+  </Tooltip>
+</Marker>
           ))}
         </MarkerClusterGroup>
       </MapContainer>
@@ -186,3 +196,5 @@ const MapPage = () => {
 };
 
 export default MapPage;
+
+
