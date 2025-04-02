@@ -314,7 +314,7 @@ const MapPage = () => {
           attribution="&copy; Esri"
         />
 
-        <MarkerClusterGroup>
+        <MarkerClusterGroup disableClusteringAtZoom={4}>
           {filteredMarkers.map((marker, index) => (
             <Marker
               key={index}

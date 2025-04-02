@@ -8,7 +8,7 @@ export const useUser = () => useContext(UserContext);
 
 // Provider component
 export const UserProvider = ({ children }) => {
-  const [userRole, setUserRole] = useState("user"); // Default: No Login
+  const [userRole, setUserRole] = useState("artist"); // Default: No Login
 
   return (
     <UserContext.Provider value={{ userRole, setUserRole }}>

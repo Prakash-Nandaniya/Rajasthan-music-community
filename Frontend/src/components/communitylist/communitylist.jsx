@@ -43,12 +43,13 @@ import Navbar from '../navbar/navbar';
 import Footer from '../footer/footer';
 import API from '../../../api'; // Ensure you import API utility
 import './communitylist.css';
-
+import { useUser } from '../../../contextapi';
 const CommunityList = () => {
   const [communities, setCommunities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+   
+  const  {userRole}  = useUser(); // Assuming you have a user context
   useEffect(() => {
     API.get("/map")
       .then((response) => {
@@ -64,10 +65,14 @@ const CommunityList = () => {
 
   return (
     <div className="community-list-page">
-      <Navbar />
-      <button className="add-community-button">
-        <Link to="/communityform">Add Community</Link>
-      </button>
+ <Navbar />
+<button className="add-community-button">
+  {userRole ==="artist" ? (
+    <Link to="/communityform">Add Community</Link>
+  ) : (
+    <span onClick={() => alert("Please login as artist")}>Add Community</span>
+  )}
+</button>
       <header className="list-header">
         <h1>Communities</h1>
         <p>Explore the list of music communities in Rajasthan.</p>

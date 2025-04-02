@@ -1,0 +1,74 @@
+/* 🌍 General Page Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* 🎵 Map Title Styling */
+  h1 {
+    font-size: 2rem;
+    color: #ffcc00;
+    text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.8);
+    margin-top: 20px;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  /* 🔍 Search Input */
+  input[type="text"] {
+    font-size: 1rem;
+    background: #333;
+    color: #fff;
+    border: 2px solid #ffcc00;
+    padding: 10px;
+    border-radius: 25px;
+    outline: none;
+    width: 350px;
+    text-align: center;
+    transition: 0.3s;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #ff5733;
+  }
+  
+  /* 🗺️ Map Container */
+  .leaflet-container {
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(255, 204, 0, 0.5);
+  }
+  
+  /* 🎶 Custom Music Marker */
+  .custom-marker {
+    background: linear-gradient(135deg, #ff5733, #ffcc00);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+    font-size: 20px;
+  }
+  
+  /* 🎼 Marker Tooltip */
+  .leaflet-tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 14px;
+    text-align: left;
+    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
+  }
+  
