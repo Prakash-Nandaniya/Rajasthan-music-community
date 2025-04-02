@@ -19,7 +19,7 @@ class VideoSerializer(serializers.ModelSerializer):
 class MapSerializer(serializers.ModelSerializer):
     class Meta:
         model = Site
-        fields = ['id', 'mainImage', 'community', 'groupName','instruments', 'latitude', 'longitude']  
+        fields = ['id', 'mainImage', 'community', 'groupName','instruments', 'latitude', 'longitude','address']  
 
 class ArtistSerializer(serializers.ModelSerializer):
     artistMoreImages = MoreImageSerializer(many=True)
