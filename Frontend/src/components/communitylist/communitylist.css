@@ -1,40 +1,99 @@
+/* 🎵 Creative Styling for Music Community List Page */
+
 .community-list-page {
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
-  
-  .list-header {
-    background: url('') no-repeat center center/cover;
-    color: white;
-    padding: 100px 20px;
-  }
-  
-  .list-header h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-  }
-  
-  .list-header p {
-    font-size: 1.2em;
-  }
-  
-  .community-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .community-list li {
-    font-size: 1.5em;
-    margin: 15px 0;
-  }
-  
-  .community-list a {
-    text-decoration: none;
-    color: #0066cc;
-  }
-  
-  .community-list a:hover {
-    text-decoration: underline;
-    color: #0044aa;
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+  color: white;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+/* 🎼 Stylish Header */
+.list-header {
+  background: url('https://source.unsplash.com/1600x900/?music,concert') no-repeat center center/cover;
+  color: white;
+  padding: 100px 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  border-bottom: 3px solid #ff4d4d;
+}
+
+.list-header h1 {
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.list-header p {
+  font-size: 1.3em;
+  opacity: 0.9;
+}
+
+/* 🎶 Community List Styling */
+.community-list ul {
+  list-style-type: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.community-list li {
+  font-size: 1.5em;
+  margin: 15px 0;
+  background: rgba(255, 77, 77, 0.9);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.community-list li:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.5);
+}
+
+.community-list a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  display: block;
+}
+
+.community-list a:hover {
+  text-decoration: none;
+  color: #ffcc00;
+}
+
+/* 🎤 Add Community Button */
+.add-community-button {
+  background: linear-gradient(135deg, #ff4d4d, #ffcc00);
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 20px 0;
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.5);
+}
+
+.add-community-button a {
+  text-decoration: none;
+  color: white;
+}
+
+.add-community-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 30px rgba(255, 77, 77, 0.7);
+}
+
+/* 🎧 Error & Loading Message */
+.error-message,
+p {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 20px;
+}
