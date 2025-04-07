@@ -10,6 +10,7 @@ import CommunityList from './components/communitylist/communitylist';
 import CommunityDetail from './components/communitydetail/communitydetail';
 import CommunityForm from './pages/communityform/form';
 import MapData from './components/mapdata';
+import EditGroup from './pages/editgroup/editgroup';
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityform" element={<CommunityForm />} />
         <Route path="/checkint" element={<MapData />} />
+        <Route path="/editgroup" element={<EditGroup  />} />
 
       </Routes>
     </Router>

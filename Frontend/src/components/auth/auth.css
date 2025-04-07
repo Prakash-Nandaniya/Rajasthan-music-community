@@ -1,58 +1,89 @@
-/* src/components/auth.css */
-
-/* Existing styles */
-.auth-container {
+.auth-wrapper {
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
+  width: 90%; /* Adjust for smaller screens */
 }
 
-.auth-container h2 {
+.auth-wrapper h2 {
   margin-bottom: 20px;
+  font-size: 1.5rem; /* Adjust heading size */
 }
 
-.error {
+.auth-error {
   color: red;
   margin-bottom: 10px;
 }
 
-input,
-select,
-button {
+.auth-input {
   display: block;
   width: 100%;
   margin-bottom: 15px;
   padding: 10px;
   font-size: 16px;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-button {
+.auth-button-container .auth-button {
+  width: auto; /* Allow natural button size */
+  min-width: 120px; /* Ensure consistent size */
+  padding: 10px 15px; /* Adjust padding */
+  font-size: 16px;
+  text-align: center;
   background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  position: relative; /* For positioning the spinner */
+  position: relative;
+  display: inline-block; /* Prevent stretching */
 }
 
-button:hover:not(:disabled) {
-  background-color: #0056b3; /* Only apply hover when not disabled */
+.auth-button-container .auth-button:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 
-button:disabled {
-  background-color: #cccccc; /* Grayed out when disabled */
+.auth-button-container .auth-button:disabled {
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
-.country-selector {
+.auth-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Space between buttons */
+  flex-wrap: wrap; /* Adjust for small screens */
+}
+
+.auth-button-loading {
+  position: relative;
+  display: inline-flex; /* Center contents */
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.auth-button-loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.auth-country-selector {
   position: relative;
 }
 
-.country-dropdown {
+.auth-country-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
@@ -68,29 +99,27 @@ button:disabled {
   z-index: 10;
 }
 
-.country-option {
+.auth-country-option {
   padding: 10px;
   cursor: pointer;
 }
 
-.country-option:hover {
+.auth-country-option:hover {
   background-color: #f0f0f0;
 }
 
-.password-container {
+.auth-password-container {
   position: relative;
   width: 100%;
   margin-bottom: 15px;
 }
 
-.password-container input {
+.auth-password-container .auth-input {
   width: 100%;
   padding-right: 40px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
-.eye-icon {
+.auth-eye-icon {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -100,30 +129,42 @@ button:disabled {
   font-size: 18px;
 }
 
-.eye-icon:hover {
+.auth-eye-icon:hover {
   color: #000;
-}
-
-/* New loading spinner styles */
-.button-loading {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button-loading::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #fff;
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .auth-wrapper {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .auth-wrapper h2 {
+    font-size: 1.3rem; /* Reduce heading size */
+  }
+
+  .auth-input {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .auth-password-container .auth-input {
+    padding-right: 35px;
+  }
+
+  .auth-eye-icon {
+    font-size: 16px;
+  }
+
+  .auth-button-loading::after {
+    width: 15px;
+    height: 15px;
+    border-width: 2px;
+  }
 }

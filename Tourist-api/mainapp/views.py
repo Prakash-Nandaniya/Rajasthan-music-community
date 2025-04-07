@@ -15,22 +15,65 @@ from mainapp.serializers import (
     ArtistSerializer,
 )
 
-class SiteCreateView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
+class SiteView(APIView):
+    parser_classes = (MultiPartParser, FormParser)  # Support multipart/form-data for file uploads
+
+    def get(self, request, pk=None, *args, **kwargs):
+        """
+        Retrieve a Site instance by ID (replaces DetailView).
+        """
+        if pk is None:
+            return Response({"error": "Site ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            site = Site.objects.prefetch_related('artists', 'moreImages', 'videos').get(pk=pk)
+            serializer = DetailSerializer(site)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Site.DoesNotExist:
+            return Response({"error": "Site not found"}, status=status.HTTP_404_NOT_FOUND)
+
     def post(self, request, *args, **kwargs):
         serializer = DetailSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            print("1")
             try:
                 site = serializer.save()
                 return Response(DetailSerializer(site).data, status=status.HTTP_201_CREATED)
             except Exception as e:
-                print("Error during save:", str(e))  # Log the error
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            print("2")
+            print("serializer errors", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, pk, *args, **kwargs):
+        """
+        Update an existing Site instance (replaces SiteUpdateView).
+        """
+        try:
+            site = Site.objects.get(pk=pk)
+        except Site.DoesNotExist:
+            return Response({"error": "Site not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = DetailSerializer(instance=site, data=request.data, context={'request': request}, partial=True)
+        if serializer.is_valid():
+            try:
+                updated_site = serializer.save()
+                return Response(DetailSerializer(updated_site).data, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request, pk, *args, **kwargs):
+        """
+        Delete an existing Site instance.
+        """
+        try:
+            site = Site.objects.get(pk=pk)
+            site.delete()
+            return Response({"message": "Site deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Site.DoesNotExist:
+            return Response({"error": "Site not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class MapView(ListAPIView):
     serializer_class = MapSerializer
@@ -43,11 +86,6 @@ class MapView(ListAPIView):
         if community:
             queryset = queryset.filter(community__icontains=community)
         return queryset
-
-class DetailView(RetrieveAPIView):
-    queryset = Site.objects.prefetch_related('artists', 'moreImages', 'videos')  
-    serializer_class = DetailSerializer  
-    lookup_field = 'id'
 
 class UserFeedbackViewSet(viewsets.ModelViewSet):
     queryset = UserFeedback.objects.all()

@@ -99,14 +99,8 @@ export default function CommunityForm() {
     SiteformData.artists.forEach((artist, artistIndex) => {
       // Append artist details
       formDataToSend.append(`artists[${artistIndex}].name`, artist.name);
-      formDataToSend.append(
-        `artists[${artistIndex}].profilePicture`,
-        artist.profilePicture
-      );
-      formDataToSend.append(
-        `artists[${artistIndex}].instrument`,
-        artist.instrument
-      );
+      formDataToSend.append(`artists[${artistIndex}].profilePicture`,artist.profilePicture);
+      formDataToSend.append(`artists[${artistIndex}].instrument`,artist.instrument);
       formDataToSend.append(`instruments[${artistIndex}]`, artist.instrument);
       formDataToSend.append(`artists[${artistIndex}].detail`, artist.detail);
 
@@ -135,11 +129,11 @@ export default function CommunityForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/createsite", {
+      const response = await fetch("http://127.0.0.1:8000/createsite/", {
         method: "POST",
         body: formDataToSend,
       });
-
+      console.log("Response:", response);
       if (response.ok) {
         setIsSubmitted(true); // Show success modal
       } else {
@@ -157,7 +151,7 @@ export default function CommunityForm() {
     if (isGroupNameChanged) {
       setIsGroupNameChanged(false);
       try {
-        let temp=canGoNext;
+        let temp = canGoNext;
         setCanGoNext(false);
         const response = await fetch(
           `http://127.0.0.1:8000/groupNameCheck?groupName=${SiteformData.groupName}&community=${SiteformData.community}`,
