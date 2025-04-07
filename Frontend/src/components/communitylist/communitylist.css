@@ -97,3 +97,45 @@ p {
   font-weight: bold;
   margin-top: 20px;
 }
+
+/* 📱 Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .list-header {
+    padding: 50px 10px; /* Reduced padding for smaller screens */
+  }
+
+  .list-header h1 {
+    font-size: 2rem; /* Smaller font size for mobile */
+  }
+
+  .list-header p {
+    font-size: 1rem; /* Adjusted paragraph font size */
+  }
+
+  .community-list ul {
+    max-width: 90%; /* Adjusted width for smaller screens */
+    margin: 20px auto;
+  }
+
+  .community-list li {
+    font-size: 1.2em; /* Smaller font size for list items */
+    padding: 10px; /* Reduced padding */
+    margin: 10px 0; /* Reduced margin */
+  }
+
+  .add-community-button {
+    font-size: 1em; /* Smaller button font size */
+    padding: 10px 20px; /* Reduced padding */
+    border-radius: 20px; /* Slightly smaller border radius */
+  }
+
+  .search-input {
+    width: 90%; /* Full width for smaller screens */
+    font-size: 0.9rem; /* Slightly smaller font size */
+  }
+
+  .error-message,
+  p {
+    font-size: 1rem; /* Adjusted font size for error/loading messages */
+  }
+}

@@ -1,7 +1,9 @@
+/* Hide Scrollbar */
 body::-webkit-scrollbar {
     display: none;
 }
 
+/* Dropdown Button */
 .dropdown-button {
     width: 100%; /* Full width for the toggle row */
     padding: 10px 20px; /* Padding inside the button */
@@ -17,6 +19,7 @@ body::-webkit-scrollbar {
     align-items: center;
 }
 
+/* Dropdown Content */
 .dropdown-content {
     width: 100%; /* Full width */
     background-color: #f9f9f9;
@@ -30,6 +33,23 @@ body::-webkit-scrollbar {
     display: block; /* Show the form when active */
 }
 
+/* Arrow Icon */
 .arrow {
     font-size: 14px; /* Adjust arrow size */
+}
+
+/* 📱 Responsive Styles for Mobile */
+@media (max-width: 768px) {
+    .dropdown-button {
+        padding: 8px 15px; /* Reduce padding for smaller screens */
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
+    .dropdown-content {
+        padding: 15px; /* Reduce padding inside the dropdown content */
+    }
+
+    .arrow {
+        font-size: 12px; /* Smaller arrow size for mobile */
+    }
 }
