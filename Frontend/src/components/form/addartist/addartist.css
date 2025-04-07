@@ -1,9 +1,6 @@
-/* Hide Scrollbar */
 body::-webkit-scrollbar {
     display: none;
 }
-
-/* 🎤 Add Artist Button */
 .add-artist-button {
     margin: 20px auto; /* Center the button horizontally */
     padding: 15px 30px; /* Make the button bigger */
@@ -14,43 +11,15 @@ body::-webkit-scrollbar {
     cursor: pointer;
     display: block; /* Ensure the button is centered */
     font-size: 16px; /* Increase font size */
-    transition: all 0.3s ease;
 }
 
-.add-artist-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-/* 🎨 Artist Card */
 .artist-card {
     display: block;
     margin-bottom: 20px;
-    width: 90%; /* Make the form span 90% of the width */
-    margin: 1vw auto; /* Center the card */
-    padding: 15px;
-    background-color: #f8f9fa; /* Light background for the card */
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%; /* Make the form span 80% of the width */
+    margin: 1vw 0; 
 }
 
-/* Global Box Sizing */
 * {
     box-sizing: border-box;
 }
-
-/* 📱 Responsive Styles for Mobile */
-@media (max-width: 768px) {
-    .add-artist-button {
-        padding: 12px 20px; /* Reduce padding for smaller screens */
-        font-size: 14px; /* Reduce font size */
-        width: 80%; /* Adjust width for smaller screens */
-    }
-
-    .artist-card {
-        width: 95%; /* Make the card span almost full width */
-        padding: 10px; /* Reduce padding for smaller screens */
-        font-size: 14px; /* Adjust font size for better readability */
-    }
-}
-

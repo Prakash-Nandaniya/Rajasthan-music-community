@@ -29,31 +29,3 @@
     border: 1px solid #ccc;
     border-radius: 0.5rem;
 }
-
-/* 📱 Responsive Styles for Mobile */
-@media (max-width: 768px) {
-    .card-container {
-        padding: 2%;
-        border-radius: 5%;
-    }
-
-    .title {
-        font-size: 1.2rem; /* Smaller font size for mobile */
-        margin-bottom: 0.8rem;
-    }
-
-    .form-grid {
-        gap: 0.8rem; /* Reduced gap for smaller screens */
-    }
-
-    .input-group {
-        flex-direction: column; /* Stack inputs vertically on smaller screens */
-        gap: 0.8rem; /* Adjusted gap for better spacing */
-    }
-
-    .input-text,
-    .textarea {
-        font-size: 0.9rem; /* Slightly smaller font size */
-        padding: 0.4rem; /* Reduced padding for smaller screens */
-    }
-}

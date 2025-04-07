@@ -59,7 +59,7 @@
     display: none;
 }
 
-.media-section {
+.formmedia-media-section {
     display: flex;
     gap: 1rem;
     overflow-x: auto;
@@ -75,7 +75,7 @@
     scrollbar-width: none;
 }
 
-.media-section::-webkit-scrollbar {
+.formmedia-media-section::-webkit-scrollbar {
     display: none;
 }
 
@@ -171,53 +171,4 @@
     max-height: 90%;
     border-radius: 10px;
     cursor: pointer;
-}
-
-/* 📱 Responsive Styles for Mobile */
-@media (max-width: 768px) {
-    .card-container {
-        padding: 2%;
-        border-radius: 5%;
-    }
-
-    .title {
-        font-size: 1.2rem; /* Smaller font size for mobile */
-        margin-bottom: 0.8rem;
-    }
-
-    .form-grid {
-        gap: 0.8rem; /* Reduced gap for smaller screens */
-    }
-
-    .media-preview {
-        gap: 0.5rem; /* Reduced gap for smaller screens */
-    }
-
-    .media-add {
-        width: 15vw; /* Adjusted size for mobile */
-        height: 15vw;
-        padding: 0.8rem;
-    }
-
-    .media-section {
-        max-width: 90vw; /* Adjusted width for mobile */
-        padding: 0.8rem;
-    }
-
-    .media-item {
-        width: 15vw; /* Adjusted size for mobile */
-        height: 15vw;
-    }
-
-    .media-item .remove-btn {
-        width: 20px; /* Smaller remove button */
-        height: 20px;
-        font-size: 12px;
-    }
-
-    .fullscreen-image,
-    .fullscreen-video {
-        max-width: 95%;
-        max-height: 95%;
-    }
 }

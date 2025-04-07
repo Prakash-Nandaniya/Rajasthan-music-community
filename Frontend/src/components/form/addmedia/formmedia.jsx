@@ -59,7 +59,7 @@ export default function MediaUploadPage({
                 <Plus size={24} />
                 <input type="file" accept="image/*" className="hidden-input" multiple onChange={(e) => handleImageChange(e,setFormData)} />
               </label>
-              <div className="media-section">
+              <div className="formmedia-media-section">
                 {formData.media.images.map((file, index) => (
                   <div key={index} className="media-item">
                     <img
@@ -81,14 +81,14 @@ export default function MediaUploadPage({
                 <Plus size={24} />
                 <input type="file" accept="video/*" className="hidden-input" multiple onChange={(e) => handleVideoChange(e,setFormData)} />
               </label>
-              <div className="media-section">
+              <div className="formmedia-media-section">
                 {formData.media.videos.map((file, index) => (
                   <div key={index} className="media-item video-container">
                     <video src={URL.createObjectURL(file)} className="media-video" controls />
                     <button className="remove-btn" onClick={() => removeVideo(index,setFormData)}>
                       <X size={18} />
                     </button>
-                    <button className="maximize-btn" onClick={() => setSelectedVideo(URL.createObjectURL(file))}>
+                    <button type="button" className="maximize-btn" onClick={() => setSelectedVideo(URL.createObjectURL(file))}>
                       <Maximize size={18} />
                     </button>
                   </div>
