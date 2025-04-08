@@ -23,7 +23,7 @@ const Navbar = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About Us</Link></li>
         <li><Link to="/contact">Contact Us</Link></li>
-        <li><Link to="/map">Map</Link></li>
+        {/* <li><Link to="/map">Map</Link></li> */}
         <li><Link to="/login">Login</Link></li>
         <li><Link to="/signup">Signup</Link></li>
         {userRole === "none" ? null : <li><Link to="/community">communitylist</Link></li>}

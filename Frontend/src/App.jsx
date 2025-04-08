@@ -14,12 +14,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/map" element={<MapPage />} />
+        <Route path="/" element={<MapPage />} />
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityform" element={<CommunityForm />} />
