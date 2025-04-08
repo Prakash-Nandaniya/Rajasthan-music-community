@@ -135,7 +135,7 @@
     color: white;
 }
 
-button[type="submit"] {
+.submit-button {
     display: flex;
     justify-content: center;
     width: 7vw;

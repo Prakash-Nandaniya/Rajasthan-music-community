@@ -38,6 +38,15 @@ const removeVideo = (index,setFormData) => {
   }));
 };
 
+const getImageSrc = (image) => {
+  if (!image) return null;
+  // Check if image is a File/Blob (for creation) or a string URL (for editing)
+  return image instanceof File || image instanceof Blob
+    ? URL.createObjectURL(image)
+    : image; // Use URL string directly
+};
+
+
 export default function MediaUploadPage({
   formData,
   setFormData,
@@ -45,7 +54,6 @@ export default function MediaUploadPage({
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  console.log("formData: ",formData);
   return (
     <div className="card-container">
       <h2 className="title">Upload Media</h2>
@@ -63,12 +71,12 @@ export default function MediaUploadPage({
                 {formData.media.images.map((file, index) => (
                   <div key={index} className="media-item">
                     <img
-                      src={URL.createObjectURL(file)}
+                      src={getImageSrc(file)}
                       alt=""
                       className="media-image"
                       onClick={() => setSelectedImage(URL.createObjectURL(file))}
                     />
-                    <button className="remove-btn" onClick={() => removeImage(index,setFormData)}>
+                    <button type="button" className="remove-btn" onClick={() => removeImage(index,setFormData)}>
                       <X size={18} />
                     </button>
                   </div>
@@ -84,8 +92,8 @@ export default function MediaUploadPage({
               <div className="formmedia-media-section">
                 {formData.media.videos.map((file, index) => (
                   <div key={index} className="media-item video-container">
-                    <video src={URL.createObjectURL(file)} className="media-video" controls />
-                    <button className="remove-btn" onClick={() => removeVideo(index,setFormData)}>
+                    <video src={getImageSrc(file.video)} className="media-video" controls />
+                    <button type="button" className="remove-btn" onClick={() => removeVideo(index,setFormData)}>
                       <X size={18} />
                     </button>
                     <button type="button" className="maximize-btn" onClick={() => setSelectedVideo(URL.createObjectURL(file))}>

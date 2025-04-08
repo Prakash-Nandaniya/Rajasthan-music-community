@@ -1,0 +1,108 @@
+.edit-group-form {
+    width: 100%;
+    /* Adjust as needed */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.edit-group-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* Space between sections */
+}
+
+.edit-group-form-section {
+    background-color: #f9f9f9;
+    /* Light background for distinction */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.edit-group-form-section h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.edit-group-submit-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.edit-group-submit-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.edit-group-submit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.edit-group-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.edit-group-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.edit-group-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.edit-group-modal-content h2 {
+    margin-top: 0;
+    color: #4CAF50;
+}
+
+.edit-group-modal-content p {
+    margin: 10px 0;
+}
+
+.edit-group-modal-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-group-modal-button:hover {
+    background-color: #45a049;
+}

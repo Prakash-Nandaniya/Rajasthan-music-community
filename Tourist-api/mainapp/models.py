@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from .storage_backend import MainImageStorage, MoreImagesStorage, VideosStorage
+from django.utils import timezone
+import random
 
 class Site(models.Model):
     id = models.AutoField(primary_key=True)
@@ -93,3 +95,24 @@ class UserFeedback(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)  
     def __str__(self):
         return f"Feedback by {self.user} for {self.site}"
+    
+    
+
+class OTP(models.Model):
+    mobile_number = models.CharField(max_length=15, unique=True)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.otp:
+            self.otp = str(random.randint(100000, 999999))  # 6-digit OTP
+        if not self.expires_at:
+            self.expires_at = timezone.now() + timezone.timedelta(minutes=5)  # 5-minute expiry
+        super().save(*args, **kwargs)
+
+    def is_valid(self):
+        return timezone.now() <= self.expires_at
+
+    def __str__(self):
+        return f"{self.mobile_number} - {self.otp}"

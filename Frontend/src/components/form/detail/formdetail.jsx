@@ -52,6 +52,14 @@ export default function SiteDetailsPage({
     setMobileNumberError("");
   };
   
+  const getImageSrc = (image) => {
+    if (!image) return null;
+    // Check if image is a File/Blob (for creation) or a string URL (for editing)
+    return image instanceof File || image instanceof Blob
+      ? URL.createObjectURL(image)
+      : image; // Use URL string directly
+  };
+
   return (
     <div className="card-container">
       <h2 className="title">Site Details</h2>
@@ -61,7 +69,7 @@ export default function SiteDetailsPage({
           {formData.mainImage ? (
             <div className="media-item">
               <img
-                src={URL.createObjectURL(formData.mainImage)}
+                src={getImageSrc(formData.mainImage)}
                 alt="Selected"
                 className="media-image-mainimage"
                 onClick={() => setSelectedImage(URL.createObjectURL(formData.mainImage))}

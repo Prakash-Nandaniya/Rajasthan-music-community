@@ -107,6 +107,14 @@ export default function ArtistForm({ ArtistData, setFormData, index }) {
     }));
   };
 
+  const getImageSrc = (image) => {
+    if (!image) return null;
+    // Check if image is a File/Blob (for creation) or a string URL (for editing)
+    return image instanceof File || image instanceof Blob
+      ? URL.createObjectURL(image)
+      : image; // Use URL string directly
+  };
+
   return (
     <>
       <button
@@ -125,7 +133,7 @@ export default function ArtistForm({ ArtistData, setFormData, index }) {
               {ArtistData.profilePicture ? (
                 <div className="media-item">
                   <img
-                    src={URL.createObjectURL(ArtistData.profilePicture)}
+                    src={getImageSrc(ArtistData.profilePicture)}
                     alt="Selected"
                     className="media-image-mainimage"
                     onClick={() =>

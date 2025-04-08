@@ -1,28 +1,28 @@
-// src/components/Signup.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import './auth.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./auth.css";
 
 const Signup = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [country, setCountry] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [countryQuery, setCountryQuery] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [country, setCountry] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [countryQuery, setCountryQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const countries = [
-    'United States', 'Canada', 'United Kingdom', 'Australia', 'India', 'Germany', 'France',
-    'Brazil', 'Japan', 'South Africa', 'Mexico', 'China', 'Russia', 'Italy', 'Spain',
+    "United States", "Canada", "United Kingdom", "Australia", "India",
+    "Germany", "France", "Brazil", "Japan", "South Africa",
+    "Mexico", "China", "Russia", "Italy", "Spain",
   ];
 
   const filteredCountries = countries.filter((c) =>
@@ -33,36 +33,32 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLoading) return; // Prevent multiple submissions
-    setError('');
-    setIsLoading(true); // Start loading
-    console.log('Form submitted with email:', email);
+    if (isLoading) return;
+    setError("");
+    setIsLoading(true);
 
     if (!email) {
-      setError('Email is required');
-      console.log('Email is empty');
+      setError("Email is required");
       setIsLoading(false);
       return;
     }
     if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address');
-      console.log('Invalid email format:', email);
+      setError("Please enter a valid email address");
       setIsLoading(false);
       return;
     }
-
     if (!password) {
-      setError('Password is required');
+      setError("Password is required");
       setIsLoading(false);
       return;
     }
     if (password.length < 8) {
-      setError('Password is too short (minimum 8 characters)');
+      setError("Password must be at least 8 characters");
       setIsLoading(false);
       return;
     }
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       setIsLoading(false);
       return;
     }
@@ -75,24 +71,25 @@ const Signup = () => {
       password,
     };
 
-    console.log('Sending signup data:', signupData);
-
     try {
-      const response = await axios.post('http://localhost:8000/signup', signupData, {
-        withCredentials: true,
-      });
-      console.log('Signup response:', response.data);
-      navigate('/');
+      const response = await axios.post(
+        "http://localhost:8000/user/signup",
+        signupData,
+        { withCredentials: true }
+      );
+      navigate("/");
     } catch (err) {
-      console.error('Signup error:', err.response);
-      const errorMessage = err.response?.data?.email?.[0] || err.response?.data?.message || 'Signup failed';
-      if (errorMessage.includes('custom user with this email already exists')) {
-        setError('This email is already registered');
+      const errorMessage =
+        err.response?.data?.email?.[0] ||
+        err.response?.data?.message ||
+        "Signup failed";
+      if (errorMessage.includes("custom user with this email already exists")) {
+        setError("This email is already registered");
       } else {
         setError(errorMessage);
       }
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
@@ -109,15 +106,17 @@ const Signup = () => {
   };
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   return (
-    <div className="auth-container">
+    <div className="auth-wrapper">
       <h2>Sign Up</h2>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="auth-error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          className="auth-input"
           placeholder="First Name"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
@@ -125,14 +124,16 @@ const Signup = () => {
         />
         <input
           type="text"
+          className="auth-input"
           placeholder="Last Name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           required
         />
-        <div className="country-selector">
+        <div className="auth-country-selector">
           <input
             type="text"
+            className="auth-input"
             placeholder="Country"
             value={countryQuery}
             onChange={handleCountryInputChange}
@@ -140,12 +141,12 @@ const Signup = () => {
             required
           />
           {isDropdownOpen && countryQuery && filteredCountries.length > 0 && (
-            <ul className="country-dropdown">
+            <ul className="auth-country-dropdown">
               {filteredCountries.map((c) => (
                 <li
                   key={c}
                   onClick={() => handleCountrySelect(c)}
-                  className="country-option"
+                  className="auth-country-option"
                 >
                   {c}
                 </li>
@@ -155,41 +156,50 @@ const Signup = () => {
         </div>
         <input
           type="email"
+          className="auth-input"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <div className="password-container">
+        <div className="auth-password-container">
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
+            className="auth-input"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <span className="eye-icon" onClick={togglePasswordVisibility}>
+          <span className="auth-eye-icon" onClick={togglePasswordVisibility}>
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <div className="password-container">
+        <div className="auth-password-container">
           <input
-            type={showConfirmPassword ? 'text' : 'password'}
+            type={showConfirmPassword ? "text" : "password"}
+            className="auth-input"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-          <span className="eye-icon" onClick={toggleConfirmPasswordVisibility}>
+          <span className="auth-eye-icon" onClick={toggleConfirmPasswordVisibility}>
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <button type="submit" disabled={isLoading} className={isLoading ? 'button-loading' : ''}>
-          {isLoading ? 'Loading...' : 'Sign Up'}
-        </button>
+        <div className="auth-button-container">
+          <button
+            type="submit"
+            className={`auth-button ${isLoading ? "auth-button-loading" : ""}`}
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Sign Up"}
+          </button>
+        </div>
       </form>
       <p>
-        Already have an account? <a href="/login">Login</a>
+        Already have an account? <a href="/user/login">Login</a>
       </p>
     </div>
   );
