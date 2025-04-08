@@ -73,7 +73,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/signup",
+        "http://localhost:8000/user/signup",
         signupData,
         { withCredentials: true }
       );
@@ -199,7 +199,7 @@ const Signup = () => {
         </div>
       </form>
       <p>
-        Already have an account? <a href="/login">Login</a>
+        Already have an account? <a href="/user/login">Login</a>
       </p>
     </div>
   );

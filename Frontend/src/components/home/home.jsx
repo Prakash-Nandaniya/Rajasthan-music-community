@@ -27,7 +27,7 @@ const Home = () => {
           Whether you're a community member looking to share your story or a visitor eager 
           to learn more, we welcome you to be a part of this journey.
         </p>
-        <Link to="/signup" className="cta-button">Sign Up</Link>
+        <Link to="/user/signup" className="cta-button">Sign Up</Link>
       </section>
       <Footer />
     </div>

@@ -22,7 +22,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/login/",
+        "http://localhost:8000/user/login/",
         loginData,
         { withCredentials: true }
       );
@@ -75,7 +75,7 @@ const Login = () => {
         </div>
       </form>
       <p>
-        Need an account? <a href="/signup">Sign Up</a>
+        Need an account? <a href="/user/signup">Sign Up</a>
       </p>
     </div>
   );

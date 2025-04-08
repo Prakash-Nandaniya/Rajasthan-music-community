@@ -1,19 +1,25 @@
 import environ
 from pathlib import Path
 
-# Initialize environment variables
-env = environ.Env()
-environ.Env.read_env()
-
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialize environment variables
+env = environ.Env(
+    DEBUG=(bool, False),  # Type casting with default
+    ALLOWED_HOSTS=(list, []),
+    DB_PORT=(int, 5432),
+)
+# Load .env file from BASE_DIR
+env.read_env(str(BASE_DIR / '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 # Application definition
 INSTALLED_APPS = [
@@ -63,7 +69,6 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-
 ROOT_URLCONF = 'api.urls'
 
 TEMPLATES = [
@@ -92,7 +97,7 @@ DATABASES = {
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT': 5432,
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -126,7 +131,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'mainapp.CustomUser'
 
 # Session settings
-SESSION_COOKIE_AGE = 86400  # Default to 24 hours (can be overridden per request)
-SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access
+SESSION_COOKIE_AGE = 86400
+SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
-SESSION_SAVE_EVERY_REQUEST = True  # Renew session on each request  ``
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')  # Your Gmail address
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # Gmail App Password

@@ -96,7 +96,7 @@ export default function MediaUploadPage({
                     <button type="button" className="remove-btn" onClick={() => removeVideo(index,setFormData)}>
                       <X size={18} />
                     </button>
-                    <button className="maximize-btn" onClick={() => setSelectedVideo(URL.createObjectURL(file))}>
+                    <button type="button" className="maximize-btn" onClick={() => setSelectedVideo(URL.createObjectURL(file))}>
                       <Maximize size={18} />
                     </button>
                   </div>

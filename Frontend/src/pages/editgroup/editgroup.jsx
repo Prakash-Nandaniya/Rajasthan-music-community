@@ -20,7 +20,7 @@ const fetchMediaAsFile = async (mediaUrl) => {
 };
 
 export default function EditGroup() {
-    const id  = 8; // Get the dynamic ID from URL
+    const {id}  = useParams(); // Get the dynamic ID from URL
     const [formData, setFormData] = useState({
         mainImage: null,
         community: "",

@@ -11,13 +11,15 @@ import CommunityDetail from './components/communitydetail/communitydetail';
 import CommunityForm from './pages/communityform/form';
 import MapData from './components/mapdata';
 import EditGroup from './pages/editgroup/editgroup';
+import ArtistLogin from './components/auth/artistlogin';
+import EnterOTP from './components/auth/enterotp';
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/user/login" element={<Login />} />
+        <Route path="/user/signup" element={<Signup />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/map" element={<MapPage />} />
@@ -25,8 +27,9 @@ function App() {
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityform" element={<CommunityForm />} />
         <Route path="/checkint" element={<MapData />} />
-        <Route path="/editgroup" element={<EditGroup  />} />
-
+        <Route path="/editgroup/:id" element={<EditGroup  />} />
+        <Route path="/artist/login" element={<ArtistLogin />} />
+        <Route path="/artist/enterotp" element={<EnterOTP />} />
       </Routes>
     </Router>
   );
