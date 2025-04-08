@@ -196,7 +196,7 @@ export default function CommunityForm() {
   }, [SiteformData, page]);
 
   return (
-    <form>
+    <form className="community-form">
       {/* Loading Animation */}
       {isLoading && (
         <div className="loading-overlay">

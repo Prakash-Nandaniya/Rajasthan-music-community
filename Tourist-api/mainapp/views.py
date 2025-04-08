@@ -1,6 +1,8 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import  AllowAny
@@ -125,49 +127,49 @@ class GroupNameCheck(APIView):
 
 User = get_user_model()
 
-class UserProfile(viewsets.ModelViewSet):
-    serializer_class = CustomUserSerializer
+@csrf_exempt
+class CustomUserProfile(APIView):
+    permission_classes = [AllowAny]  # Default, overridden in get_permissions
 
     def get_permissions(self):
-        if self.action == 'create':  # Signup
+        if self.request.method == 'POST':
             return [AllowAny()]
-        return [IsUser()]  # Update/Delete require auth
+        return [IsAuthenticated()]  # For PUT/DELETE
 
-    def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)
+    def post(self, request, *args, **kwargs):
+        print("Signup request data:", request.data)
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            request.session['is_authenticated'] = True
+            request.session['role'] = 'user'
+            request.session['id'] = user.id
+            request.session.set_expiry(86400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        # Set session for newly created user
-        request.session['is_authenticated'] = True
-        request.session['role'] = 'user'
-        request.session['id'] = user.id
-        request.session.set_expiry(86400)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def put(self, request, *args, **kwargs):
+        print("Update request data:", request.data)
+        user = User.objects.get(id=request.session.get('id'))
+        serializer = CustomUserSerializer(instance=user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        # Clear session on delete
+    def delete(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.session.get('id'))
+        user.delete()
         request.session.flush()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-
 
 class LoginView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
+        print("Login request data:", request.data)
         serializer = LoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
