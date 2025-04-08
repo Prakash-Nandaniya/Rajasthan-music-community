@@ -59,7 +59,7 @@
     display: none;
 }
 
-.media-section {
+.formmedia-media-section {
     display: flex;
     gap: 1rem;
     overflow-x: auto;
@@ -75,7 +75,7 @@
     scrollbar-width: none;
 }
 
-.media-section::-webkit-scrollbar {
+.formmedia-media-section::-webkit-scrollbar {
     display: none;
 }
 
@@ -172,10 +172,3 @@
     border-radius: 10px;
     cursor: pointer;
 }
-
-
-
-
-
-
-

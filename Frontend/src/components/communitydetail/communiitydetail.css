@@ -1,39 +1,91 @@
+/* 🎵 Enhanced Styling for Community Detail Page */
+
 .community-detail-page {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .community-detail h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-  }
-  
-  .community-detail p {
-    font-size: 1.2em;
-    margin: 10px 0;
-  }
-  
-  .media-section h3 {
-    font-size: 1.8em;
-    margin-top: 20px;
-  }
-  
-  .photos img {
-    width: 100%;
-    max-width: 300px;
-    margin: 10px;
-    border-radius: 10px;
-  }
-  
-  .videos video {
-    width: 100%;
-    max-width: 300px;
-    margin: 10px;
-    border-radius: 10px;
-  }
-  
-  .audio audio {
-    margin: 10px;
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+/* 🎼 Stylish Header */
+.community-detail h1 {
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffcc00;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  margin-bottom: 20px;
+}
+
+/* 🏛 Centered Container */
+.media-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* ✅ Ensures all content is centered */
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* 📸 Image Styling */
+.main-image {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* 🎶 Photos Section */
+.photos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.photos img {
+  width: 90%;
+  max-width: 300px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photos img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.5);
+}
+
+/* 🎥 Video Section */
+.videos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.videos video {
+  width: 90%;
+  max-width: 350px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.videos video:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.5);
+}

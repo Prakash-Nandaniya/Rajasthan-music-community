@@ -91,6 +91,7 @@ const CommunityDetail = () => {
     API.get(`/detail/${id}`)
       .then((response) => {
         setCommunity(response.data);
+        console.log("Community details:", response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -121,14 +122,14 @@ const CommunityDetail = () => {
           <h3>More Photos</h3>
           <div className="photos">
             {community.moreImages?.map((img, idx) => (
-              <img src={img.url} alt={`${community.community} photo ${idx + 1}`} key={idx} />
+              <img src={img.image} alt={`${community.community} photo ${idx + 1}`} key={idx} />
             ))}
           </div>
 
           <h3>Videos</h3>
           <div className="videos">
             {community.videos?.map((video, idx) => (
-              <video controls src={video.url} key={idx}>
+              <video controls src={video.video} key={idx}>
                 Your browser does not support the video tag.
               </video>
             ))}
