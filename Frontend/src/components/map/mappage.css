@@ -757,3 +757,210 @@ body {
     padding: 6px;
   }
 }
+
+.search-wrapper {
+  font-size: 1rem;
+  background: #ffefd5; /* Light orange background */
+  color: #f3cfcf; /* Dark text for readability */
+  border: 2px solid #ffcc00; /* Light orange border */
+  padding: 12px 20px; /* Increased padding for taller input */
+  border-radius: 25px;
+  outline: none;
+  width: 500px; /* Larger width */
+  text-align: left; /* Align text to the left */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 0; /* Align to the left */
+}
+
+.search-wrapper:focus {
+  border-color: #e7dedc; /* Darker orange border on focus */
+  box-shadow: 0 4px 12px rgba(255, 87, 51, 0.3); /* Subtle glow effect */
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Adjusted max width */
+  margin: 20px 0; /* Adjusted margin for spacing */
+  text-align: left; /* Align the container to the left */
+}
+
+.search-inputfinal {
+  font-size: 1rem; /* Standard font size */
+  background: #ffefd5; /* Light orange background */
+  color: #333; /* Dark gray text for readability */
+  border: 2px solid #ffcc00; /* Light orange border */
+  padding: 12px 20px; /* Increased padding for taller input */
+  border-radius: 25px; /* Rounded corners */
+  outline: none; /* Remove default outline */
+  width: 500px; /* Larger width */
+  text-align: left; /* Align text to the left */
+  transition: all 0.3s ease; /* Smooth transition for hover and focus effects */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 20px 0; /* Add spacing around the input */
+}
+
+.search-inputfinal:focus {
+  border-color: #ff5733; /* Darker orange border on focus */
+  box-shadow: 0 4px 12px rgba(190, 186, 185, 0.3); /* Subtle glow effect */
+}
+
+.suggestions-list {
+  list-style: none; /* Remove default list styling */
+  margin: 10px 0 0; /* Add spacing above the list */
+  padding: 0;
+  background: #ffffff; /* White background for suggestions */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 500px; /* Match the width of the input */
+  position: absolute; /* Position relative to the input */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.suggestions-list li {
+  padding: 10px 15px; /* Add padding for better spacing */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  color: #333; /* Dark text color */
+}
+
+.suggestions-list li:hover {
+  background: #ffefd5; /* Light orange background on hover */
+  color: #ff5733; /* Darker orange text on hover */
+}
+
+input[type="text"] {
+  font-size: 1.2rem; /* Slightly larger font size for better readability */
+  background: #ffefd5; /* Light orange background */
+  color: #333; /* Dark gray text for readability */
+  border: 2px solid #ffcc00; /* Light orange border */
+  padding: 15px 25px; /* Increased padding for a taller input */
+  border-radius: 30px; /* More rounded corners for a decorative look */
+  outline: none; /* Remove default outline */
+  width: 700px; /* Increased width */
+  text-align: left; /* Align text to the left */
+  transition: all 0.3s ease; /* Smooth transition for hover and focus effects */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a decorative effect */
+  margin: 20px 0; /* Add spacing above and below */
+  display: block; /* Ensure it behaves as a block element */
+  margin-left: 0; /* Align to the left side */
+}
+input[type="text"]:focus {
+  border-color: #ff5733; /* Darker orange border on focus */
+  box-shadow: 0 4px 15px rgba(255, 87, 51, 0.3); /* Subtle glow effect on focus */
+  background: #fff; /* Change background to white on focus */
+}
+
+/* .search-wrapper {
+  display: contents; /* Removes the parent container but keeps its children visible */
+} */
+
+.suggestions-list {
+  list-style: none; /* Remove default list styling */
+  margin: 10px 0 0; /* Add spacing above the list */
+  padding: 0;
+  background: #ffffff; /* White background for suggestions */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 500px; /* Match the width of the input */
+  position: absolute; /* Position relative to the input */
+  z-index: 1000; /* Ensure it appears above other elements */
+  overflow-y: auto; /* Add scroll for long lists */
+  max-height: 200px; /* Limit the height of the list */
+}
+
+.suggestions-list li {
+  padding: 10px 15px; /* Add padding for better spacing */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  color: #333; /* Dark text color */
+  transition: background 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+.suggestions-list li:hover {
+  background: #ffefd5; /* Light orange background on hover */
+  color: #ff5733; /* Darker orange text on hover */
+}
+.search-wrapper {
+  position: relative;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%; /* Align below the input field */
+  left: 0;
+  width: 100%; /* Match the width of the input field */
+}
+.search-wrapper {
+  position: relative;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%; /* Align below the input field */
+  left: 0;
+  width: 100%; /* Match the width of the input field */
+}
+.suggestions-list {
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.search-wrapper {
+  position: relative; /* Ensure proper positioning for child elements */
+  background: transparent; /* Remove background color */
+  border: none; /* Remove border */
+  padding: 0; /* Remove any padding */
+  margin: 0; /* Remove any margin */
+}
+.suggestions-list {
+  list-style: none; /* Remove default list styling */
+  margin: 15px 0 0; /* Add spacing above the list */
+  padding: 0;
+  background: #ffffff; /* White background for suggestions */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 500px; /* Match the width of the input */
+  position: absolute; /* Position relative to the input */
+  z-index: 1000; /* Ensure it appears above other elements */
+  overflow-y: auto; /* Add scroll for long lists */
+  max-height: 200px; /* Limit the height of the list */
+}
+
+.suggestions-list li {
+  padding: 12px 15px; /* Add padding for better spacing */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  color: #333; /* Dark text color */
+  font-size: 1rem; /* Standard font size */
+  transition: background 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+.suggestions-list li:hover {
+  background: #f5f5f5; /* Light gray background on hover */
+  color: #ff5733; /* Darker orange text on hover */
+}
+
+.search-wrapper {
+  position: relative; /* Ensure proper positioning for child elements */
+  margin-bottom: 20px; /* Add space between the search wrapper and the map */
+}
+/* Tooltip Styling */
+.leaflet-tooltip {
+  background: #ffefd5; /* Light orange background */
+  color: #333; /* Dark gray text for readability */
+  border: 1px solid #ffcc00; /* Light orange border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px; /* Add padding for spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+  font-size: 0.9rem; /* Standard font size */
+  line-height: 1.4; /* Improve text readability */
+}
+
+.leaflet-tooltip p {
+  margin: 5px 0; /* Add spacing between paragraphs */
+}
+
+.leaflet-tooltip strong {
+  color: #e65100; /* Darker orange for emphasis */
+}

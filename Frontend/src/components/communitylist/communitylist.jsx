@@ -54,6 +54,7 @@ const CommunityList = () => {
     API.get("/map")
       .then((response) => {
         setCommunities(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -85,11 +86,32 @@ const CommunityList = () => {
       ) : (
         <section className="community-list">
           <ul>
-            {communities.map((community) => (
-              <li key={community.id}>
-                <Link to={`/community/${community.id}`}>{community.community}</Link>
-              </li>
-            ))}
+          {communities.map((community) => (
+  <li key={community.id} className="community-item">
+    <Link to={`/community/${community.id}`} className="community-link">
+      <div className="community-card">
+        {/* Display the community image */}
+        <img
+          src={community.mainImage || "default-image.jpg"} // Fallback to a default image if mainImage is not available
+          alt={`${community.groupName} Image`}
+          className="community-image"
+        />
+        <div className="community-details">
+          {/* Display the group name */}
+          <h3 className="community-name">{community.groupName}</h3>
+          {/* Display the instruments */}
+          <p className="community-instruments">
+            <strong>Instruments:</strong> {community.instrumets || "N/A"}
+          </p>
+          {/* Display the community name */}
+          <p className="community-community">
+            <strong>Community:</strong> {community.community}
+          </p>
+        </div>
+      </div>
+    </Link>
+  </li>
+))}
           </ul>
         </section>
       )}

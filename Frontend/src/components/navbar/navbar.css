@@ -1,95 +1,126 @@
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  color: black;
-  padding: 8px 15px; /* Reduced padding */
-  position: relative;
+* Base styling for the navbar */
+.bd-example .navbar {
+  background-color: #f0f0f0; /* Light gray background */
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd; /* Subtle bottom border */
+  font-family: Arial, sans-serif; /* Matches the font style in the image */
 }
 
-.navbar-brand {
-  font-size: 1.3em; /* Slightly smaller font size */
-  font-weight: bold;
-}
-
-.navbar-links {
-  list-style: none;
-  display: flex;
-  gap: 10px; /* Reduced gap */
-  transition: all 0.3s ease-in-out;
-}
-
-.navbar-links li a {
-  color: white;
+/* Navbar brand styling */
+.bd-example .navbar .navbar-brand {
+  font-size: 1.2rem;
+  color: #333; /* Dark gray for text */
+  margin-right: 20px;
   text-decoration: none;
-  font-size: 0.9em; /* Reduced font size */
 }
 
-.navbar-links li a:hover {
-  color: #ff9800;
+/* Align navbar items to the left */
+.bd-example .navbar .navbar-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: auto; /* Pushes search form to the right */
 }
 
-/* Hamburger menu styles */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 4px; /* Reduced gap */
+/* Style individual nav items */
+.bd-example .navbar .navbar-nav .nav-item {
+  margin-right: 15px;
 }
 
-.hamburger div {
-  width: 20px; /* Reduced width */
-  height: 2px; /* Reduced height */
+.bd-example .navbar .navbar-nav .nav-link {
+  color: #333; /* Dark gray for links */
+  font-size: 1rem;
+  padding: 5px 10px;
+  text-decoration: none; /* Remove underline */
+}
+
+.bd-example .navbar .navbar-nav .nav-link.disabled {
+  color: #666; /* Slightly lighter gray for disabled link */
+  cursor: not-allowed;
+}
+
+/* Position the search form on the right */
+.bd-example .navbar .form-inline {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Keeps it on the right */
+}
+
+/* Style the search input */
+.bd-example .navbar .form-inline .form-control {
+  width: 150px; /* Fixed width to match image */
+  padding: 6px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 4px; /* Rounded corners */
   background-color: white;
-  transition: all 0.3s ease-in-out;
+  outline: none; /* Remove default outline */
 }
 
-/* Responsive styles for mobile */
-@media (max-width: 768px) {
-  .hamburger {
+/* Style the search button */
+.bd-example .navbar .form-inline .btn {
+  padding: 6px 12px;
+  font-size: 1rem;
+  background-color: #28a745; /* Green button */
+  border: 1px solid #28a745;
+  color: white;
+  border-radius: 4px;
+  margin-left: 5px; /* Space between input and button */
+  transition: background-color 0.3s ease;
+}
+
+.bd-example .navbar .form-inline .btn:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Toggler button styling (optional, if needed) */
+.bd-example .navbar .navbar-toggler {
+  border: none;
+  padding: 5px;
+}
+
+/* Responsive adjustments for screens less than 350px */
+@media (max-width: 350px) {
+  /* Stack the navbar content vertically */
+  .bd-example .navbar .collapse.navbar-collapse {
     display: flex;
-  }
-
-  .navbar-links {
     flex-direction: column;
-    position: absolute;
-    top: 50px; /* Adjusted position */
-    right: 0;
-    background-color: #333;
-    width: 180px; /* Reduced width */
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    border-left: 1px solid #444;
-  }
-
-  .navbar-links.active {
-    max-height: 250px; /* Reduced max height */
-    opacity: 1;
-    padding: 5px 0;
-  }
-
-  .navbar-links li {
+    align-items: flex-start;
     width: 100%;
-    text-align: left;
-    padding: 3px; /* Reduced padding */
   }
 
-  .navbar-links li a {
-    display: block;
+  /* Keep nav items on the left */
+  .bd-example .navbar .navbar-nav {
+    flex-direction: row;
     width: 100%;
-    padding: 3px; /* Reduced padding for links */
-    font-size: 0.8em; /* Further reduced font size */
-    background-color: #444;
+    margin-bottom: 10px;
   }
 
-  .navbar-links li a:hover {
-    background-color: #555;
-    color: #ff9800;
+  .bd-example .navbar .navbar-nav .nav-item {
+    margin-right: 10px;
   }
 
-  .navbar-brand {
-    font-size: 1.1em; /* Further reduced brand font size */
+  .bd-example .navbar .navbar-nav .nav-link {
+    padding: 5px 10px;
+  }
+
+  /* Move search form below nav items */
+  .bd-example .navbar .form-inline {
+    flex-direction: column;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  /* Dynamically adjust search input width */
+  .bd-example .navbar .form-inline .form-control {
+    width: 100%; /* Expands to full width */
+    margin-bottom: 10px;
+  }
+
+  /* Adjust button width */
+  .bd-example .navbar .form-inline .btn {
+    width: 100%;
+    margin-left: 0;
   }
 }

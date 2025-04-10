@@ -1,81 +1,5 @@
-// import React from 'react';
-// import { useParams } from 'react-router-dom';
-// import Navbar from '../navbar/navbar';
-// import Footer from '../footer/footer';
-// import './communiitydetail.css';
-
-// const CommunityDetail = () => {
-//   const { id } = useParams();
-
-//   // Placeholder data for individual community (replace with API/database fetch)
-//   const communityData = {
-//     1: {
-//       name: "Manganiyar",
-//       location: "Barmer, Rajasthan",
-//       musicStyle: "Folk",
-//       description: "The Manganiyars are a traditional musician community known for their soulful folk songs and storytelling through music.",
-//       photos: ["/images/manganiyar1.jpg", "/images/manganiyar2.jpg"],
-//       videos: ["/videos/manganiyar_performance.mp4"],
-//       audio: ["/audio/manganiyar_song.mp3"],
-//     },
-//     2: {
-//       name: "Langas",
-//       location: "Jaisalmer, Rajasthan",
-//       musicStyle: "Sufi",
-//       description: "Langas specialize in Sufi music and are known for their melodious tunes on traditional instruments like the Sindhi Sarangi.",
-//       photos: ["/images/langas1.jpg", "/images/langas2.jpg"],
-//       videos: ["/videos/langas_performance.mp4"],
-//       audio: ["/audio/langas_song.mp3"],
-//     },
-//   };
-
-//   const community = communityData[id];
-
-//   if (!community) {
-//     return <p>Community not found</p>;
-//   }
-
-//   return (
-//     <div className="community-detail-page">
-//       <Navbar />
-//       <section className="community-detail">
-//         <h1>{community.name}</h1>
-//         <p><strong>Location:</strong> {community.location}</p>
-//         <p><strong>Music Style:</strong> {community.musicStyle}</p>
-//         <p>{community.description}</p>
-//         <div className="media-section">
-//           <h3>Photos</h3>
-//           <div className="photos">
-//             {community.photos.map((photo, idx) => (
-//               <img src={photo} alt={`${community.name} photo ${idx + 1}`} key={idx} />
-//             ))}
-//           </div>
-//           <h3>Videos</h3>
-//           <div className="videos">
-//             {community.videos.map((video, idx) => (
-//               <video controls src={video} key={idx}>
-//                 Your browser does not support the video tag.
-//               </video>
-//             ))}
-//           </div>
-//           <h3>Audio</h3>
-//           <div className="audio">
-//             {community.audio.map((audio, idx) => (
-//               <audio controls src={audio} key={idx}>
-//                 Your browser does not support the audio tag.
-//               </audio>
-//             ))}
-//           </div>
-//         </div>
-//       </section>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default CommunityDetail;
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../navbar/navbar';
 import Footer from '../footer/footer';
 import API from '../../../api'; // Ensure API utility is correctly imported
@@ -83,6 +7,7 @@ import './communiitydetail.css';
 
 const CommunityDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [community, setCommunity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -101,37 +26,67 @@ const CommunityDetail = () => {
       });
   }, [id]);
 
-  if (loading) return <p>Loading community details...</p>;
+  if (loading) return <p className="loading-message">Loading community details...</p>;
   if (error) return <p className="error-message">{error}</p>;
-  if (!community) return <p>Community not found</p>;
+  if (!community) return <p className="not-found-message">Community not found</p>;
+
+  const handleArtistClick = (artistId) => {
+    navigate(`/community/${id}/artists/${artistId}`);
+  };
 
   return (
     <div className="community-detail-page">
       <Navbar />
       <section className="community-detail">
-        <h1>{community.community}</h1>
-        <p><strong>Location:</strong> {community.address}</p>
-        <p><strong>Group Name:</strong> {community.groupName}</p>
-        <p><strong>Quick Info:</strong> {community.quickInfo}</p>
-        <p>{community.detail}</p>
+        <h1 className="community-title">{community.community}</h1>
+        
+        <div className="info-section">
+          <p className="community-location"><strong>📍 Location:</strong> {community.address}</p>
+          <p className="community-group"><strong>🎵 Group Name:</strong> {community.groupName}</p>
+          <p className="community-info"><strong>ℹ️ Quick Info:</strong> {community.quickInfo}</p>
+          <p className="community-description">{community.detail}</p>
+        </div>
 
         <div className="media-section">
-          <h3>Main Image</h3>
+          <h3 className="media-heading">Main Image</h3>
           <img src={community.mainImage} alt={community.community} className="main-image" />
 
-          <h3>More Photos</h3>
+          <h3 className="media-heading">More Photos</h3>
           <div className="photos">
             {community.moreImages?.map((img, idx) => (
-              <img src={img.image} alt={`${community.community} photo ${idx + 1}`} key={idx} />
+              <img src={img.image} alt={`${community.community} photo ${idx + 1}`} key={idx} className="photo-item" />
             ))}
           </div>
 
-          <h3>Videos</h3>
+          <h3 className="media-heading">Videos</h3>
           <div className="videos">
             {community.videos?.map((video, idx) => (
-              <video controls src={video.video} key={idx}>
+              <video controls src={video.video} key={idx} className="video-item">
                 Your browser does not support the video tag.
               </video>
+            ))}
+          </div>
+        </div>
+
+        <div className="artist-section">
+          <h3 className="artist-heading">Artists</h3>
+          <div className="artist-list">
+            {community.artists?.map((artist) => (
+              <div className="artist-card" key={artist.id}>
+                <img
+                  src={artist.profilePicture}
+                  alt={artist.name}
+                  className="artist-profile-picture"
+                />
+                <h4 className="artist-name">{artist.name}</h4>
+                <p className="artist-instrument"><strong>Instrument:</strong> {artist.instrument}</p>
+                <button
+                  className="artist-button"
+                  onClick={() => handleArtistClick(artist.id)}
+                >
+                  View Artist
+                </button>
+              </div>
             ))}
           </div>
         </div>

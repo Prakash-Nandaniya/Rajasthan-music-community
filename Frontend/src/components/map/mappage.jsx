@@ -499,6 +499,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../../../api";
 import "./mappage.css";
 import { useUser } from "../../../contextapi";
+import Navbar from "../navbar/navbar";
 
 const MapPage = () => {
   const navigate = useNavigate();
@@ -511,14 +512,19 @@ const MapPage = () => {
     const fetchMarkers = async () => {
       try {
         const response = await API.get("map");
-        const transformedData = response.data.map((item) => ({
-          id: item.id,
-          position: [parseFloat(item.latitude), parseFloat(item.longitude)],
-          name: item.groupName,
-          community: item.community,
-          location: item.address || "Unknown",
-          instrument: "unknown",
-        }));
+        const transformedData = response.data.map((item) => {
+          console.log("Type of instruments:", typeof item.instruments); // Logs the type
+          console.log("Value of instruments:", item.instruments); // Logs the value
+        
+          return {
+            id: item.id,
+            position: [parseFloat(item.latitude), parseFloat(item.longitude)],
+            name: item.groupName,
+            community: item.community,
+            location: item.address || "Unknown",
+            instrument:item.instruments[0] || "unknown",
+          };
+        });
         setMarkers(transformedData);
       } catch (error) {
         console.error("Error fetching markers:", error);
@@ -593,6 +599,8 @@ const MapPage = () => {
   };
 
   return (
+    <div>
+    <Navbar/>
     <div className="map-page">
       <h1 className="map-title">Rajasthan Music Map</h1>
 
@@ -606,13 +614,15 @@ const MapPage = () => {
           placeholder="Search by name, community, location, or instrument..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
+          className="search-inputfinal"
         />
         {suggestions.length > 0 && (
           <ul className="suggestions-list">
             {suggestions.map((suggestion, idx) => (
+
               <li key={idx} onClick={() => handleSuggestionClick(suggestion)}>
-                {suggestion}
+                {suggestion}  
+              
               </li>
             ))}
           </ul>
@@ -663,6 +673,7 @@ const MapPage = () => {
           </MarkerClusterGroup>
         </MapContainer>
       </div>
+    </div>
     </div>
   );
 };

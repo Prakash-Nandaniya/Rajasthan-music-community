@@ -13,12 +13,13 @@ import MapData from './components/mapdata';
 import EditGroup from './pages/editgroup/editgroup';
 import ArtistLogin from './components/auth/artistlogin';
 import EnterOTP from './components/auth/enterotp';
+import Artist from './components/artists/artists';
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/map" element={<MapPage />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<MapPage />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/signup" element={<Signup />} />
         <Route path="/about" element={<AboutUs />} />
@@ -30,6 +31,9 @@ function App() {
         <Route path="/editgroup/:id" element={<EditGroup  />} />
         <Route path="/artist/login" element={<ArtistLogin />} />
         <Route path="/artist/enterotp" element={<EnterOTP />} />
+        <Route path="/community/:id/artists/:artistId" element={<Artist/>} />
+        
+        
       </Routes>
     </Router>
   );
