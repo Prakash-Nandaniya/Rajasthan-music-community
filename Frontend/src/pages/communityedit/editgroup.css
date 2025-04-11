@@ -1,31 +1,11 @@
-.edit-group-form {
-    width: 100%;
-    /* Adjust as needed */
-    margin: 0 auto;
-    padding: 20px;
-}
-
 .edit-group-form-container {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    /* Space between sections */
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin: 0;
 }
-
-.edit-group-form-section {
-    background-color: #f9f9f9;
-    /* Light background for distinction */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.edit-group-form-section h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: #333;
-}
-
 .edit-group-submit-button-container {
     text-align: center;
     margin-top: 20px;

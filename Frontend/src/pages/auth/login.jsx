@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useUser } from "../../../contextapi"; // Adjust path
 import "./auth.css";
 
 const Login = () => {
@@ -11,6 +12,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useUser(); // Access login function from context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,9 +28,12 @@ const Login = () => {
         loginData,
         { withCredentials: true }
       );
-      navigate("/");
+      const userData = response.data; // Expecting { id, role, username, etc. } from backend
+      login(userData); // Update context with user data
+      navigate("/"); // Redirect to home or dashboard
     } catch (err) {
       setError("Email or password is incorrect, please try again");
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }

@@ -12,8 +12,11 @@
   "dependencies": {
     "@changey/react-leaflet-markercluster": "^4.0.0-rc1",
     "axios": "^1.7.9",
+    "bootstrap": "^5.3.5",
+    "jquery": "^3.7.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.474.0",
+    "popper.js": "^1.16.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",

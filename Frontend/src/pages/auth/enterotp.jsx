@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash, FaMobileAlt, FaRedo } from "react-icons/fa";
+import { useUser } from "../../../contextapi"; // Adjust path
 import "./auth.css";
 
 const EnterOTP = () => {
@@ -15,6 +16,7 @@ const EnterOTP = () => {
   const [resendTimer, setResendTimer] = useState(30);
   const navigate = useNavigate();
   const otpInputRef = useRef(null);
+  const { login } = useUser(); // Access login function for artist
 
   useEffect(() => {
     if (otpInputRef.current) {
@@ -37,18 +39,21 @@ const EnterOTP = () => {
     setError("");
     setSuccess("");
     setIsLoading(true);
-
+  
     const loginData = { mobileNo, otp };
-
+  
     try {
       const response = await axios.post(
-        "http://localhost:8000/artist/login/verifyotp",
+        "http://localhost:8000/artist/login/verifyotp/",
         loginData,
         { withCredentials: true }
       );
-      navigate("/");
+      const { site_id, ...userData } = response.data; // Extract site_id and other user data
+      login({ ...userData, role: "artist", communityId: site_id }); // Store communityId
+      navigate(`/communitypage/${site_id}`);
     } catch (err) {
       setError("Invalid OTP, please try again.");
+      console.error("OTP verification error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -61,13 +66,14 @@ const EnterOTP = () => {
     setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:8000/artist/login/sendotp", {
+      await axios.post("http://localhost:8000/artist/login/sendotp/", {
         mobileNo: mobileNo,
       });
       setSuccess("OTP resent successfully!");
       setResendTimer(60);
     } catch (err) {
       setError("Failed to resend OTP. Try again later.");
+      console.error("Resend OTP error:", err);
     } finally {
       setIsLoading(false);
     }

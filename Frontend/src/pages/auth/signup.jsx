@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useUser } from "../../../contextapi"; // Adjust path
 import "./auth.css";
 
 const Signup = () => {
@@ -18,11 +19,24 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { signup } = useUser(); // Access signup function from context
 
   const countries = [
-    "United States", "Canada", "United Kingdom", "Australia", "India",
-    "Germany", "France", "Brazil", "Japan", "South Africa",
-    "Mexico", "China", "Russia", "Italy", "Spain",
+    "United States",
+    "Canada",
+    "United Kingdom",
+    "Australia",
+    "India",
+    "Germany",
+    "France",
+    "Brazil",
+    "Japan",
+    "South Africa",
+    "Mexico",
+    "China",
+    "Russia",
+    "Italy",
+    "Spain",
   ];
 
   const filteredCountries = countries.filter((c) =>
@@ -73,18 +87,23 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/user/signup",
+        "http://localhost:8000/user/signup/",
         signupData,
         { withCredentials: true }
       );
-      navigate("/");
+      const userData = response.data; // Expecting { id, role, username, etc. } from backend
+      signup(userData); // Update context with user data
+      navigate("/"); // Redirect to home or dashboard
     } catch (err) {
       const errorMessage =
         err.response?.data?.email?.[0] ||
         err.response?.data?.message ||
+        err.response?.data?.password?.[0] ||
         "Signup failed";
       if (errorMessage.includes("custom user with this email already exists")) {
         setError("This email is already registered");
+      } else if (errorMessage.includes("password is too common")) {
+        setError("Password is too common");
       } else {
         setError(errorMessage);
       }
@@ -184,7 +203,10 @@ const Signup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-          <span className="auth-eye-icon" onClick={toggleConfirmPasswordVisibility}>
+          <span
+            className="auth-eye-icon"
+            onClick={toggleConfirmPasswordVisibility}
+          >
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>

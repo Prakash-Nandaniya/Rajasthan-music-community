@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import  AllowAny
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model, login, logout
 from django.conf import settings
 from django.core.mail import send_mail
 import logging
@@ -112,6 +112,8 @@ class UserFeedbackViewSet(viewsets.ModelViewSet):
 
 
 class GroupNameCheck(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny] 
     def get(self, request):
         groupName = request.query_params.get('groupName', None)
         community = request.query_params.get('community', None)
@@ -127,15 +129,16 @@ class GroupNameCheck(APIView):
 
 User = get_user_model()
 
-@csrf_exempt
 class CustomUserProfile(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]  # Default, overridden in get_permissions
-
     def get_permissions(self):
         if self.request.method == 'POST':
             return [AllowAny()]
-        return [IsAuthenticated()]  # For PUT/DELETE
-
+        elif self.request.method in ['PUT', 'DELETE']:
+            return [IsAuthenticated(), IsUser()]
+        return super().get_permissions()
+    
     def post(self, request, *args, **kwargs):
         print("Signup request data:", request.data)
         serializer = CustomUserSerializer(data=request.data)
@@ -191,7 +194,7 @@ logger = logging.getLogger(__name__)
 
 class SendOTPView(APIView):
     permission_classes = [AllowAny]
-
+    authentication_classes = []
     def post(self, request):
         mobile_no = request.data.get('mobileNo')
 
@@ -236,7 +239,7 @@ class SendOTPView(APIView):
 
 class VerifyOTPView(APIView):
     permission_classes = [AllowAny]
-
+    authentication_classes = []
     def post(self, request):
         mobile_no = request.data.get('mobileNo')
         otp = request.data.get('otp')
@@ -274,3 +277,25 @@ class VerifyOTPView(APIView):
             }, status=status.HTTP_200_OK)
         except OTP.DoesNotExist:
             return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+class LogoutView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        print("Logout request data:", request.data)
+        # Log the user out
+        logout(request)
+        # Clear session data
+        request.session.flush()  # Removes all session data
+        return Response({
+            'message': 'Logout successful'
+        }, status=status.HTTP_200_OK)
+
+    # Optional: Handle GET request for logout (if needed)
+    def get(self, request):
+        logout(request)
+        request.session.flush()
+        return HttpResponseRedirect('/')  # Redirect to home page after logout
