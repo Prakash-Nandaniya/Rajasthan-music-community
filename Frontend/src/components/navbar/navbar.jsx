@@ -107,12 +107,6 @@ import axios from "axios"; // Ensure axios is imported
 
 // export default Navbar;
 
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./navbar.css";
-import API from "../../../api";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useUser(); // Use full context
   const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
