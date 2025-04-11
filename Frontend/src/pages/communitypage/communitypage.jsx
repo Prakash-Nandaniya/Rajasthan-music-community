@@ -31,55 +31,57 @@ const CommunityPage = () => {
   if (!community) return <p>Community not found</p>;
 
   return (
-    <div className="community-page-container">
+    <div>
       <Navbar />
-      <section className="community-page">
-        <div className="edit-button-container">
-          <Link to={`/editgroup/${id}`}>
-            <button className="btn btn-custom-orange">Edit Community</button>
-          </Link>
-        </div>
-        <h1>{community.community}</h1>
-        <p>
-          <strong>Location:</strong> {community.address}
-        </p>
-        <p>
-          <strong>Group Name:</strong> {community.groupName}
-        </p>
-        <p>
-          <strong>Quick Info:</strong> {community.quickInfo}
-        </p>
-        <p>{community.detail}</p>
-
-        <div className="media-section">
-          <h3>Main Image</h3>
-          <img
-            src={community.mainImage}
-            alt={community.community}
-            className="main-image"
-          />
-
-          <h3>More Photos</h3>
-          <div className="photos">
-            {community.moreImages?.map((img, idx) => (
-              <img
-                src={img.image}
-                alt={`${community.community} photo ${idx + 1}`}
-                key={idx}
-              />
-            ))}
+      <div className="community-page-container">
+        <section className="community-page">
+          <div className="edit-button-container">
+            <Link to={`/editgroup/${id}`}>
+              <button className="btn btn-custom-orange">Edit Community</button>
+            </Link>
           </div>
+          <h1>{community.community}</h1>
+          <p>
+            <strong>Location:</strong> {community.address}
+          </p>
+          <p>
+            <strong>Group Name:</strong> {community.groupName}
+          </p>
+          <p>
+            <strong>Quick Info:</strong> {community.quickInfo}
+          </p>
+          <p>{community.detail}</p>
 
-          <h3>Videos</h3>
-          <div className="videos">
-            {community.videos?.map((video, idx) => (
-              <video controls src={video.video} key={idx}>
-                Your browser does not support the video tag.
-              </video>
-            ))}
+          <div className="media-section">
+            <h3>Main Image</h3>
+            <img
+              src={community.mainImage}
+              alt={community.community}
+              className="main-image"
+            />
+
+            <h3>More Photos</h3>
+            <div className="photos">
+              {community.moreImages?.map((img, idx) => (
+                <img
+                  src={img.image}
+                  alt={`${community.community} photo ${idx + 1}`}
+                  key={idx}
+                />
+              ))}
+            </div>
+
+            <h3>Videos</h3>
+            <div className="videos">
+              {community.videos?.map((video, idx) => (
+                <video controls src={video.video} key={idx}>
+                  Your browser does not support the video tag.
+                </video>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
       <Footer />
     </div>
   );

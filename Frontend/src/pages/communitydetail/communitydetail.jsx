@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import Navbar from '../../components/navbar/navbar';
-import Footer from '../../components/footer/footer';
-import API from '../../../api'; // Ensure API utility is correctly imported
-import './communiitydetail.css';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
+import API from "../../../api"; // Ensure API utility is correctly imported
+import "./communitydetail.css";
 
 const CommunityDetail = () => {
   const { id } = useParams();
@@ -30,36 +30,56 @@ const CommunityDetail = () => {
   if (!community) return <p>Community not found</p>;
 
   return (
-    <div className="community-detail-page">
+    <div>
       <Navbar />
-      <section className="community-detail">
-        <h1>{community.community}</h1>
-        <p><strong>Location:</strong> {community.address}</p>
-        <p><strong>Group Name:</strong> {community.groupName}</p>
-        <p><strong>Quick Info:</strong> {community.quickInfo}</p>
-        <p>{community.detail}</p>
+      <div className="community-detail-container">
+        <div className="community-detail-card">
+          <section>
+            <h1>{community.community}</h1>
+            <div className="info-section">
+              <p>
+                <strong>Location:</strong> {community.address}
+              </p>
+              <p>
+                <strong>Group Name:</strong> {community.groupName}
+              </p>
+              <p>
+                <strong>Quick Info:</strong> {community.quickInfo}
+              </p>
+              <p>{community.detail}</p>
+            </div>
 
-        <div className="media-section">
-          <h3>Main Image</h3>
-          <img src={community.mainImage} alt={community.community} className="main-image" />
+            <div className="media-section">
+              <h3>Main Image</h3>
+              <img
+                src={community.mainImage}
+                alt={community.community}
+                className="main-image"
+              />
 
-          <h3>More Photos</h3>
-          <div className="photos">
-            {community.moreImages?.map((img, idx) => (
-              <img src={img.image} alt={`${community.community} photo ${idx + 1}`} key={idx} />
-            ))}
-          </div>
+              <h3>More Photos</h3>
+              <div className="photos">
+                {community.moreImages?.map((img, idx) => (
+                  <img
+                    src={img.image}
+                    alt={`${community.community} photo ${idx + 1}`}
+                    key={idx}
+                  />
+                ))}
+              </div>
 
-          <h3>Videos</h3>
-          <div className="videos">
-            {community.videos?.map((video, idx) => (
-              <video controls src={video.video} key={idx}>
-                Your browser does not support the video tag.
-              </video>
-            ))}
-          </div>
+              <h3>Videos</h3>
+              <div className="videos">
+                {community.videos?.map((video, idx) => (
+                  <video controls src={video.video} key={idx}>
+                    Your browser does not support the video tag.
+                  </video>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
       <Footer />
     </div>
   );
