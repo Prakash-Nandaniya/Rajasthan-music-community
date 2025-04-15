@@ -123,7 +123,11 @@ const Navbar = () => {
   // Logout handler with API call
   const logoutHandler = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_BE_URL}logout/`, {}, { withCredentials: true });
+      await axios.post(
+        `${import.meta.env.VITE_BE_URL}logout/`,
+        {},
+        { withCredentials: true }
+      );
       logout(); // Update context state
       navigate("/"); // Redirect to home page
     } catch (error) {
@@ -161,20 +165,6 @@ const Navbar = () => {
             Profile
           </button>
           <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-            {user.role === "artist" && communityId && (
-              <li>
-                <Link className="dropdown-item" to={`/communitypage/${communityId}`}>
-                  View Site
-                </Link>
-              </li>
-            )}
-            {user.role === "artist" && communityId && (
-              <li>
-                <Link className="dropdown-item" to={`/communitypage/${communityId}`}>
-                  Add Your Community
-                </Link>
-              </li>
-            )}
             <li>
               <button className="dropdown-item" onClick={logoutHandler}>
                 Logout
@@ -219,11 +209,20 @@ const Navbar = () => {
                       Community
                     </Link>
                   </li>
-                  <li>
-                    <Link className="dropdown-item" to="/artistcorner">
-                      Artist Corner
-                    </Link>
-                  </li>
+                  {user.role === null && (
+                    <li>
+                      <Link className="dropdown-item" to="/artistcorner">
+                        Artist Corner
+                      </Link>
+                    </li>
+                  )}
+                  {user.role === "artist" && communityId && (
+                    <li>
+                      <Link className="dropdown-item" to={`/communitypage/${communityId}`}>
+                        Your Community
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             )}
@@ -245,11 +244,20 @@ const Navbar = () => {
                     Community
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/artistcorner">
-                    Artist Corner
-                  </Link>
-                </li>
+                {user.role === null && (
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/artistcorner">
+                        Artist Corner
+                      </Link>
+                    </li>
+                  )}
+                  {user.role === "artist" && communityId && (
+                    <li className="nav-item">
+                      <Link className="nav-link" to={`/communitypage/${communityId}`}>
+                        Your Community
+                      </Link>
+                    </li>
+                  )}
               </ul>
             )}
           </div>
