@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./artistcorner.css"; // Optional CSS file for additional styling
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
 const ArtistCorner = () => {
   return (
+    <div>
+      <Navbar />
     <div className="artist-corner-container">
       <h1>Artist Corner</h1>
       <div className="button-group">
@@ -15,6 +18,8 @@ const ArtistCorner = () => {
           <button className="btn btn-custom-orange">Add Community</button>
         </Link>
       </div>
+    </div>
+    <Footer />
     </div>
   );
 };
