@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./artistcorner.css"; // Optional CSS file for additional styling
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../../components/navbar/navbar";
-import Footer from "../../components/footer/footer";
 const ArtistCorner = () => {
   return (
     <div>
@@ -19,7 +18,6 @@ const ArtistCorner = () => {
         </Link>
       </div>
     </div>
-    <Footer />
     </div>
   );
 };
