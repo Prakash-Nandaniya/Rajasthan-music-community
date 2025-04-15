@@ -107,7 +107,7 @@ export default function CommunityForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/createsite/", {
+      const response = await fetch(`${import.meta.env.VITE_BE_URL}createsite/`, {
         method: "POST",
         body: formDataToSend,
       });
@@ -136,7 +136,7 @@ export default function CommunityForm() {
         let temp = canGoNext;
         setCanGoNext(false);
         const response = await fetch(
-          `http://127.0.0.1:8000/groupNameCheck?groupName=${SiteformData.groupName}&community=${SiteformData.community}`,
+          `${import.meta.env.VITE_BE_URL}groupNameCheck?groupName=${SiteformData.groupName}&community=${SiteformData.community}`,
           { method: "GET" }
         );
         setCanGoNext(temp);

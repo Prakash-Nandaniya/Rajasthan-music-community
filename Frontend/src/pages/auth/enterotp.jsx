@@ -44,7 +44,7 @@ const EnterOTP = () => {
   
     try {
       const response = await axios.post(
-        "http://localhost:8000/artist/login/verifyotp/",
+        `${import.meta.env.VITE_BE_URL}artist/login/verifyotp/`,
         loginData,
         { withCredentials: true }
       );

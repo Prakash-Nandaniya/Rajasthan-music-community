@@ -24,10 +24,10 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/user/login/",
+        `${import.meta.env.VITE_BE_URL}user/login/`,
         loginData,
         { withCredentials: true }
-      );
+      );      
       const userData = response.data; // Expecting { id, role, username, etc. } from backend
       login(userData); // Update context with user data
       navigate("/"); // Redirect to home or dashboard

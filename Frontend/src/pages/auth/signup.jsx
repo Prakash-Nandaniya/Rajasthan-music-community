@@ -87,7 +87,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/user/signup/",
+        `${import.meta.env.VITE_BE_URL}user/signup/`,
         signupData,
         { withCredentials: true }
       );

@@ -31,7 +31,7 @@ const ArtistLogin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/artist/login/sendotp/",
+        `${import.meta.env.VITE_BE_URL}artist/login/sendotp/`,
         loginData,
         { withCredentials: true }
       );

@@ -123,7 +123,7 @@ const Navbar = () => {
   // Logout handler with API call
   const logoutHandler = async () => {
     try {
-      await axios.post("http://localhost:8000/logout/", {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_BE_URL}logout/`, {}, { withCredentials: true });
       logout(); // Update context state
       navigate("/"); // Redirect to home page
     } catch (error) {
