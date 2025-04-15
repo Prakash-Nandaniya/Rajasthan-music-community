@@ -108,7 +108,7 @@ const Navbar = () => {
                       Community
                     </Link>
                   </li>
-                  {user?.role === null && (
+                  {user === null && (
                     <li>
                       <Link className="dropdown-item" to="/artistcorner">
                         Artist Corner
@@ -146,7 +146,7 @@ const Navbar = () => {
                     Community
                   </Link>
                 </li>
-                {user?.role === null && (
+                {user === null && (
                   <li className="nav-item">
                     <Link className="nav-link" to="/artistcorner">
                       Artist Corner
