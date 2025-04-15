@@ -47,10 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False  # Disable wildcard '*'
-CORS_ALLOWED_ORIGINS = [
-    "https://rajasthan-music-community.vercel.app/",  # Your frontend URL
-]
+ORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
     'accept',
