@@ -49,7 +49,7 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = False  # Disable wildcard '*'
 CORS_ALLOWED_ORIGINS = [
-    "https://rajasthan-music-community-jgf4-6kml9voqo.vercel.app/",  # Your frontend URL
+    "https://rajasthan-music-community.vercel.app/",  # Your frontend URL
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
