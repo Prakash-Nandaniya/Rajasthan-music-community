@@ -14,7 +14,7 @@ const CommunityPage = () => {
   const { userRole } = useUser(); // Get user role from context
 
   useEffect(() => {
-    API.get(`/detail/${id}`)
+    API.get(`detail/${id}/`)
       .then((response) => {
         setCommunity(response.data);
         setLoading(false);
