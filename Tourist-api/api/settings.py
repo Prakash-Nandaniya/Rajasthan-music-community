@@ -134,10 +134,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'mainapp.CustomUser'
 
-# Session settings
+
+# Session cookie settings
+SESSION_COOKIE_SAMESITE = 'None'  # Allow cookie in cross-site requests
+SESSION_COOKIE_SECURE = True     # Ensure cookie is only sent over HTTPS
+SESSION_COOKIE_HTTPONLY = True   # Prevent JavaScript access to the cookie (recommended for security)
+SESSION_COOKIE_PATH = '/'       # Ensure the cookie is available for all paths
+SESSION_COOKIE_DOMAIN = None    # Default to the backend’s domain (optional, adjust if needed)
 SESSION_COOKIE_AGE = 86400
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 SESSION_SAVE_EVERY_REQUEST = True
 
 # Email settings
