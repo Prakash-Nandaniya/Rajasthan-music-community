@@ -230,6 +230,7 @@ export default function EditGroup() {
     const response = await fetch(`${import.meta.env.VITE_BE_URL}detail/${id}/`, {
         method: "PUT",
         body: formDataToSend,
+        credentials: "include",
       });
       const successData = response.data; // Access data directly
       console.log("Update success:", successData);
