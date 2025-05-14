@@ -26,7 +26,6 @@
   position: relative;
   max-width: 500px;
   margin: 20px auto; /* Center-align the search box */
-  z-index: 1000;
 }
 
 .map-page .search-wrapper .search-input {

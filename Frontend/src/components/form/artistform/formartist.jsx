@@ -3,8 +3,9 @@ import { useState, useRef } from "react";
 import { Plus, X, Maximize } from "lucide-react";
 import MediaUploadPage from "../addmedia/formmedia";
 import "./formartist.css";
+import imageCompression from "browser-image-compression";
 
-export default function ArtistForm({ ArtistData, setFormData, index }) {
+export default function ArtistForm({ ArtistData, setFormData, index ,setSizeMB}) {
   const loaded = useRef(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [ArtistMedia, setArtistMedia] = useState({
@@ -54,15 +55,56 @@ export default function ArtistForm({ ArtistData, setFormData, index }) {
     }));
   };
 
-  const addprofilepicture = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      artists: prev.artists.map((artist) =>
-        artist.index === index
-          ? { ...artist, profilePicture: e.target.files[0] }
-          : artist
-      ),
-    }));
+  const addProfilePicture = async (e, setFormData, setSizeMB) => {
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    const options = {
+      useWebWorker: true,
+      fileType: "image/webp",
+    };
+  
+    try {
+      // Attempt to compress the file
+      const compressedFile = await imageCompression(file, options);
+      const compressedSizeMB = compressedFile.size / 1024 / 1024;
+  
+      // Update the artist's profile picture with the compressed image
+      setFormData((prev) => ({
+        ...prev,
+        artists: prev.artists.map((artist) =>
+          artist.index === index
+            ? { ...artist, profilePicture: compressedFile }
+            : artist
+        ),
+      }));
+  
+      // Add compressed size to total
+      setSizeMB(prev => {
+        const prevNumber = Number(prev) || 0; // Ensure it's a number
+        const total = prevNumber + Number(compressedSizeMB);
+        return Number(total.toFixed(2)); // Round to 2 decimals
+      });
+    } catch (error) {
+      // Fallback to original file if compression fails
+      console.error("Compression failed. Using original image:", error);
+      const originalSizeMB = file.size / 1024 / 1024;
+  
+      setFormData((prev) => ({
+        ...prev,
+        artists: prev.artists.map((artist) =>
+          artist.index === index
+            ? { ...artist, profilePicture: file }
+            : artist
+        ),
+      }));
+  
+      setSizeMB(prev => {
+        const prevNumber = Number(prev) || 0; // Ensure it's a number
+        const total = prevNumber + Number(originalSizeMB);
+        return Number(total.toFixed(2)); // Round to 2 decimals
+      });
+    }
   };
 
   const removeprofilepicture = () => {
@@ -158,7 +200,7 @@ export default function ArtistForm({ ArtistData, setFormData, index }) {
                     accept="image/*"
                     className="hidden-input"
                     required
-                    onChange={(e) => addprofilepicture(e)}
+                    onChange={(e) => addProfilePicture(e, setFormData, setSizeMB)}
                   />
                 </label>
               )}
@@ -201,6 +243,9 @@ export default function ArtistForm({ ArtistData, setFormData, index }) {
             <MediaUploadPage
               formData={ArtistMedia}
               setFormData={setArtistMedia}
+              setSizeMB={setSizeMB}
+              allowed_images={5}
+              allowed_videos={2}
             />
             <button
               type="button"

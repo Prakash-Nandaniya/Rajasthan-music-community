@@ -11,8 +11,13 @@
   },
   "dependencies": {
     "@changey/react-leaflet-markercluster": "^4.0.0-rc1",
+    "@ffmpeg/core": "^0.12.6",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@react-google-maps/api": "^2.20.6",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.5",
+    "browser-image-compression": "^2.0.2",
     "jquery": "^3.7.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.474.0",

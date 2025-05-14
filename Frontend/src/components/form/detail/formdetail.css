@@ -2,12 +2,12 @@
     width: 100%;
     max-width: 100%;
     padding: 1%;
-    background: rgb(223, 223, 223);
+    background: transparent;
     border-radius: 2%;
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 100%;
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -17,14 +17,35 @@
     gap: 1rem;
 }
 
-.image-section {
+.community-detail-main-image-section {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+}
+
+.community-detail-main-image-label {
+    font-size: 100%;
+    font-family: 'inter', sans-serif;
+    font-weight: normal;
+    text-align: center;
+}
+
+.community-detail-main-image-directive {
+    font-size: 100%;
+    font-weight: lighter;
+    text-align: center;
 }
 
 .media-label {
+    font-size: 2rem;
+    font-family: 'inter', sans-serif;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+}
+
+.media-directive {
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: lighter;
     margin-bottom: 0.5rem;
     white-space: nowrap;
 }
@@ -40,6 +61,8 @@
     border-radius: 0.5rem;
     flex-shrink: 0;
     object-fit: cover;
+    margin-top: 0.5rem;
+    align-self: center;
 }
 
 .media-image-mainimage {
@@ -73,15 +96,18 @@
 
 .media-add-mainimage {
     padding: 1rem;
-    width: 8vw;
-    height: 8vw;
+    width: auto;
+    height: 30%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 0.5rem;
+    border: dashed 3px #ae6d0b;
     cursor: pointer;
     flex-shrink: 0;
-    background-color: rgba(149, 149, 149, 0.733);
+    background-color: transparent;
+    margin-top: 0.5rem;
+    align-self: center;
 }
 
 .hidden-input {
@@ -108,25 +134,69 @@
     cursor: pointer;
 }
 
+
+.form-responsive-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 0;
+    box-sizing: border-box;
+}
+
+.form-field {
+    margin-bottom: 28px;
+}
+
+.field-label {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #222;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: #f5b340;
+    margin-left: 2px;
+    font-size: 1.05em;
+}
+
 .input-text,
 .textarea {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    padding: 12px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 7px;
+    font-size: 100%;
+    background: #fff;
+    transition: border 0.2s;
+    box-sizing: border-box;
+}
+
+.input-text:focus,
+.textarea:focus {
+    border: 1.5px solid #f5b340;
+    outline: none;
+}
+
+.textarea {
+    min-height: 68px;
+    resize: vertical;
+}
+
+@media (max-width: 1240px) {
+    .form-responsive-container {
+        max-width: 98vw;
+        padding: 0 1vw;
+    }
 }
 
 
 
 
 
-
-
-
-
-
 /* Mobile Number Section */
-.mobile-number-section {
+/* .mobile-number-section {
     display: flex;
     gap: 1vw;
     height: fit-content;
@@ -217,4 +287,177 @@
 
 .delete-mobile-number-btn:hover {
     background-color: #c82333;
+} */
+
+
+
+.mobile-number-section {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-number-info {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: #b06a11;
+    margin-right: 5px;
+    font-size: 1.1em;
+}
+
+.mobile-info-text {
+    color: #b06a11;
+    font-size: 1rem;
+}
+
+.mobile-number-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0;
+}
+
+.mobile-number-label {
+    font-size: 1rem;
+    color: #222;
+    font-weight: 400;
+    margin-right: 4px;
+    min-width: 80px;
+}
+
+.mobile-number-input {
+    width: 150px;
+    padding: 8px 10px;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #fff;
+    transition: border 0.2s;
+}
+
+.mobile-number-input.error {
+    border-color: #dc3545;
+}
+
+.add-mobile-number-btn {
+    padding: 8px 32px;
+    background: #b06a11;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-mobile-number-btn:hover {
+    background: #8a510c;
+}
+
+.mobile-number-error {
+    color: #dc3545;
+    font-size: 0.98rem;
+    margin: 0;
+    min-height: 18px;
+}
+
+.mobile-number-error-space {
+    color: #fff;
+    font-size: 0.98rem;
+    margin: 0;
+    min-height: 18px;
+}
+
+.mobile-number-list {
+    margin-top: 0px;
+}
+
+.mobile-number-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-number-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    gap: 14px;
+}
+
+.mobile-number-value {
+    color: #222;
+    font-size: 1rem;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.mobile-number-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-mobile-number-btn,
+.delete-mobile-number-btn {
+    min-width: 56px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 0.96rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.edit-mobile-number-btn {
+    border: 1px solid #d6851b;
+    color: black;
+}
+
+.edit-mobile-number-btn:hover {
+    background-color: #d6851b;
+}
+
+.delete-mobile-number-btn {
+    background: #e9563f;
+}
+
+.delete-mobile-number-btn:hover {
+    background: #c82333;
+}
+
+@media (max-width: 400px) {
+    .mobile-number-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 10px 8px;
+    }
+
+    .mobile-number-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+
+    .edit-mobile-number-btn,
+    .delete-mobile-number-btn {
+        width: auto;
+        min-width: 56px;
+        margin: 0;
+    }
 }

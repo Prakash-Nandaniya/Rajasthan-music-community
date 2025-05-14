@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ArtistForm from "../artistform/formartist"; 
 import "./addartist.css";
 
-export default function AddArtist({ formData, setFormData }) {
+export default function AddArtist({ formData, setFormData, setSizeMB }) {
     const [index, setIndex] = useState(1);
     // Add a new artist card
     const handleAddArtist = () => {
@@ -25,6 +25,7 @@ export default function AddArtist({ formData, setFormData }) {
                             ArtistData={artist}
                             setFormData={setFormData}
                             index={artist.index}
+                            setSizeMB={setSizeMB}
                         />
                     </div>
                 </div>

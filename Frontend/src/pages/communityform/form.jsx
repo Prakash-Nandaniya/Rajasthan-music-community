@@ -25,7 +25,7 @@ export default function CommunityForm() {
     instruments: [],
     artists: [],
   });
-
+  const [sizeMB, setSizeMB] = useState(0);
   const [page, setPage] = useState(0);
   const [canGoNext, setCanGoNext] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +33,11 @@ export default function CommunityForm() {
   const [isGroupNameChanged, setIsGroupNameChanged] = useState(false);
 
   const handleInputChange = (e) => {
+    if(sizeMB > 1024)
+    {
+      alert(`Media size exceeds 1GB (current size:${sizeMB/1024}GB ). Remove some images/videos.`);
+      return;
+    }
     const { name, value } = e.target;
     setSiteFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -69,8 +74,14 @@ export default function CommunityForm() {
     formDataToSend.append("quickInfo", SiteformData.quickInfo);
     formDataToSend.append("detail", SiteformData.detail);
     formDataToSend.append("address", SiteformData.address);
-    formDataToSend.append("latitude", parseFloat(SiteformData.latitude).toFixed(6));
-    formDataToSend.append("longitude", parseFloat(SiteformData.longitude).toFixed(6));
+    formDataToSend.append(
+      "latitude",
+      parseFloat(SiteformData.latitude).toFixed(6)
+    );
+    formDataToSend.append(
+      "longitude",
+      parseFloat(SiteformData.longitude).toFixed(6)
+    );
     formDataToSend.append("mainImage", SiteformData.mainImage);
 
     SiteformData.media.images.forEach((image, index) => {
@@ -86,20 +97,35 @@ export default function CommunityForm() {
 
     SiteformData.artists.forEach((artist, artistIndex) => {
       formDataToSend.append(`artists[${artistIndex}].name`, artist.name);
-      formDataToSend.append(`artists[${artistIndex}].profilePicture`, artist.profilePicture);
-      formDataToSend.append(`artists[${artistIndex}].instrument`, artist.instrument);
+      formDataToSend.append(
+        `artists[${artistIndex}].profilePicture`,
+        artist.profilePicture
+      );
+      formDataToSend.append(
+        `artists[${artistIndex}].instrument`,
+        artist.instrument
+      );
       formDataToSend.append(`instruments[${artistIndex}]`, artist.instrument);
-      formDataToSend.append(`artists[${artistIndex}].detail`, artist.detail || "");
+      formDataToSend.append(
+        `artists[${artistIndex}].detail`,
+        artist.detail || ""
+      );
 
       if (artist.media && artist.media.images) {
         artist.media.images.forEach((image, imageIndex) => {
-          formDataToSend.append(`artists[${artistIndex}].media.images[${imageIndex}]`, image);
+          formDataToSend.append(
+            `artists[${artistIndex}].media.images[${imageIndex}]`,
+            image
+          );
         });
       }
 
       if (artist.media && artist.media.videos) {
         artist.media.videos.forEach((video, videoIndex) => {
-          formDataToSend.append(`artists[${artistIndex}].media.videos[${videoIndex}]`, video);
+          formDataToSend.append(
+            `artists[${artistIndex}].media.videos[${videoIndex}]`,
+            video
+          );
         });
       }
     });
@@ -107,10 +133,13 @@ export default function CommunityForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BE_URL}createsite/`, {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BE_URL}createsite/`,
+        {
+          method: "POST",
+          body: formDataToSend,
+        }
+      );
       console.log("Response:", response);
 
       if (response.ok) {
@@ -136,7 +165,9 @@ export default function CommunityForm() {
         let temp = canGoNext;
         setCanGoNext(false);
         const response = await fetch(
-          `${import.meta.env.VITE_BE_URL}groupNameCheck?groupName=${SiteformData.groupName}&community=${SiteformData.community}`,
+          `${import.meta.env.VITE_BE_URL}groupNameCheck?groupName=${
+            SiteformData.groupName
+          }&community=${SiteformData.community}`,
           { method: "GET" }
         );
         setCanGoNext(temp);
@@ -190,10 +221,13 @@ export default function CommunityForm() {
             <div className="community-form-success-modal-content">
               <h2>Submission Successful</h2>
               <p>
-                Your request has been sent. You will be informed when it will be approved.
+                Your request has been sent. You will be informed when it will be
+                approved.
               </p>
               <Link to="/">
-                <button className="community-form-success-modal-button">OK</button>
+                <button className="community-form-success-modal-button">
+                  OK
+                </button>
               </Link>
             </div>
           </div>
@@ -243,6 +277,7 @@ export default function CommunityForm() {
             handleInputChange={handleInputChange}
             setFormData={setSiteFormData}
             setIsGroupNameChanged={setIsGroupNameChanged}
+            setSizeMB={setSizeMB}
           />
         )}
 
@@ -257,11 +292,14 @@ export default function CommunityForm() {
           <MediaUploadPage
             formData={SiteformData}
             setFormData={setSiteFormData}
+            setSizeMB={setSizeMB}
+            allowed_images={10}
+            allowed_videos={5}
           />
         )}
 
         {page === 3 && (
-          <AddArtist formData={SiteformData} setFormData={setSiteFormData} />
+          <AddArtist formData={SiteformData} setFormData={setSiteFormData} setSizeMB={setSizeMB} />
         )}
       </div>
       <div className="community-form-navigation-buttons">
@@ -284,8 +322,8 @@ export default function CommunityForm() {
             Next
           </button>
         )}
-        </ div>
-        <div className="community-form-submit-button-container">
+      </div>
+      <div className="community-form-submit-button-container">
         {page === 3 && (
           <button
             type="submit"
