@@ -3,7 +3,13 @@ import { Plus, X, Maximize } from "lucide-react";
 import "./formmedia.css";
 import imageCompression from "browser-image-compression";
 
-const handleImageChange = async (e, setFormData, setSizeMB, setAllowedImages, allowedImages) => {
+const handleImageChange = async (
+  e,
+  setFormData,
+  setSizeMB,
+  setAllowedImages,
+  allowedImages
+) => {
   const files = Array.from(e.target.files);
 
   const options = {
@@ -23,7 +29,10 @@ const handleImageChange = async (e, setFormData, setSizeMB, setAllowedImages, al
       finalFiles.push(compressedFile);
       sizeMB_curr += Number((compressedFile.size / 1024 / 1024).toFixed(2));
     } catch (error) {
-      console.error(`Compression failed for ${file.name}, using original image:`, error);
+      console.error(
+        `Compression failed for ${file.name}, using original image:`,
+        error
+      );
       finalFiles.push(file);
       sizeMB_curr += Number((file.size / 1024 / 1024).toFixed(2));
     } finally {
@@ -46,25 +55,39 @@ const handleImageChange = async (e, setFormData, setSizeMB, setAllowedImages, al
   }));
 };
 
-const handleVideoChange = async (e, setFormData, setSizeMB, setAllowedVideos, allowedVideos) => {
+const handleVideoChange = async (
+  e,
+  setFormData,
+  setSizeMB,
+  setAllowedVideos,
+  allowedVideos
+) => {
   const files = Array.from(e.target.files);
   const MAX_FILE_SIZE_MB = 30;
-  const ALLOWED_TYPES = ['video/mp4', 'video/webm', 'video/ogg'];
+  const ALLOWED_TYPES = ["video/mp4", "video/webm", "video/ogg"];
 
   const acceptedFiles = [];
 
   for (const file of files) {
     const sizeMB = file.size / (1024 * 1024);
-    console.log(`Size of video ${file.name}: ${sizeMB.toFixed(2)}MB, Type: ${file.type}`);
+    console.log(
+      `Size of video ${file.name}: ${sizeMB.toFixed(2)}MB, Type: ${file.type}`
+    );
 
     try {
       if (!ALLOWED_TYPES.includes(file.type)) {
-        alert(`${file.name} is not a supported video format. Please use MP4, WebM, or OGG.`);
+        alert(
+          `${file.name} is not a supported video format. Please use MP4, WebM, or OGG.`
+        );
         continue;
       }
 
       if (sizeMB > MAX_FILE_SIZE_MB) {
-        alert(`${file.name} is of ${sizeMB.toFixed(2)}MB. Please use a video smaller than ${MAX_FILE_SIZE_MB}MB.`);
+        alert(
+          `${file.name} is of ${sizeMB.toFixed(
+            2
+          )}MB. Please use a video smaller than ${MAX_FILE_SIZE_MB}MB.`
+        );
         continue;
       }
 
@@ -74,15 +97,15 @@ const handleVideoChange = async (e, setFormData, setSizeMB, setAllowedVideos, al
       }
 
       acceptedFiles.push(file);
-      setSizeMB(prev => Number((prev + sizeMB).toFixed(2)));
-      setAllowedVideos(prev => prev - 1);
+      setSizeMB((prev) => Number((prev + sizeMB).toFixed(2)));
+      setAllowedVideos((prev) => prev - 1);
     } catch (error) {
       console.error(`Error processing ${file.name}:`, error);
       alert(`Error processing ${file.name}: ${error.message}`);
     }
   }
 
-  setFormData(prev => ({
+  setFormData((prev) => ({
     ...prev,
     media: {
       ...prev.media,
@@ -134,126 +157,216 @@ export default function MediaUploadPage({
 
   // Clean up object URLs when component unmounts or media changes
   useEffect(() => {
-    const imageUrls = (formData.media.images || []).map(file => getImageSrc(file));
-    const videoUrls = (formData.media.videos || []).map(file => getImageSrc(file));
+    const imageUrls = (formData.media.images || []).map((file) =>
+      getImageSrc(file)
+    );
+    const videoUrls = (formData.media.videos || []).map((file) =>
+      getImageSrc(file)
+    );
     return () => {
-      imageUrls.forEach(url => {
-        if (url && url.startsWith('blob:')) URL.revokeObjectURL(url);
+      imageUrls.forEach((url) => {
+        if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
       });
-      videoUrls.forEach(url => {
-        if (url && url.startsWith('blob:')) URL.revokeObjectURL(url);
+      videoUrls.forEach((url) => {
+        if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
       });
     };
   }, [formData.media.images, formData.media.videos]);
 
   return (
-    <div className="card-container">
-      <h2 className="title">Upload Media</h2>
-      <div className="form-grid">
-        <div>
-          <span className="form-label">Additional Media</span>
-          <div className="media-preview">
-            <div className="image-section">
-              <span className="media-label">Images</span>
-              {allowedImages > 0 && (
-                <label className="media-add">
-                  <Plus size={24} />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden-input"
-                    multiple
-                    onChange={(e) => handleImageChange(e, setFormData, setSizeMB, setAllowedImages, allowedImages)}
-                  />
-                </label>
-              )}
-              <div>
-                <h5>{allowed_images - allowedImages}/{allowed_images} images added</h5>
-                <div className="formmedia-media-section">
-                  {formData.media.images.map((file, index) => (
-                    <div key={index} className="media-item">
-                      <img
-                        src={getImageSrc(file)}
-                        alt={file.name}
-                        className="media-image"
-                        onClick={() => setSelectedImage(getImageSrc(file))}
-                        onError={(e) => console.error(`Image preview error for ${file.name}:`, e)}
-                      />
-                      <button
-                        type="button"
-                        className="remove-btn"
-                        onClick={() => removeImage(index, setFormData, setAllowedImages)}
-                      >
-                        <X size={18} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+    <div className="media-upload-container">
+      <h2 className="media-upload-title">
+        Upload images/videos of your community
+      </h2>
+      <ul className="media-upload-instructions">
+        <li>
+          Upload images/videos related to the community, not to a particular
+          artist.
+        </li>
+        <li>You can upload up to 10 images.</li>
+        <li>You can upload up to 5 videos (each less than 30MB).</li>
+      </ul>
+
+      {/* Image Upload */}
+      <div className="media-upload-section image-section">
+        <div className="media-upload-btn-row">
+          <label className="media-upload-btn">
+            <span className="media-upload-btn-icon">
+              <svg
+                width="38"
+                height="38"
+                viewBox="0 0 38 38"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ display: "block" }}
+              >
+                <path
+                  d="M19 27V8M19 8L11 16M19 8L27 16"
+                  stroke="#222"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 27V30C6 32.2091 7.79086 34 10 34H28C30.2091 34 32 32.2091 32 30V27"
+                  stroke="#222"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>{" "}
+            Add Image
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden-input"
+              multiple
+              onChange={(e) =>
+                handleImageChange(
+                  e,
+                  setFormData,
+                  setSizeMB,
+                  setAllowedImages,
+                  allowedImages
+                )
+              }
+            />
+          </label>
+          <span className="media-upload-count">
+            {formData.media.images.length}/10
+          </span>
+        </div>
+        <div className="media-upload-preview-row">
+          <div className="media-carousel">
+            {formData.media.images.map((file, index) => (
+              <div key={index} className="media-carousel-item">
+                <img
+                  src={getImageSrc(file)}
+                  alt={file.name}
+                  className="media-image"
+                  onClick={() => setSelectedImage(getImageSrc(file))}
+                  onError={(e) =>
+                    console.error(`Image preview error for ${file.name}:`, e)
+                  }
+                />
+                <button
+                  type="button"
+                  className="remove-btn"
+                  onClick={() =>
+                    removeImage(index, setFormData, setAllowedImages)
+                  }
+                >
+                  <span>&times;</span>
+                </button>
               </div>
-            </div>
-            <div className="video-section">
-              <span className="media-label">Videos</span>
-              {allowedVideos > 0 && (
-                <label className="media-add">
-                  <Plus size={24} />
-                  <input
-                    type="file"
-                    accept="video/mp4,video/webm,video/ogg"
-                    className="hidden-input"
-                    multiple
-                    onChange={(e) => handleVideoChange(e, setFormData, setSizeMB, setAllowedVideos, allowedVideos)}
-                  />
-                </label>
-              )}
-              <div>
-                <h5>{allowed_videos - allowedVideos}/{allowed_videos} videos added</h5>
-                <div className="formmedia-media-section">
-                  {formData.media.videos.map((file, index) => (
-                    <div key={index} className="media-item video-container">
-                      <video
-                        src={getImageSrc(file)}
-                        className="media-video"
-                        controls
-                        muted
-                        onError={(e) => console.error(`Video preview error for ${file.name}:`, e)}
-                      />
-                      <button
-                        type="button"
-                        className="remove-btn"
-                        onClick={() => removeVideo(index, setFormData, setAllowedVideos)}
-                      >
-                        <X size={18} />
-                      </button>
-                      <button
-                        type="button"
-                        className="maximize-btn"
-                        onClick={() => setSelectedVideo(getImageSrc(file))}
-                      >
-                        <Maximize size={18} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-        {selectedImage && (
-          <div className="fullscreen-modal" onClick={() => setSelectedImage(null)}>
-            <img src={selectedImage} alt="Full Size" className="fullscreen-image" />
-          </div>
-        )}
-        {selectedVideo && (
-          <div className="fullscreen-modal" onClick={() => setSelectedVideo(null)}>
-            <video
-              src={selectedVideo}
-              className="fullscreen-video"
-              controls
-              autoPlay
-            />
-          </div>
-        )}
       </div>
+
+      {/* Video Upload */}
+      <div className="media-upload-section video-section">
+        <div className="media-upload-btn-row">
+          <label className="media-upload-btn">
+            <span className="media-upload-btn-icon">
+              <svg
+                width="38"
+                height="38"
+                viewBox="0 0 38 38"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ display: "block" }}
+              >
+                <path
+                  d="M19 27V8M19 8L11 16M19 8L27 16"
+                  stroke="#222"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 27V30C6 32.2091 7.79086 34 10 34H28C30.2091 34 32 32.2091 32 30V27"
+                  stroke="#222"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>{" "}
+            Add Video
+            <input
+              type="file"
+              accept="video/mp4,video/webm,video/ogg"
+              className="hidden-input"
+              multiple
+              onChange={(e) =>
+                handleVideoChange(
+                  e,
+                  setFormData,
+                  setSizeMB,
+                  setAllowedVideos,
+                  allowedVideos
+                )
+              }
+            />
+          </label>
+          <span className="media-upload-count">
+            {formData.media.videos.length}/5
+          </span>
+        </div>
+        <div className="media-upload-preview-row">
+          <div className="media-carousel">
+            {formData.media.videos.map((file, index) => (
+              <div key={index} className="media-carousel-item">
+                <video
+                  src={getImageSrc(file)}
+                  className="media-video"
+                  controls
+                  muted
+                  onError={(e) =>
+                    console.error(`Video preview error for ${file.name}:`, e)
+                  }
+                />
+                <button
+                  type="button"
+                  className="remove-btn"
+                  onClick={() =>
+                    removeVideo(index, setFormData, setAllowedVideos)
+                  }
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Fullscreen modals (unchanged) */}
+      {selectedImage && (
+        <div
+          className="fullscreen-modal"
+          onClick={() => setSelectedImage(null)}
+        >
+          <img
+            src={selectedImage}
+            alt="Full Size"
+            className="fullscreen-image"
+          />
+        </div>
+      )}
+      {selectedVideo && (
+        <div
+          className="fullscreen-modal"
+          onClick={() => setSelectedVideo(null)}
+        >
+          <video
+            src={selectedVideo}
+            className="fullscreen-video"
+            controls
+            autoPlay
+          />
+        </div>
+      )}
     </div>
   );
 }

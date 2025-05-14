@@ -75,8 +75,8 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
+    background: rgba(255, 255, 255, 0.95);
+    color: #664200;
     border: none;
     cursor: pointer;
     padding: 5px;
@@ -91,13 +91,14 @@
 }
 
 .media-item .remove-btn:hover {
-    background: rgb(159, 40, 40);
+    background: #ffe5b2;
+    color: #b5853a;
 }
 
 .media-add-mainimage {
     padding: 1rem;
-    width: auto;
-    height: 30%;
+    width: 10vw;
+    height: 10vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -191,103 +192,6 @@
     }
 }
 
-
-
-
-
-/* Mobile Number Section */
-/* .mobile-number-section {
-    display: flex;
-    gap: 1vw;
-    height: fit-content;
-}
-
-.mobile-number-section label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.mobile-number-input {
-    width: 40vw;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 8px;
-}
-
-.mobile-number-input.error {
-    border-color: red;
-}
-
-.mobile-number-error {
-    color: red;
-    font-size: 14px;
-    margin: 0;
-}
-
-.mobile-number-error-space {
-    color: rgb(255, 255, 255);
-    font-size: 14px;
-    margin: 0;
-}
-
-.add-mobile-number-btn {
-    height: fit-content;
-    padding: 8px 12px;
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.add-mobile-number-btn:hover {
-    background-color: #107dd6;
-}
-
-.mobile-number-list {
-    margin: 0;
-    margin-left: 8.5vw;
-}
-
-.mobile-number-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.mobile-number-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.mobile-number-item button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.edit-mobile-number-btn {
-    background-color: #2aa547;
-    color: white;
-}
-
-.edit-mobile-number-btn:hover {
-    background-color: #218838;
-}
-
-.delete-mobile-number-btn {
-    background-color: #dc3545;
-    color: white;
-}
-
-.delete-mobile-number-btn:hover {
-    background-color: #c82333;
-} */
 
 
 
@@ -438,6 +342,24 @@
 
 .delete-mobile-number-btn:hover {
     background: #c82333;
+}
+
+@media (max-width: 900px) {
+    .media-item {
+        width: 100px;
+        height: 100px;
+    }
+
+    .media-image-mainimage {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .media-add-mainimage {
+        width: 100px;
+        height: 100px;
+    }
 }
 
 @media (max-width: 400px) {
