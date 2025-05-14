@@ -220,92 +220,93 @@ export default function SiteDetailsPage({
               onChange={handleInputChange}
             />
           </div>
-        
 
-        <div className="mobile-number-section">
-          <div className="mobile-number-info">
-            <span className="required">*</span>
-            <span className="mobile-info-text">
-              Enter all mobile numbers you want to use for login access (e.g.,
-              all community members).
-            </span>
+          <div className="mobile-number-section">
+            <div className="mobile-number-info">
+              <span className="required">*</span>
+              <span className="mobile-info-text">
+                Enter all mobile numbers you want to use for login access (e.g.,
+                all community members).
+              </span>
+            </div>
+            <div className="mobile-number-input-row">
+              <label htmlFor="mobileNumber" className="mobile-number-label">
+                Mobile No:
+              </label>
+              <input
+                type="tel"
+                id="mobileNumber"
+                value={mobileNumberInput}
+                onChange={(e) => {
+                  setMobileNumberInput(e.target.value);
+                  setMobileNumberError("");
+                }}
+                onBlur={() => {
+                  if (
+                    mobileNumberInput &&
+                    !validateMobileNumber(mobileNumberInput)
+                  ) {
+                    setMobileNumberError(
+                      "Please enter a valid 10-digit mobile number."
+                    );
+                  }
+                }}
+                maxLength={10}
+                placeholder=""
+                className={`mobile-number-input ${
+                  mobileNumberError ? "error" : ""
+                }`}
+              />
+              <button
+                type="button"
+                onClick={handleAddMobileNumber}
+                className="add-mobile-number-btn"
+              >
+                {editIndex !== null ? "Update" : "ADD"}
+              </button>
+            </div>
+            {mobileNumberError && (
+              <p className="mobile-number-error">{mobileNumberError}</p>
+            )}
+            {!mobileNumberError && (
+              <p className="mobile-number-error-space">-</p>
+            )}
+            <div className="mobile-number-list">
+              <ul>
+                {formData.access.map((number, index) => (
+                  <li key={index} className="mobile-number-item">
+                    <span className="mobile-number-value">{number}</span>
+                    <div className="mobile-number-actions">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleEditMobileNumber(
+                            index,
+                            formData,
+                            setMobileNumberError,
+                            setEditIndex,
+                            setMobileNumberInput
+                          )
+                        }
+                        className="edit-mobile-number-btn"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleDeleteMobileNumber(index, formData, setFormData)
+                        }
+                        className="delete-mobile-number-btn"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="mobile-number-input-row">
-            <label htmlFor="mobileNumber" className="mobile-number-label">
-              Mobile No:
-            </label>
-            <input
-              type="tel"
-              id="mobileNumber"
-              value={mobileNumberInput}
-              onChange={(e) => {
-                setMobileNumberInput(e.target.value);
-                setMobileNumberError("");
-              }}
-              onBlur={() => {
-                if (
-                  mobileNumberInput &&
-                  !validateMobileNumber(mobileNumberInput)
-                ) {
-                  setMobileNumberError(
-                    "Please enter a valid 10-digit mobile number."
-                  );
-                }
-              }}
-              maxLength={10}
-              placeholder=""
-              className={`mobile-number-input ${
-                mobileNumberError ? "error" : ""
-              }`}
-            />
-            <button
-              type="button"
-              onClick={handleAddMobileNumber}
-              className="add-mobile-number-btn"
-            >
-              {editIndex !== null ? "Update" : "ADD"}
-            </button>
-          </div>
-          {mobileNumberError && (
-            <p className="mobile-number-error">{mobileNumberError}</p>
-          )}
-          {!mobileNumberError && <p className="mobile-number-error-space">-</p>}
-          <div className="mobile-number-list">
-            <ul>
-              {formData.access.map((number, index) => (
-                <li key={index} className="mobile-number-item">
-                  <span className="mobile-number-value">{number}</span>
-                  <div className="mobile-number-actions">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleEditMobileNumber(
-                          index,
-                          formData,
-                          setMobileNumberError,
-                          setEditIndex,
-                          setMobileNumberInput
-                        )
-                      }
-                      className="edit-mobile-number-btn"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleDeleteMobileNumber(index, formData, setFormData)
-                      }
-                      className="delete-mobile-number-btn"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
         </div>
       </div>
     </div>

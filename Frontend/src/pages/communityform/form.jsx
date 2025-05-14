@@ -33,9 +33,12 @@ export default function CommunityForm() {
   const [isGroupNameChanged, setIsGroupNameChanged] = useState(false);
 
   const handleInputChange = (e) => {
-    if(sizeMB > 1024)
-    {
-      alert(`Media size exceeds 1GB (current size:${sizeMB/1024}GB ). Remove some images/videos.`);
+    if (sizeMB > 1024) {
+      alert(
+        `Media size exceeds 1GB (current size:${
+          sizeMB / 1024
+        }GB ). Remove some images/videos.`
+      );
       return;
     }
     const { name, value } = e.target;
@@ -82,25 +85,47 @@ export default function CommunityForm() {
       "longitude",
       parseFloat(SiteformData.longitude).toFixed(6)
     );
-    formDataToSend.append("mainImage", SiteformData.mainImage);
 
+    // --- MAIN IMAGE ---
+    // If using browser-image-compression, it's webp; otherwise, use file.name or fallback
+    let mainImageName = "mainImage.webp";
+    if (SiteformData.mainImage && SiteformData.mainImage.name) {
+      mainImageName = SiteformData.mainImage.name;
+    }
+    formDataToSend.append("mainImage", SiteformData.mainImage, mainImageName);
+
+    // --- MEDIA IMAGES ---
     SiteformData.media.images.forEach((image, index) => {
-      formDataToSend.append(`media.images[${index}]`, image);
-    });
-    SiteformData.media.videos.forEach((video, index) => {
-      formDataToSend.append(`media.videos[${index}]`, video);
+      let imageName = image.name ? image.name : `media_image_${index}.webp`;
+      formDataToSend.append(`media.images[${index}]`, image, imageName);
     });
 
+    // --- MEDIA VIDEOS ---
+    SiteformData.media.videos.forEach((video, index) => {
+      let videoName = video.name ? video.name : `media_video_${index}.mp4`;
+      formDataToSend.append(`media.videos[${index}]`, video, videoName);
+    });
+
+    // --- ACCESS NUMBERS ---
     SiteformData.access.forEach((number, index) => {
       formDataToSend.append(`access[${index}]`, number);
     });
 
+    // --- ARTISTS ---
     SiteformData.artists.forEach((artist, artistIndex) => {
       formDataToSend.append(`artists[${artistIndex}].name`, artist.name);
+
+      // --- ARTIST PROFILE PICTURE ---
+      let profilePicName =
+        artist.profilePicture && artist.profilePicture.name
+          ? artist.profilePicture.name
+          : `artist_${artistIndex}_profile.webp`;
       formDataToSend.append(
         `artists[${artistIndex}].profilePicture`,
-        artist.profilePicture
+        artist.profilePicture,
+        profilePicName
       );
+
       formDataToSend.append(
         `artists[${artistIndex}].instrument`,
         artist.instrument
@@ -111,20 +136,30 @@ export default function CommunityForm() {
         artist.detail || ""
       );
 
+      // --- ARTIST MEDIA IMAGES ---
       if (artist.media && artist.media.images) {
         artist.media.images.forEach((image, imageIndex) => {
+          let artistImageName = image.name
+            ? image.name
+            : `artist_${artistIndex}_media_image_${imageIndex}.webp`;
           formDataToSend.append(
             `artists[${artistIndex}].media.images[${imageIndex}]`,
-            image
+            image,
+            artistImageName
           );
         });
       }
 
+      // --- ARTIST MEDIA VIDEOS ---
       if (artist.media && artist.media.videos) {
         artist.media.videos.forEach((video, videoIndex) => {
+          let artistVideoName = video.name
+            ? video.name
+            : `artist_${artistIndex}_media_video_${videoIndex}.mp4`;
           formDataToSend.append(
             `artists[${artistIndex}].media.videos[${videoIndex}]`,
-            video
+            video,
+            artistVideoName
           );
         });
       }
@@ -299,7 +334,11 @@ export default function CommunityForm() {
         )}
 
         {page === 3 && (
-          <AddArtist formData={SiteformData} setFormData={setSiteFormData} setSizeMB={setSizeMB} />
+          <AddArtist
+            formData={SiteformData}
+            setFormData={setSiteFormData}
+            setSizeMB={setSizeMB}
+          />
         )}
       </div>
       <div className="community-form-navigation-buttons">
