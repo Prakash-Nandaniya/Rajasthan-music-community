@@ -31,7 +31,7 @@ class ArtistSerializer(serializers.ModelSerializer):
         fields = '__all__'
         extra_kwargs = {
             'profilePicture': {'required': False},
-            'instrument': {'required': False},
+            'instruments': {'required': False},
             'name': {'required': True},
         }
 
@@ -54,7 +54,7 @@ class ArtistSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         if 'profilePicture' in validated_data:
             instance.profilePicture = validated_data['profilePicture']
-        instance.instrument = validated_data.get('instrument', instance.instrument)
+        instance.instruments = validated_data.get('instruments', instance.instruments)
         instance.detail = validated_data.get('detail', instance.detail)
         instance.save()
 
@@ -244,8 +244,8 @@ class DetailSerializer(serializers.ModelSerializer):
                 artist_data['artistVideos'] = [{'video': vid} for vid in artist_media_videos]
 
                 # Use instruments if artist.instrument is not provided
-                if 'instrument' not in artist_data or not artist_data['instrument']:
-                    artist_data['instrument'] = instruments.split(',')[0] if instruments else instance.instruments.split(',')[0] if instance.instruments else ''
+                if 'instruments' not in artist_data or not artist_data['instruments']:
+                    artist_data['instruments'] = instruments.split(',')[0] if instruments else instance.instruments.split(',')[0] if instance.instruments else ''
 
                 artist_serializer = ArtistSerializer(data=artist_data, context={'request': request})
                 if artist_serializer.is_valid():

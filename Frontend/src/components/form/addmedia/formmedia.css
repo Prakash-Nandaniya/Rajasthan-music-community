@@ -86,7 +86,7 @@
 
 .media-upload-preview-row {
     width: 100%;
-    min-height: 130px; /* Prevents layout shift when adding/removing */
+    min-height: 130px;
     display: flex;
     justify-content: center;
     margin-top: 8px;
@@ -98,10 +98,11 @@
     gap: 30px;
     overflow-x: auto;
     padding: 10px 0;
+    padding-left: 18px; /* Add this for space before first image */
     scrollbar-width: thin;
     scrollbar-color: #e0c17d #fff;
     max-width: 100vw;
-    justify-content: center;
+    /* REMOVE justify-content: center; */
     align-items: center;
 }
 
@@ -120,7 +121,7 @@
     width: 10vw;
     height: 10vw;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 0px;
     background: #f9f7f4;
     box-shadow: 0 2px 10px rgba(180, 133, 58, 0.09);
 }
@@ -195,10 +196,14 @@
     .media-upload-btn {
         padding: 12px 14px;
         font-size: 1rem;
+        background: transparent;
+        border: 3px dashed #b5853a;
     }
-
+   
+    .media-upload-btn:hover {
+        background: transparent;
+    }
     .media-carousel {
-        max-width: 98vw;
         gap: 12px;
     }
 

@@ -116,13 +116,29 @@
   background-color: #664200 !important;
   border-color: #664200 !important;
 }
-
+.bd-example .auth-buttons .btn-outline-custom-orange,
+.bd-example .auth-buttons .btn-custom-orange {
+  padding: 0.5em 1.2em;
+  font-size: 1rem;
+  /* ...rest... */
+}
+@media (max-width: 400px) {
+  .bd-example .auth-buttons .btn-outline-custom-orange,
+  .bd-example .auth-buttons .btn-custom-orange {
+    font-size: 0.85rem;
+    padding: 0.4em 0.7em;
+  }
+}
 .navbar-left-group {
   display: flex;
   align-items: center;
   margin-left: 0;
   height: 54px;
 }
+.navbar-left-group .dropdown{
+  margin-bottom: 0  ;
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 900px) {

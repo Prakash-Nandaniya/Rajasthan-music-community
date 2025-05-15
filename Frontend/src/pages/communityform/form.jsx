@@ -112,6 +112,7 @@ export default function CommunityForm() {
     });
 
     // --- ARTISTS ---
+    let instruments_count = 0;
     SiteformData.artists.forEach((artist, artistIndex) => {
       formDataToSend.append(`artists[${artistIndex}].name`, artist.name);
 
@@ -126,11 +127,20 @@ export default function CommunityForm() {
         profilePicName
       );
 
-      formDataToSend.append(
-        `artists[${artistIndex}].instrument`,
-        artist.instrument
-      );
-      formDataToSend.append(`instruments[${artistIndex}]`, artist.instrument);
+      const uniqueInstruments = Array.from(new Set(artist.instruments || []));
+
+      uniqueInstruments.forEach((instrument, instIdx) => {
+        formDataToSend.append(
+          `artists[${artistIndex}].instruments[${instIdx}]`,
+          instrument
+        );
+        formDataToSend.append(
+          `instruments[${instruments_count}]`,
+          instrument
+        );
+        instruments_count++;
+      });
+
       formDataToSend.append(
         `artists[${artistIndex}].detail`,
         artist.detail || ""
@@ -346,19 +356,44 @@ export default function CommunityForm() {
           <button
             type="button"
             onClick={() => handlePageChange(page - 1)}
-            className="community-form-navigation-button"
+            className="community-form-navigation-button nav-prev"
           >
-            Previous
+            <span className="nav-arrow">
+              {/* Left Arrow SVG */}
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path
+                  d="M17 22L11 14L17 6"
+                  stroke="#ae6d0b"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="nav-label">Previous</span>
           </button>
         )}
+        {page === 0 && <div></div>}
         {page < 3 && (
           <button
             type="button"
             onClick={() => handlePageChange(page + 1)}
             disabled={!canGoNext || isLoading || isSubmitted}
-            className="community-form-navigation-button"
+            className="community-form-navigation-button nav-next"
           >
-            Next
+            <span className="nav-label">Next</span>
+            <span className="nav-arrow">
+              {/* Right Arrow SVG */}
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path
+                  d="M11 6L17 14L11 22"
+                  stroke="#ae6d0b"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
           </button>
         )}
       </div>

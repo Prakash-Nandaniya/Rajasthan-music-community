@@ -22,7 +22,7 @@
     left: 0;
     right: 0;
     height: 100%;
-    background-color: #B3B3B3;
+    background-color: #ffe49c;
 }
 
 .community-form-progress {
@@ -30,7 +30,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    background-color: #87550A;
+    background-color: #b06a11;;
     transition: width 0.3s ease;
 }
 
@@ -48,7 +48,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #B3B3B3;
+    background-color: #ffe49c;
     border: none;
     display: flex;
     align-items: center;
@@ -60,7 +60,7 @@
 }
 
 .community-form-node.active {
-    background-color: #87550A;
+    background-color: #b06a11;;
     color: white;
 }
 
@@ -73,13 +73,9 @@
     margin-top: 5px;
     font-size: 12px;
     white-space: nowrap;
+    font-weight: lighter;
     color: #333;
     /* Ensure the text is always visible */
-}
-
-.community-form-node.active::after {
-    font-weight: bold;
-    /* Make the label of active node bold */
 }
 
 .community-form-container {
@@ -98,30 +94,58 @@
     margin-left: 10vw;
     margin-right: 10vw;
     justify-content: space-between;
-}
-
-.community-form-navigation-buttons:has(> :nth-child(2)) {
-    justify-content: space-between;
-}
-
-.community-form-navigation-button {
-    padding: 10px 20px;
-    font-size: 16px;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .community-form-navigation-button {
+    display: flex;
+    align-items: center;
+    background: none;
     border: none;
-    border-radius: 5px;
+    color: #ae6d0b;
+    font-size: 1.25rem;
+    font-family: inherit;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.community-form-navigation-button:disabled {
+    padding: 6px 10px;
+    transition: color 0.18s;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .community-form-navigation-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-.community-form-navigation-button[type="button"] {
-    background-color: #ae6d0b;
-    color: white;
-}
+  }
+  
+  .nav-prev .nav-arrow {
+    margin-right: 8px;
+    display: flex;
+  }
+  
+  .nav-next .nav-arrow {
+    margin-left: 8px;
+    display: flex;
+  }
+  
+  .nav-label {
+    color: #ae6d0b;
+    font-size: 1.1em;
+    letter-spacing: 0.02em;
+  }
+  
+  .community-form-navigation-button:hover .nav-label,
+  .community-form-navigation-button:hover .nav-arrow svg path {
+    color: #8a570a;
+  }
+  
+  .community-form-navigation-button:focus .nav-label,
+  .community-form-navigation-button:focus .nav-arrow svg path {
+    color: #8a570a;
+    stroke: #8a570a;
+  }
+  
 
 /* Container for the submit button */
 .community-form-submit-button-container {
@@ -160,10 +184,6 @@
     opacity: 0.6;
   }
 
-
-.community-form-navigation-button:hover:not(:disabled) {
-    background-color: #87550A;
-}
 
 /* animation css */
 .community-form-loading-overlay {

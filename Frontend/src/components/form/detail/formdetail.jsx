@@ -233,37 +233,39 @@ export default function SiteDetailsPage({
               <label htmlFor="mobileNumber" className="mobile-number-label">
                 Mobile No:
               </label>
-              <input
-                type="tel"
-                id="mobileNumber"
-                value={mobileNumberInput}
-                onChange={(e) => {
-                  setMobileNumberInput(e.target.value);
-                  setMobileNumberError("");
-                }}
-                onBlur={() => {
-                  if (
-                    mobileNumberInput &&
-                    !validateMobileNumber(mobileNumberInput)
-                  ) {
-                    setMobileNumberError(
-                      "Please enter a valid 10-digit mobile number."
-                    );
-                  }
-                }}
-                maxLength={10}
-                placeholder=""
-                className={`mobile-number-input ${
-                  mobileNumberError ? "error" : ""
-                }`}
-              />
-              <button
-                type="button"
-                onClick={handleAddMobileNumber}
-                className="add-mobile-number-btn"
-              >
-                {editIndex !== null ? "Update" : "ADD"}
-              </button>
+              <div className="mobilenumber-arrangement-short">
+                <input
+                  type="tel"
+                  id="mobileNumber"
+                  value={mobileNumberInput}
+                  onChange={(e) => {
+                    setMobileNumberInput(e.target.value);
+                    setMobileNumberError("");
+                  }}
+                  onBlur={() => {
+                    if (
+                      mobileNumberInput &&
+                      !validateMobileNumber(mobileNumberInput)
+                    ) {
+                      setMobileNumberError(
+                        "Please enter a valid 10-digit mobile number."
+                      );
+                    }
+                  }}
+                  maxLength={10}
+                  placeholder=""
+                  className={`mobile-number-input ${
+                    mobileNumberError ? "error" : ""
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={handleAddMobileNumber}
+                  className="add-mobile-number-btn"
+                >
+                  {editIndex !== null ? "Update" : "ADD"}
+                </button>
+              </div>
             </div>
             {mobileNumberError && (
               <p className="mobile-number-error">{mobileNumberError}</p>

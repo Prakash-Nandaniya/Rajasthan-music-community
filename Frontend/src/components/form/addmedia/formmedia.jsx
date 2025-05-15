@@ -176,15 +176,26 @@ export default function MediaUploadPage({
   return (
     <div className="media-upload-container">
       <h2 className="media-upload-title">
-        Upload images/videos of your community
+        Upload images/videos of {allowed_images === 10 ? "community" : "artist"}
       </h2>
       <ul className="media-upload-instructions">
-        <li>
-          Upload images/videos related to the community, not to a particular
-          artist.
-        </li>
-        <li>You can upload up to 10 images.</li>
-        <li>You can upload up to 5 videos (each less than 30MB).</li>
+        {allowed_images == 10 && (
+          <>
+            <li>
+              Upload images/videos related to the community, not to a particular
+              artist.
+            </li>
+            <li>You can upload up to 10 images.</li>
+            <li>You can upload up to 5 videos (each less than 30MB).</li>
+          </>
+        )}
+        {allowed_images == 5 && (
+          <>
+            <li>Upload images/videos related to artist.</li>
+            <li>You can upload up to 5 images.</li>
+            <li>You can upload up to 2 videos (each less than 30MB).</li>
+          </>
+        )}
       </ul>
 
       {/* Image Upload */}
