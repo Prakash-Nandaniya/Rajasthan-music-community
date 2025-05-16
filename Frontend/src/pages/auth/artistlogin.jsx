@@ -37,7 +37,20 @@ const ArtistLogin = () => {
       );
       navigate("/artist/enterotp", { state: { mobileNo: mobileNo } });
     } catch (err) {
-      setError("Failed to send OTP. Please try again.");
+      if(err.response) {
+        console.error("Error response:", err.response);
+        // Server responded with a status other than 2xx
+        if (err.response.status === 400) {
+          setError("Invalid mobile number format.");
+        } else if (err.response.status === 500) {
+          setError("Server error. Please try again later.");
+        } else if (err.response.status === 403) {
+          setError("Mobile number not found!");
+        }
+        else {
+          setError("An unexpected error occurred. Please try again.");
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -81,13 +94,6 @@ const ArtistLogin = () => {
           </button>
         </div>
       </form>
-
-      <p className="auth-footer">
-        New artist?{" "}
-        <a href="/artist/register" className="auth-link">
-          Register here
-        </a>
-      </p>
     </div>
   );
 };

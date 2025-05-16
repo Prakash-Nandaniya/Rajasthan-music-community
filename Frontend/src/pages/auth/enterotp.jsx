@@ -63,20 +63,20 @@ const EnterOTP = () => {
     if (resendTimer > 0 || !mobileNo) return;
     setError("");
     setSuccess("");
-    setIsLoading(true);
+    const loginData = { mobileNo };
 
     try {
-      await axios.post("http://localhost:8000/artist/login/sendotp/", {
-        mobileNo: mobileNo,
-      });
-      setSuccess("OTP resent successfully!");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BE_URL}artist/login/sendotp/`,
+        loginData,
+        { withCredentials: true }
+      );
+      setSuccess("OTP sent successfully!");
       setResendTimer(60);
     } catch (err) {
       setError("Failed to resend OTP. Try again later.");
       console.error("Resend OTP error:", err);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
   const toggleOtpVisibility = () => {
@@ -116,7 +116,13 @@ const EnterOTP = () => {
             className={`auth-button ${isLoading ? "auth-button-loading" : ""}`}
             disabled={isLoading}
           >
-            {isLoading ? "Verifying..." : "Verify OTP"}
+            {isLoading ? (
+              <span>
+                <FaRedo className="spin-icon" /> Verifying...
+              </span>
+            ) : (
+              "Verify"
+            )}
           </button>
         </div>
       </form>

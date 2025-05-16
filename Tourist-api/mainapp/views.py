@@ -210,7 +210,7 @@ class SendOTPView(APIView):
                 break
 
         if not authorized:
-            return Response({'error': 'Mobile number not authorized for any site'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'error': 'Mobile number not found'}, status=status.HTTP_403_FORBIDDEN)
 
         # Check if OTP exists for this mobile number, update or create
         try:

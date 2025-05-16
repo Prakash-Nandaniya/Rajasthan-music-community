@@ -107,24 +107,6 @@
   cursor: not-allowed;
 }
 
-.auth-button-loading {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 120px;
-}
-
-.auth-button-loading::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #fff;
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
 
 .auth-resend {
   margin-top: 15px;

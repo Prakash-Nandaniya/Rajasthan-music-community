@@ -8,25 +8,42 @@ const handleImageChange = async (
   setFormData,
   setSizeMB,
   setAllowedImages,
-  allowedImages
+  allowedImages,
+  setCompressingMessage,
+  setCompressionProgress
 ) => {
   const files = Array.from(e.target.files);
 
   const options = {
     useWebWorker: true,
     fileType: "image/webp",
+    onProgress: (progress) => {
+      setCompressionProgress(progress); // progress is 0-100
+    },
   };
 
   const finalFiles = [];
   let sizeMB_curr = 0;
+
   for (const file of files) {
     if (allowedImages <= 0) {
       alert("You have reached the maximum number of images allowed.");
       break;
     }
     try {
+      setCompressingMessage(
+        `Compressing Img ....`
+      );
       const compressedFile = await imageCompression(file, options);
       finalFiles.push(compressedFile);
+      setFormData((prev) => ({
+        ...prev,
+        media: {
+          ...prev.media,
+          images: [...(prev.media.images || []), ...finalFiles],
+        },
+      }));
+      finalFiles.pop();
       sizeMB_curr += Number((compressedFile.size / 1024 / 1024).toFixed(2));
     } catch (error) {
       console.error(
@@ -34,9 +51,20 @@ const handleImageChange = async (
         error
       );
       finalFiles.push(file);
+      setFormData((prev) => ({
+        ...prev,
+        media: {
+          ...prev.media,
+          images: [...(prev.media.images || []), ...finalFiles],
+        },
+      }));
+      finalFiles.pop();
       sizeMB_curr += Number((file.size / 1024 / 1024).toFixed(2));
     } finally {
       setAllowedImages((prev) => prev - 1);
+      allowedImages -= 1;
+      setCompressionProgress(0);
+      setCompressingMessage("");
     }
   }
 
@@ -45,14 +73,6 @@ const handleImageChange = async (
     const total = prevNumber + Number(sizeMB_curr);
     return Number(total.toFixed(2));
   });
-
-  setFormData((prev) => ({
-    ...prev,
-    media: {
-      ...prev.media,
-      images: [...(prev.media.images || []), ...finalFiles],
-    },
-  }));
 };
 
 const handleVideoChange = async (
@@ -154,6 +174,8 @@ export default function MediaUploadPage({
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [allowedImages, setAllowedImages] = useState(allowed_images);
   const [allowedVideos, setAllowedVideos] = useState(allowed_videos);
+  const [compressingMessage, setCompressingMessage] = useState("");
+  const [compressionProgress, setCompressionProgress] = useState(0);
 
   // Clean up object URLs when component unmounts or media changes
   useEffect(() => {
@@ -175,6 +197,17 @@ export default function MediaUploadPage({
 
   return (
     <div className="media-upload-container">
+      {compressingMessage && (
+        <div className="compression-notification">
+          <span>{compressingMessage}</span>
+          <div className="compression-progress-bar">
+            <div
+              className="compression-progress-fill"
+              style={{ width: `${compressionProgress}%` }}
+            ></div>
+          </div>
+        </div>
+      )}
       <h2 className="media-upload-title">
         Upload images/videos of {allowed_images === 10 ? "community" : "artist"}
       </h2>
@@ -238,7 +271,9 @@ export default function MediaUploadPage({
                   setFormData,
                   setSizeMB,
                   setAllowedImages,
-                  allowedImages
+                  allowedImages,
+                  setCompressingMessage, 
+                  setCompressionProgress,
                 )
               }
             />

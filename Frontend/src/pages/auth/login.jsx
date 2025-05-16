@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
 import axios from "axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash,FaRedo } from "react-icons/fa";
 import { useUser } from "../../../contextapi"; // Adjust path
 import "./auth.css";
 
@@ -75,7 +75,13 @@ const Login = () => {
             className={`auth-button ${isLoading ? "auth-button-loading" : ""}`}
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Login"}
+            {isLoading ? (
+              <span>
+                <FaRedo className="spin-icon" /> 
+              </span>
+            ) : (
+              "Login"
+            )}
           </button>
         </div>
       </form>
