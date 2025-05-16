@@ -121,6 +121,7 @@ body::-webkit-scrollbar {
 
 .save-button,
 .remove-button {
+    width: 50%;
     padding: 10px 22px;
     margin-top: 8px;
     border: none;
@@ -129,25 +130,35 @@ body::-webkit-scrollbar {
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s;
+    align-self: center;
+    margin-bottom: 5px;
 }
 
 .save-button {
-    background: #2aa547;
-    color: #fff;
+    background: transparent;
+    border: 2px solid #b5853a;
+    color: black;
     margin-right: 10px;
 }
 
 .save-button:hover {
-    background: #218838;
+    background: #b5853a;
 }
 
 .remove-button {
-    background: #dc3545;
+    background: #b5853a;
     color: #fff;
 }
 
 .remove-button:hover {
-    background: #c82333;
+    background: #88652c;
+}
+
+
+@media (max-width: 400px) {
+    .remove-button {
+        padding: 10px 5px;
+    }
 }
 
 /* Profile picture styles */

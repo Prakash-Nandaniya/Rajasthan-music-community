@@ -163,7 +163,7 @@
     align-items: center; /* Vertically centers inner content */
     width: auto; /* Remove fixed width to allow natural sizing, or use a specific value like 200px */
     padding: 10px 30px; /* Adjust padding for a better size */
-    background-color: #4CAF50;
+    background-color: #8a570a;
     color: white;
     border: none; /* Remove default border if any */
     border-radius: 10px;
@@ -174,12 +174,12 @@
   
   /* Hover effect */
   .community-form-submit-button:hover {
-    background-color: #45a049;
+    background-color: #643f07;
   }
   
   /* Disabled state (if needed) */
   .community-form-submit-button:disabled {
-    background-color: #a0c4a2; /* Lighter green for disabled state */
+    background-color: #000000; /* Lighter green for disabled state */
     cursor: not-allowed;
     opacity: 0.6;
   }

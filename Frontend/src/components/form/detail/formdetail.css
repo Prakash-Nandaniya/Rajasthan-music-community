@@ -140,6 +140,7 @@
     max-width: 1200px;
     padding: 16px 0;
     box-sizing: border-box;
+    align-self: center;
 }
 
 .form-field {
@@ -309,39 +310,67 @@
 
 .mobile-number-actions {
     display: flex;
-    gap: 8px;
+    gap: 22px;
+    align-items: center;
 }
 
 .edit-mobile-number-btn,
 .delete-mobile-number-btn {
-    min-width: 56px;
     background: transparent;
-    color: #fff;
     border: none;
-    border-radius: 4px;
-    padding: 4px 12px;
-    font-size: 0.96rem;
+    padding: 0;
+    margin: 0;
     cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: background 0.15s;
+    outline: none;
 }
 
-.edit-mobile-number-btn {
-    border: 1px solid #d6851b;
-    color: black;
+.edit-mobile-number-btn:focus,
+.delete-mobile-number-btn:focus {
+    background: #ffe5b2;
 }
 
-.edit-mobile-number-btn:hover {
-    background-color: #d6851b;
+.action-icon {
+    width: 28px;
+    height: 28px;
+    display: block;
+    stroke: #b5853a;
+    transition: stroke 0.18s;
 }
 
-.delete-mobile-number-btn {
-    background: #e9563f;
+.edit-mobile-number-btn:hover .action-icon,
+.edit-mobile-number-btn:focus .action-icon {
+    stroke: #a06c2a;
 }
 
-.delete-mobile-number-btn:hover {
-    background: #c82333;
+.delete-mobile-number-btn:hover .action-icon,
+.delete-mobile-number-btn:focus .action-icon {
+    stroke: #e9563f;
 }
+
+@media (max-width: 400px) {
+    .mobile-number-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 16px;
+    }
+
+    .edit-mobile-number-btn,
+    .delete-mobile-number-btn {
+        min-width: 0;
+        width: 40px;
+        height: 40px;
+    }
+
+    .action-icon {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 
 @media (max-width: 900px) {
     .media-item {
@@ -361,27 +390,6 @@
     }
 }
 
-@media (max-width: 400px) {
-    .mobile-number-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-        padding: 10px 8px;
-    }
-
-    .mobile-number-actions {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 8px;
-    }
-
-    .edit-mobile-number-btn,
-    .delete-mobile-number-btn {
-        width: auto;
-        min-width: 56px;
-        margin: 0;
-    }
-}
 
 @media (max-width: 450px) {
     .mobile-number-input-row {
@@ -398,10 +406,16 @@
     }
 }
 
-@media (max-width: 450px) { 
-.mobilenumber-arrangement-short{
-    display: flex;
-    flex-direction: column; 
-    gap: 8px;
-}
+@media (max-width: 450px) {
+    .mobilenumber-arrangement-short {
+        display: flex;
     }
+
+    .mobile-number-input {
+        margin-right: 5px;
+    }
+
+    .add-mobile-number-btn {
+        padding: 8px 15px;
+    }
+}

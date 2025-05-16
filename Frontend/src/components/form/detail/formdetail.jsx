@@ -291,8 +291,25 @@ export default function SiteDetailsPage({
                           )
                         }
                         className="edit-mobile-number-btn"
+                        aria-label="Edit"
+                        title="Edit"
                       >
-                        Edit
+                        {/* Edit Pencil in Square SVG */}
+                        <svg
+                          fill="#b06a11"
+                          version="1.1"
+                          id="Layer_1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          width="25px"
+                          height="25px"
+                          viewBox="0 0 20 20"
+                          enable-background="new 0 0 20 20"
+                          xml:space="preserve"
+                        >
+                          <path d="M17,20H1c-0.6,0-1-0.4-1-1V3c0-0.6,0.4-1,1-1h9v2H2v14h14v-8h2v9C18,19.6,17.6,20,17,20z" />
+                          <path d="M9.3,10.7c-0.4-0.4-0.4-1,0-1.4l9-9c0.4-0.4,1-0.4,1.4,0s0.4,1,0,1.4l-9,9C10.3,11.1,9.7,11.1,9.3,10.7z" />
+                        </svg>
                       </button>
                       <button
                         type="button"
@@ -300,8 +317,22 @@ export default function SiteDetailsPage({
                           handleDeleteMobileNumber(index, formData, setFormData)
                         }
                         className="delete-mobile-number-btn"
+                        aria-label="Delete"
+                        title="Delete"
                       >
-                        Delete
+                        {/* Trash Bin SVG */}
+                        <svg
+                          width="25px"
+                          height="25px"
+                          viewBox="0 0 1024 1024"
+                          class="icon"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill="#b06a11"
+                            d="M160 256H96a32 32 0 010-64h256V95.936a32 32 0 0132-32h256a32 32 0 0132 32V192h256a32 32 0 110 64h-64v672a32 32 0 01-32 32H192a32 32 0 01-32-32V256zm448-64v-64H416v64h192zM224 896h576V256H224v640zm192-128a32 32 0 01-32-32V416a32 32 0 0164 0v320a32 32 0 01-32 32zm192 0a32 32 0 01-32-32V416a32 32 0 0164 0v320a32 32 0 01-32 32z"
+                          />
+                        </svg>
                       </button>
                     </div>
                   </li>
