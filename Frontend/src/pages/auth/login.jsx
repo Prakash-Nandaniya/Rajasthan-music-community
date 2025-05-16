@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useUser } from "../../../contextapi"; // Adjust path
@@ -27,7 +27,7 @@ const Login = () => {
         `${import.meta.env.VITE_BE_URL}user/login/`,
         loginData,
         { withCredentials: true }
-      );      
+      );
       const userData = response.data; // Expecting { id, role, username, etc. } from backend
       login(userData); // Update context with user data
       navigate("/"); // Redirect to home or dashboard
@@ -80,7 +80,7 @@ const Login = () => {
         </div>
       </form>
       <p>
-        Need an account? <a href="/user/signup">Sign Up</a>
+        Need an account? <Link to="/user/signup">Sign Up</Link>
       </p>
     </div>
   );

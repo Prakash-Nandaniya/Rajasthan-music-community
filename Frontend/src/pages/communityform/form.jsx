@@ -63,7 +63,7 @@ export default function CommunityForm() {
     }
 
     const isArtistsValid = SiteformData.artists.every((artist) => {
-      return artist.name && artist.profilePicture && artist.instrument;
+      return artist.name && artist.profilePicture && artist.instruments;
     });
 
     if (!isArtistsValid) {

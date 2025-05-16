@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useUser } from "../../../contextapi"; // Adjust path
@@ -221,7 +221,7 @@ const Signup = () => {
         </div>
       </form>
       <p>
-        Already have an account? <a href="/user/login">Login</a>
+        Already have an account? <Link to="/user/login">Login</Link>
       </p>
     </div>
   );
