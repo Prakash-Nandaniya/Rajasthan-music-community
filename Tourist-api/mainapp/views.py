@@ -398,7 +398,7 @@ class GenerateAdminTokenView(APIView):
     POST /admin/get_token/
     Generates a new admin token and returns it.
     """
-
+    permission_classes = [AllowAny] 
     def post(self, request, *args, **kwargs):
         # Optionally, you can add authentication/authorization checks here
         try:

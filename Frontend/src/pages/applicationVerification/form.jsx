@@ -54,7 +54,7 @@ export default function ApplicationVerification() {
   useEffect(() => {
     const fetchAdminToken = async () => {
       try {
-        const res = await API.post("/admin/get_token/");
+        const res = await API.post("/verification/get_token/");
         setAdminToken(res.data.token);
       } catch (err) {
         console.error("Failed to fetch admin token", err);
