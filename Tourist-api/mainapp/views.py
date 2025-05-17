@@ -16,9 +16,7 @@ from mainapp.models import Site, Artist, UserFeedback, MoreImage, Video, OTP, Ad
 from mainapp.permissions import (
     IsAuthenticated,
     IsUser,
-    IsArtist,
-    IsArtistForSite,
-    IsAdmin,
+    IsAdminOrArtistOrArtistForSite,
 )
 from mainapp.serializers import (
     MapSerializer,
@@ -45,7 +43,7 @@ class SiteView(APIView):
         elif self.request.method == "GET":  # Retrieve
             return [IsAuthenticated()]
         elif self.request.method in ["PUT", "DELETE"]:  # Update, Delete
-            return [IsArtist(), IsArtistForSite(), IsAdmin()]
+            return [IsAdminOrArtistOrArtistForSite()]
         return [AllowAny()]  # Default (shouldn’t hit this)
 
     def get(self, request, pk=None, *args, **kwargs):
@@ -74,7 +72,7 @@ class SiteView(APIView):
             try:
                 site = serializer.save()
                 admin_url = (
-                    f"https://manchitra.vercel.app/admin/verify_application/{site.id}"
+                    f"https://manchitra.vercel.app/verify_application/{site.id}"
                 )
                 message = (
                     f"New application received for Group Name: {site.groupName} and Community: {site.community}.\n\n"

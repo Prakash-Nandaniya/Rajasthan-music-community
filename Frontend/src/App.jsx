@@ -36,7 +36,7 @@ function App() {
         <Route path="/artistcorner" element={<ArtistCorner />} />
         <Route path="/communitypage/:id" element={<CommunityPage />} />
         <Route path="/community/:id/artists/:artistId" element={<Artist/>} />
-        <Route path="/admin/verify_application/:id" element={<ApplicationVerification />} />
+        <Route path="/verify_application/:id" element={<ApplicationVerification />} />
       </Routes>
     </Router>
   );

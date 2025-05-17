@@ -69,8 +69,8 @@ export default function ApplicationVerification() {
       try {
         setIsLoading(true);
         const token = adminToken; // Use your token from state or context
-        const x = await fetch(
-          `${import.meta.env.VITE_BE_URL}/detail/${id}/`,
+        const response = await fetch(
+          `${import.meta.env.VITE_BE_URL}detail/${id}/`,
           {
             method: "GET",
             headers: {
@@ -80,8 +80,8 @@ export default function ApplicationVerification() {
             credentials: "include",
           }
         );
-        const response = await x.json();
-        const data = response.data;
+        const data = await response.json();
+        console.log("Fetched group data:", data);
         setFormData({
           mainImage: data.mainImage,
           community: data.community || "",
@@ -134,8 +134,7 @@ export default function ApplicationVerification() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleApprove = async () => {
     // Validation
     if (
       !formData.community ||
@@ -177,6 +176,7 @@ export default function ApplicationVerification() {
     // Append scalar fields
     formDataToSend.append("community", formData.community);
     formDataToSend.append("groupName", formData.groupName);
+    formDataToSend.append("verified", true);
     formDataToSend.append("quickInfo", formData.quickInfo);
     formDataToSend.append("detail", formData.detail);
     formDataToSend.append("address", formData.address);
@@ -316,29 +316,76 @@ export default function ApplicationVerification() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BE_URL}detail/${id}/`,
+        `${import.meta.env.VITE_BE_URL}verify_application/approve/${id}/`,
         {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${adminToken}`, // Include the token here
+          },
           body: formDataToSend,
           credentials: "include",
         }
       );
       const successData = response.data; // Access data directly
       setIsSubmitted(true);
+      setIsLoading(false);
     } catch (error) {
       console.error(
-        "Update error:",
+        "Error occured",
         error.response ? error.response.data : error.message
       );
       alert(
-        `Error updating data: ${
+        `Error occured: ${
           error.response
             ? error.response.data.error || error.message
             : error.message
         }`
       );
-    } finally {
+    }
+  };
+
+  const handleReject = async () => {
+    setStatus("rejected");
+    setIsSubmitted(true);
+    setIsLoading(true);
+
+    try {
+      // Prepare access array as JSON
+      const body = JSON.stringify({ access: formData.access });
+
+      const response = await fetch(
+        `${import.meta.env.VITE_BE_URL}verify_application/reject/${id}/`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${adminToken}`, // Include the token here
+          },
+          credentials: "include",
+          body: body, // send only the access array
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Unknown error");
+      }
+
+      setIsSubmitted(true);
       setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(
+        "Error occurred",
+        error.response ? error.response.data : error.message
+      );
+      alert(
+        `Error occurred: ${
+          error.response
+            ? error.response.data.error || error.message
+            : error.message
+        }`
+      );
     }
   };
 
@@ -383,50 +430,25 @@ export default function ApplicationVerification() {
   const handleConfirm = async () => {
     setShowConfirm(false);
     setActionLoading(true);
-    try {
-      if (confirmAction === "approve") {
-        // Send approve request
-        await API.post(
-          `/admin/verify_application/${id}/approve/`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${adminToken}` },
-          }
-        );
-        alert("Application approved successfully.");
-      } else if (confirmAction === "reject") {
-        // Send reject request (could be DELETE or PATCH)
-        await API.post(
-          `/admin/verify_application/${id}/reject/`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${adminToken}` },
-          }
-        );
-        alert("Application rejected successfully.");
-      }
-      // Optionally redirect or update UI
-    } catch (err) {
-      alert("Action failed. Please try again.");
-    } finally {
-      setActionLoading(false);
+    if (confirmAction === "approve") {
+      handleApprove();
+    } else if (confirmAction === "reject") {
+      handleReject();
     }
   };
 
   return (
     <form className="edit-group-form">
       <Navbar />
-      {isLoading && (
-        <div className="edit-group-loading-overlay">
-          <div className="edit-group-spinner"></div>
-        </div>
-      )}
       {isSubmitted && (
         <div className="edit-group-loading-overlay">
           <div className="edit-group-modal">
             <div className="edit-group-modal-content">
-              <h2>Update Successful</h2>
-              <p>Your group details have been updated successfully.</p>
+              {status === "approved" ? (
+                <p>Application Approved</p>
+              ) : (
+                <p>Application Rejected</p>
+              )}
               <Link to="/">
                 <button className="edit-group-modal-button">OK</button>
               </Link>
@@ -434,7 +456,7 @@ export default function ApplicationVerification() {
           </div>
         </div>
       )}
-      {actionLoading && (
+      {isLoading && (
         <div className="edit-group-loading-overlay">
           <div className="edit-group-spinner"></div>
         </div>
@@ -482,41 +504,66 @@ export default function ApplicationVerification() {
         />
         <MediaUploadPage formData={formData} setFormData={setFormData} />
         <AddArtist formData={formData} setFormData={setFormData} />
-        <div className="edit-group-submit-button-container">
-          <button
-            type="submit"
-            className="edit-group-submit-button"
-            disabled={isLoading || isSubmitted || !isGroupNameValid}
-            onClick={handleSubmit}
-          >
-            Update Group
-          </button>
-        </div>
         {/* Approve/Reject Buttons */}
         <div
           className="edit-group-approve-reject-buttons"
           style={{
             display: "flex",
-            gap: "18px",
+            gap: "20vw",
             marginTop: "34px",
             justifyContent: "center",
           }}
         >
           <button
             type="button"
-            className="edit-group-approve-button"
-            onClick={() => handleApproveReject("approve")}
-            disabled={actionLoading}
-          >
-            Approve
-          </button>
-          <button
-            type="button"
             className="edit-group-reject-button"
             onClick={() => handleApproveReject("reject")}
             disabled={actionLoading}
           >
+            <svg
+              className="reject-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              style={{ marginRight: 8, verticalAlign: "middle" }}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="10" cy="10" r="10" fill="#e74c3c" />
+              <path
+                d="M7 7L13 13M13 7L7 13"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
             Reject
+          </button>
+          <button
+            type="button"
+            className="edit-group-approve-button"
+            onClick={() => handleApproveReject("approve")}
+            disabled={actionLoading}
+          >
+            <svg
+              className="approve-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              style={{ marginRight: 8, verticalAlign: "middle" }}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="10" cy="10" r="10" fill="#27ae60" />
+              <path
+                d="M6 10.5L9 13.5L14 8.5"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Approve
           </button>
         </div>
       </div>

@@ -19,4 +19,6 @@ urlpatterns = [
     path('detail/<int:pk>/', SiteView.as_view(), name='site-detail-update'),  
     path('logout/', LogoutView.as_view(), name='logout'),
     path('verification/get_token/', GenerateAdminTokenView.as_view(), name='generate_admin_token'),
+    path('verify_application/approve/<int:pk>/', SiteView.as_view(), name='site-approve'),
+    path('verify_application/reject/<int:pk>/', SiteView.as_view(), name='site-reject'),
 ]
