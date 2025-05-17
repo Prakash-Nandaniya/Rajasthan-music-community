@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from .storage_backend import MainImageStorage, MoreImagesStorage, VideosStorage
 from django.utils import timezone
 import random
+import uuid
 
 class Site(models.Model):
     id = models.AutoField(primary_key=True)
@@ -16,6 +17,7 @@ class Site(models.Model):
     address = models.TextField(blank=False, null=False)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    verified = models.BooleanField(default=False)  
     def __str__(self):
         return f"Site ID: {self.id} - Title: {self.groupName}"
 
@@ -116,3 +118,28 @@ class OTP(models.Model):
 
     def __str__(self):
         return f"{self.mobile_number} - {self.otp}"
+    
+class AdminToken(models.Model):
+    token = models.CharField(max_length=36, unique=True)  
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            # Generate UUID4 token if not set
+            self.token = str(uuid.uuid4())
+        if not self.expires_at:
+            # Set default expiration to 5 minutes from now
+            self.expires_at = timezone.now() + timezone.timedelta(minutes=15)
+        super().save(*args, **kwargs)
+
+    def is_valid(self):
+        # Check if token is not expired
+        return timezone.now() <= self.expires_at
+
+    def __str__(self):
+        return f"{self.token}"
+
+    class Meta:
+        verbose_name = "Admin Token"
+        verbose_name_plural = "Admin Tokens"

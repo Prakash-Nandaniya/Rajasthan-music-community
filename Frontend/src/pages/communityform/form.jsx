@@ -316,7 +316,7 @@ export default function CommunityForm() {
       </div>
 
       <div className="community-form-container">
-        {page === 2 && (
+        {page === 0 && (
           <SiteDetailsPage
             formData={SiteformData}
             handleInputChange={handleInputChange}
@@ -333,7 +333,7 @@ export default function CommunityForm() {
           />
         )}
 
-        {page === 0 && (
+        {page === 2 && (
           <MediaUploadPage
             formData={SiteformData}
             setFormData={setSiteFormData}

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import MapView, UserFeedbackViewSet, SiteView, GroupNameCheck,CustomUserProfile,LoginView, SendOTPView, VerifyOTPView, LogoutView 
+from .views import MapView, UserFeedbackViewSet, SiteView, GroupNameCheck,CustomUserProfile,LoginView, SendOTPView, VerifyOTPView, LogoutView, GenerateAdminTokenView
 
 router = DefaultRouter()
 router.register(r'userfeedback', UserFeedbackViewSet)
@@ -18,4 +18,5 @@ urlpatterns = [
     path('createsite/', SiteView.as_view(), name='site-create'),  
     path('detail/<int:pk>/', SiteView.as_view(), name='site-detail-update'),  
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('admin/get_token/', GenerateAdminTokenView.as_view(), name='generate_admin_token'),
 ]

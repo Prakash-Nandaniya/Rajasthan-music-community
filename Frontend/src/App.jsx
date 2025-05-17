@@ -15,6 +15,8 @@ import EnterOTP from './pages/auth/enterotp';
 import ArtistCorner from './pages/artistcorner/artistcorner';
 import CommunityPage from './pages/communitypage/communitypage';
 import Artist from './components/artists/artists';
+import ApplicationVerification from './pages/applicationVerification/form';
+
 function App() {
   return (
     <Router>
@@ -34,8 +36,7 @@ function App() {
         <Route path="/artistcorner" element={<ArtistCorner />} />
         <Route path="/communitypage/:id" element={<CommunityPage />} />
         <Route path="/community/:id/artists/:artistId" element={<Artist/>} />
-        
-        
+        <Route path="/admin/verify_application/:id" element={<ApplicationVerification />} />
       </Routes>
     </Router>
   );

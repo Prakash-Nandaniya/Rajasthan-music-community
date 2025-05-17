@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash, FaMobileAlt, FaRedo } from "react-icons/fa";
 import { useUser } from "../../../contextapi"; // Adjust path
@@ -16,8 +16,8 @@ const EnterOTP = () => {
   const [resendTimer, setResendTimer] = useState(30);
   const navigate = useNavigate();
   const otpInputRef = useRef(null);
-  const { login } = useUser(); // Access login function for artist
-
+  const { login } = useUser(); 
+  const [siteVerified, setSiteVerified] = useState(true); 
   useEffect(() => {
     if (otpInputRef.current) {
       otpInputRef.current.focus();
@@ -39,9 +39,9 @@ const EnterOTP = () => {
     setError("");
     setSuccess("");
     setIsLoading(true);
-  
+
     const loginData = { mobileNo, otp };
-  
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BE_URL}artist/login/verifyotp/`,
@@ -52,8 +52,10 @@ const EnterOTP = () => {
       login({ ...userData, role: "artist", communityId: site_id }); // Store communityId
       navigate(`/communitypage/${site_id}`);
     } catch (err) {
-      setError("Invalid OTP, please try again.");
-      console.error("OTP verification error:", err);
+      if (err.response && err.response.status === 403) {
+        setSiteVerified(false);
+      }
+      setError(err.response.data.error || "Invalid OTP, please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -76,15 +78,32 @@ const EnterOTP = () => {
     } catch (err) {
       setError("Failed to resend OTP. Try again later.");
       console.error("Resend OTP error:", err);
-    } 
+    }
   };
 
   const toggleOtpVisibility = () => {
     setShowOtp(!showOtp);
   };
-
   return (
     <div className="auth-wrapper">
+      {!siteVerified && !isLoading && (
+        <div className="community-form-success-modal-overlay">
+          <div className="community-form-success-modal">
+            <div className="community-form-success-modal-content">
+              <h2>Cummunity Not verified</h2>
+              <p>
+              Your application is under process we will notify you when it will be
+              verified.
+              </p>
+              <Link to="/">
+                <button className="community-form-success-modal-button">
+                  OK
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
       <h2>Verify Your OTP</h2>
       <p className="auth-instruction">
         <FaMobileAlt className="auth-icon" /> We’ve sent an OTP to{" "}
@@ -133,9 +152,7 @@ const EnterOTP = () => {
           onClick={handleResendOTP}
           disabled={resendTimer > 0 || isLoading}
         >
-          {resendTimer > 0
-            ? `Resend in ${resendTimer}s`
-            : "Resend OTP"}
+          {resendTimer > 0 ? `Resend in ${resendTimer}s` : "Resend OTP"}
           {!resendTimer && <FaRedo className="auth-icon resend-icon" />}
         </button>
       </div>
