@@ -93,3 +93,12 @@
         gap: 10vw;
     }
 }
+
+
+.edit-group-modal-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+}

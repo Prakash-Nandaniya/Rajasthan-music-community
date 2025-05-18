@@ -90,6 +90,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 # Database
 
 DATABASES = {

@@ -13,11 +13,12 @@ const EnterOTP = () => {
   const [success, setSuccess] = useState("");
   const [showOtp, setShowOtp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [resendTimer, setResendTimer] = useState(30);
   const navigate = useNavigate();
   const otpInputRef = useRef(null);
-  const { login } = useUser(); 
-  const [siteVerified, setSiteVerified] = useState(true); 
+  const { login } = useUser();
+  const [siteVerified, setSiteVerified] = useState(true);
   useEffect(() => {
     if (otpInputRef.current) {
       otpInputRef.current.focus();
@@ -62,6 +63,7 @@ const EnterOTP = () => {
   };
 
   const handleResendOTP = async () => {
+    setIsSending(true);
     if (resendTimer > 0 || !mobileNo) return;
     setError("");
     setSuccess("");
@@ -78,6 +80,8 @@ const EnterOTP = () => {
     } catch (err) {
       setError("Failed to resend OTP. Try again later.");
       console.error("Resend OTP error:", err);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -92,8 +96,8 @@ const EnterOTP = () => {
             <div className="community-form-success-modal-content">
               <h2>Cummunity Not verified</h2>
               <p>
-              Your application is under process we will notify you when it will be
-              verified.
+                Your application is under process we will notify you when it
+                will be verified.
               </p>
               <Link to="/">
                 <button className="community-form-success-modal-button">
@@ -150,10 +154,18 @@ const EnterOTP = () => {
         <button
           className="auth-resend-button"
           onClick={handleResendOTP}
-          disabled={resendTimer > 0 || isLoading}
+          disabled={resendTimer > 0 || isLoading || isSending}
         >
-          {resendTimer > 0 ? `Resend in ${resendTimer}s` : "Resend OTP"}
-          {!resendTimer && <FaRedo className="auth-icon resend-icon" />}
+          {isSending ? (
+            "Sending…"
+          ) : resendTimer > 0 ? (
+            `Resend in ${resendTimer}s`
+          ) : (
+            <>
+              Resend OTP
+              <FaRedo className="auth-icon resend-icon" />
+            </>
+          )}
         </button>
       </div>
 

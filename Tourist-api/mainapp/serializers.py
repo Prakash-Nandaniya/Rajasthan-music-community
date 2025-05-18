@@ -25,7 +25,7 @@ class MapSerializer(serializers.ModelSerializer):
 class ArtistSerializer(serializers.ModelSerializer):
     artistMoreImages = MoreImageSerializer(many=True, required=False)
     artistVideos = VideoSerializer(many=True, required=False)
-
+    
     class Meta:
         model = Artist
         fields = '__all__'
@@ -36,10 +36,13 @@ class ArtistSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        # Extract nested data (e.g., images/videos)
         more_images_data = validated_data.pop('artistMoreImages', [])
         videos_data = validated_data.pop('artistVideos', [])
+        # Create the Artist instance with ALL validated data (including instruments)
         artist = Artist.objects.create(**validated_data)
 
+        # Handle nested media
         for image_data in more_images_data:
             MoreImage.objects.create(artist=artist, **image_data)
         for video_data in videos_data:
@@ -80,6 +83,7 @@ class DetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
         extra_kwargs = {
             'mainImage': {'required': False},
+            'instruments': {'required': False},
         }
 
     @transaction.atomic
@@ -93,7 +97,6 @@ class DetailSerializer(serializers.ModelSerializer):
         access_data = ','.join([value for key, value in request.data.items() if key.startswith('access')])
         instruments = ','.join([value for key, value in request.data.items() if key.startswith('instruments')])
         validated_data.pop('mainImage', None)
-
         site = Site.objects.create(
             **validated_data,
             mainImage=main_image,
@@ -109,14 +112,14 @@ class DetailSerializer(serializers.ModelSerializer):
         artists_data = {}
         for key, value in request.data.items():
             if key.startswith('artists['):
-                try:
-                    parts = key.split('.')
-                    index = parts[0].replace('artists[', '').replace(']', '')
-                    field = parts[1]
+                parts = key.split('.')
+                index = parts[0].replace('artists[', '').replace(']', '')
+                field = parts[1] if len(parts) > 1 else None
+                if field.startswith('instruments['):
+                    artists_data.setdefault(index, {}).setdefault('instruments', []).append(value)
+                else:
                     artists_data.setdefault(index, {})[field] = value
-                except IndexError:
-                    continue
-
+      
         for key, file in request.FILES.items():
             if key.startswith('artists['):
                 try:
@@ -144,14 +147,14 @@ class DetailSerializer(serializers.ModelSerializer):
             artist_media_videos = artist_data.pop('media.videos', [])
             artist_data['artistMoreImages'] = [{'image': img} for img in artist_media_images]
             artist_data['artistVideos'] = [{'video': vid} for vid in artist_media_videos]
-
+            print("Artist Data:", artist_data)  # Debugging line
             artist_serializer = ArtistSerializer(data=artist_data, context={'request': request})
             if artist_serializer.is_valid():
                 artist_serializer.save()
             else:
                 print("Artist Validation Errors:", artist_serializer.errors)
                 raise serializers.ValidationError(artist_serializer.errors)
-
+        
         return site
 
     @transaction.atomic
@@ -177,6 +180,7 @@ class DetailSerializer(serializers.ModelSerializer):
         instance.address = validated_data.get('address', instance.address)
         instance.latitude = validated_data.get('latitude', instance.latitude)
         instance.longitude = validated_data.get('longitude', instance.longitude)
+        instance.verified = validated_data.get('verified', instance.verified)
 
         # Handle access and instruments (clear if not provided)
         access_data = ','.join([value for key, value in request.data.items() if key.startswith('access')])
@@ -208,7 +212,10 @@ class DetailSerializer(serializers.ModelSerializer):
                     parts = key.split('.')
                     index = parts[0].replace('artists[', '').replace(']', '')
                     field = parts[1]
-                    artists_data.setdefault(index, {})[field] = value
+                    if field.startswith('instruments['):
+                        artists_data.setdefault(index, {}).setdefault('instruments', []).append(value)
+                    else:
+                        artists_data.setdefault(index, {})[field] = value
                 except IndexError:
                     continue
 

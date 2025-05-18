@@ -112,7 +112,7 @@ export default function CommunityForm() {
     });
 
     // --- ARTISTS ---
-    let instruments_count = 0;
+    const communityInstrumentsSet = new Set();
     SiteformData.artists.forEach((artist, artistIndex) => {
       formDataToSend.append(`artists[${artistIndex}].name`, artist.name);
 
@@ -134,11 +134,7 @@ export default function CommunityForm() {
           `artists[${artistIndex}].instruments[${instIdx}]`,
           instrument
         );
-        formDataToSend.append(
-          `instruments[${instruments_count}]`,
-          instrument
-        );
-        instruments_count++;
+        communityInstrumentsSet.add(instrument);
       });
 
       formDataToSend.append(
@@ -174,6 +170,13 @@ export default function CommunityForm() {
         });
       }
     });
+
+    // --- INSTRUMENTS ---
+    communityInstrumentsSet.forEach((instrument, index) => {
+      formDataToSend.append(`instruments[${index}]`, instrument);
+    }
+    );
+ 
 
     setIsLoading(true);
 

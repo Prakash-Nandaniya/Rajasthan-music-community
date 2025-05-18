@@ -42,6 +42,7 @@ export default function ApplicationVerification() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isGroupNameValid, setIsGroupNameValid] = useState(true);
   const [status, setStatus] = useState("approved");
+  const [notexist, setNotExist] = useState(false);
 
   // NEW: Admin token state
   const [adminToken, setAdminToken] = useState("");
@@ -80,6 +81,18 @@ export default function ApplicationVerification() {
             credentials: "include",
           }
         );
+        if (!response.ok) {
+          const errorData = await response.json();
+          setIsLoading(false);
+          if (errorData.error === "Site not found") {
+            setNotExist(true);
+          }
+          else
+          {
+            throw new Error(errorData.error || "Unknown error");
+          }
+          return;
+        }
         const data = await response.json();
         console.log("Fetched group data:", data);
         setFormData({
@@ -104,7 +117,7 @@ export default function ApplicationVerification() {
                 index: artist.id,
                 name: artist.name || "",
                 profilePicture: artist.profilePicture || "",
-                instrument: artist.instrument || "",
+                instruments: artist.instruments || "",
                 detail: artist.detail || "",
                 media: {
                   images: artist.artistMoreImages
@@ -134,8 +147,7 @@ export default function ApplicationVerification() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleApprove = async () => {
-    // Validation
+  const validateFormData = (formData) => {
     if (
       !formData.community ||
       !formData.groupName ||
@@ -147,18 +159,22 @@ export default function ApplicationVerification() {
       formData.access.length === 0
     ) {
       alert("Please fill all required fields.");
-      return;
+      return false;
     }
 
     if (
       !formData.artists.every(
-        (artist) => artist.name && artist.profilePicture && artist.instrument
+        (artist) => artist.name && artist.profilePicture && artist.instruments
       )
     ) {
       alert("Please fill all required fields for each artist.");
-      return;
+      return false;
     }
 
+    return true;
+  };
+
+  const handleApprove = async () => {
     const formDataToSend = new FormData();
 
     // Handle mainImage
@@ -222,6 +238,7 @@ export default function ApplicationVerification() {
     });
 
     // Handle artists
+    const communityInstrumentsSet = new Set();
     for (
       let artistIndex = 0;
       artistIndex < formData.artists.length;
@@ -249,10 +266,16 @@ export default function ApplicationVerification() {
         );
       }
 
-      formDataToSend.append(
-        `artists[${artistIndex}].instrument`,
-        artist.instrument
-      );
+      const uniqueInstruments = Array.from(new Set(artist.instruments || []));
+
+      uniqueInstruments.forEach((instrument, instIdx) => {
+        formDataToSend.append(
+          `artists[${artistIndex}].instruments[${instIdx}]`,
+          instrument
+        );
+        communityInstrumentsSet.add(instrument);
+      });
+
       formDataToSend.append(
         `artists[${artistIndex}].detail`,
         artist.detail || ""
@@ -313,6 +336,12 @@ export default function ApplicationVerification() {
       }
     }
 
+    // --- INSTRUMENTS ---
+    communityInstrumentsSet.forEach((instrument, index) => {
+      formDataToSend.append(`instruments[${index}]`, instrument);
+    }
+    );
+
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -327,7 +356,14 @@ export default function ApplicationVerification() {
         }
       );
       const successData = response.data; // Access data directly
-      setIsSubmitted(true);
+      if (!response.ok) {
+        const errorData = await response.json();
+        setIsLoading(false);
+        throw new Error(errorData.error || "Unknown error");
+      }
+      else {
+        setIsSubmitted(true);
+      }
       setIsLoading(false);
     } catch (error) {
       console.error(
@@ -342,11 +378,13 @@ export default function ApplicationVerification() {
         }`
       );
     }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   const handleReject = async () => {
     setStatus("rejected");
-    setIsSubmitted(true);
     setIsLoading(true);
 
     try {
@@ -368,10 +406,13 @@ export default function ApplicationVerification() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        setIsLoading(false);
         throw new Error(errorData.error || "Unknown error");
       }
-
-      setIsSubmitted(true);
+      else
+      {
+        setIsSubmitted(true);
+      }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -386,6 +427,9 @@ export default function ApplicationVerification() {
             : error.message
         }`
       );
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -424,16 +468,20 @@ export default function ApplicationVerification() {
 
   const handleApproveReject = (action) => {
     setConfirmAction(action); // "approve" or "reject"
+    if (action === "approve") {
+      if (!validateFormData(formData)) {
+        return;
+      }
+    }
     setShowConfirm(true);
   };
 
   const handleConfirm = async () => {
     setShowConfirm(false);
-    setActionLoading(true);
     if (confirmAction === "approve") {
-      handleApprove();
+      await handleApprove();
     } else if (confirmAction === "reject") {
-      handleReject();
+      await handleReject();
     }
   };
 
@@ -449,6 +497,18 @@ export default function ApplicationVerification() {
               ) : (
                 <p>Application Rejected</p>
               )}
+              <Link to="/">
+                <button className="edit-group-modal-button">OK</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+      {notexist && (
+        <div className="edit-group-loading-overlay">
+          <div className="edit-group-modal">
+            <div className="edit-group-modal-content">
+              Community with id: {id} does not exist
               <Link to="/">
                 <button className="edit-group-modal-button">OK</button>
               </Link>
