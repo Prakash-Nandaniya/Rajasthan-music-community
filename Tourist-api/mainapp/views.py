@@ -72,7 +72,7 @@ class SiteView(APIView):
             try:
                 site = serializer.save()
                 admin_url = (
-                    f"http://localhost:5173/verify_application/{site.id}"
+                    f"https://manchitra.vercel.app/verify_application/{site.id}"
                 )
                 message = (
                     f"New application received for Group Name: {site.groupName} and Community: {site.community}.\n\n"
