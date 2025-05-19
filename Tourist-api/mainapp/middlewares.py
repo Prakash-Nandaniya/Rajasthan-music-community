@@ -50,10 +50,9 @@ class CommunityApplicationNotificationMiddleware(MiddlewareMixin):
     def _extract_access(self, request):
         
         if request.method == "PUT":
-            # data, files = parse_multipart_put(request)
-            # access = [v for k, v in data.items() if k.startswith('access[')]
-            # return access
-            return []
+            data, files = parse_multipart_put(request)
+            access = [v for k, v in data.items() if k.startswith('access[')]
+            return access
     
         try:
             if request.body:
