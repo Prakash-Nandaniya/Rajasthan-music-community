@@ -41,7 +41,7 @@ class SiteView(APIView):
         if self.request.method == "POST":  # Create
             return [AllowAny()]
         elif self.request.method == "GET":  # Retrieve
-            return [IsAuthenticated()]
+            return [AllowAny()]
         elif self.request.method in ["PUT", "DELETE"]:  # Update, Delete
             return [IsAdminOrArtistOrArtistForSite()]
         return [AllowAny()]  # Default (shouldn’t hit this)
@@ -413,3 +413,4 @@ class GenerateAdminTokenView(APIView):
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
